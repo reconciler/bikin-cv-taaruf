@@ -27,6 +27,13 @@ oleh PIC saja (seperti file ini), atau Auditor juga boleh menulis file
 balasan di repo? Aturan di atas secara harfiah hanya mengecualikan
 `CLAUDE.md`.
 
+**Addendum (jawaban Amal atas pertanyaan terbuka di atas):** Auditor boleh
+mengubah file yang **tidak terkait inti fitur/fungsi project**, misalnya
+`CLAUDE.md`, `AUDIT-HANDOFF-*.md` (termasuk balasan Auditor), dan catatan
+koordinasi sejenis. File inti fitur/fungsi (di repo ini: `index.html`, `lib/`)
+tetap hanya diubah PIC. Mohon rumusan final memakai batas ini dan menyebut
+eksplisit posisi `README.md` (dokumentasi pengguna akhir, wilayah abu-abu).
+
 ## 2. Laporan perubahan (kategori: menyentuh janji privasi)
 
 Commit terkait ada di `git log` pada tanggal yang sama. Label versi tetap v7.
