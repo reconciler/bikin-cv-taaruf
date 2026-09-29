@@ -260,8 +260,8 @@ const bySec = {}; SECTIONS.forEach(s=>{ bySec[s.id]=F.filter(f=>f.sec===s.id); }
 const CTRL=new Set(F.filter(f=>f.extra&&f.extra.showIf).flatMap(f=>{ const c=f.extra.showIf; return c.all?c.all.map(x=>x.id):[c.id]; }));
 const PDF_NOTE='Dokumen ini untuk pihak yang dituju. Mohon tidak disebarluaskan.';
 const PRODUCT_NAME='Bikin CV Taaruf';
-// Isi dengan domain resmi setelah didaftarkan; kosong = tidak dicetak di PDF.
-const SITE_DOMAIN='';
+// Alamat situs publik (tanpa https://); dicetak sebagai tautan di footer PDF. Kosong = tidak dicetak.
+const SITE_DOMAIN='reconciler.github.io/bikin-cv-taaruf';
 const DRAFT_KEY='ctgv1_draft_v1';
 const SEC_INTRO={
   B:'Identitas dasar Anda.', C:'Kota domisili, kota asal, dan kontak (opsional).',
@@ -800,7 +800,10 @@ function buildPdf(){
     font('normal',8,mut); doc.setDrawColor(...ln); doc.setLineWidth(0.25);
     doc.line(PM,PH-16,PM+CW,PH-16);
     doc.text(PDF_NOTE,PM,PH-11);
-    doc.text('Dibuat dengan '+PRODUCT_NAME+(SITE_DOMAIN?(' ('+SITE_DOMAIN+')'):'')+'   |   Halaman '+i+' dari '+n,PM+CW,PH-11,{align:'right'}); }
+    doc.text('Halaman '+i+' dari '+n,PM+CW,PH-11,{align:'right'});
+    const cr='Dibuat dengan '+PRODUCT_NAME; doc.text(cr,PM,PH-7);
+    if(SITE_DOMAIN){ const cx=PM+doc.getTextWidth(cr+'  ·  '); doc.text('  ·  ',PM+doc.getTextWidth(cr),PH-7);
+      font('normal',8,acc); doc.textWithLink(SITE_DOMAIN,cx,PH-7,{url:'https://'+SITE_DOMAIN+'/'}); } }
   return doc;
 }
 function pdfName(){
