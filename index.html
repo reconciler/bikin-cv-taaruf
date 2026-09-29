@@ -1,0 +1,1061 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}</style>
+<title>Bikin CV Taaruf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#F2F6F5; --surface:#FFFFFF; --surface2:#F7FAF9; --ink:#14302A; --muted:#566B65; --line:#D2DDDA;
+  --accent:#0F5C4E; --accent-ink:#FFFFFF; --accent-soft:#DDEFEA;
+  --warn:#8A4B00; --warn-soft:#FFF0D6; --bad:#B3261E; --bad-soft:#FCE8E6; --ok:#1B6E3A; --focus:#0B6FD6; --fill:#EAF3EF;
+  --font-ui:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --font-disp:"Bricolage Grotesque","Public Sans",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1815; --surface:#15231F; --surface2:#1A2B26; --ink:#E4F0EC; --muted:#9BB0AA; --line:#2A423C;
+    --accent:#4CC2A9; --accent-ink:#06231D; --accent-soft:#1C3A34;
+    --warn:#F2B85C; --warn-soft:#3A2C10; --bad:#FF8A80; --bad-soft:#3F1B18; --ok:#7BD59B; --focus:#6CB6FF; --fill:#1F3832;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1815; --surface:#15231F; --surface2:#1A2B26; --ink:#E4F0EC; --muted:#9BB0AA; --line:#2A423C;
+  --accent:#4CC2A9; --accent-ink:#06231D; --accent-soft:#1C3A34;
+  --warn:#F2B85C; --warn-soft:#3A2C10; --bad:#FF8A80; --bad-soft:#3F1B18; --ok:#7BD59B; --focus:#6CB6FF; --fill:#1F3832;
+}
+/* palet per jenis kelamin (aktif setelah masuk form) */
+:root[data-g="I"]{--accent:#1C4F8A; --accent-soft:#DCE7F4; --fill:#EBF1F9}
+:root[data-g="A"]{--accent:#8A2D5B; --accent-soft:#F4DFE9; --fill:#F9EEF3}
+@media (prefers-color-scheme: dark){
+  :root[data-g="I"]:not([data-theme="light"]){--accent:#8DB8EE; --accent-ink:#0A1A2E; --accent-soft:#1D2D42; --fill:#1B2A3A}
+  :root[data-g="A"]:not([data-theme="light"]){--accent:#EBA1C6; --accent-ink:#2B0D1C; --accent-soft:#3A2130; --fill:#32222C}
+}
+:root[data-theme="dark"][data-g="I"]{--accent:#8DB8EE; --accent-ink:#0A1A2E; --accent-soft:#1D2D42; --fill:#1B2A3A}
+:root[data-theme="dark"][data-g="A"]{--accent:#EBA1C6; --accent-ink:#2B0D1C; --accent-soft:#3A2130; --fill:#32222C}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+dialog.confirm{border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--surface);color:var(--ink);max-width:min(92vw,460px)}
+dialog.confirm::backdrop{background:rgba(0,0,0,.55)}
+dialog.confirm h2{font-size:1.15rem;margin-bottom:8px}
+dialog.confirm p{color:var(--muted);font-size:.9375rem}
+dialog.confirm .drow{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;justify-content:flex-end}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.linkbtn{border:0;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:44px;padding:0 6px;font-size:.875rem;font-weight:500}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-ui);font-size:16px;line-height:1.5;padding-inline:16px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:880px;margin-inline:auto;padding-block:16px 32px}
+h1,h2,h3{font-family:var(--font-disp);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.14}
+h2{font-size:1.35rem;line-height:1.2}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:.875rem}
+
+/* top bar */
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-bottom:12px}
+.brandbtn{border:0;background:none;padding:0;cursor:pointer;min-height:44px;text-align:left}
+.brand{font-family:var(--font-disp);font-weight:700;font-size:1.02rem;color:var(--accent);display:inline-flex;align-items:center;flex-wrap:wrap;gap:8px}
+.gbadge{font-family:var(--font-ui);font-size:.6875rem;font-weight:700;letter-spacing:.08em;color:var(--accent-ink);background:var(--accent);padding:3px 10px;border-radius:99px}
+.topr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:.8125rem;font-weight:600;border:0}
+.tag.plain{background:var(--surface);border:1px solid var(--line);color:var(--muted);font-weight:500}
+button.tag{cursor:pointer}
+
+/* section nav */
+#secnavwrap{margin-bottom:14px}
+.navbar{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.navcur{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:4px 2px;border:0;background:none;cursor:pointer;text-align:left}
+.navcur .nc1{display:block;font-size:.75rem;color:var(--muted);font-weight:600;letter-spacing:.02em}
+.navcur .nc2{display:block;font-family:var(--font-disp);font-weight:700;font-size:1rem}
+.navcur .chev{flex:none;font-size:.8125rem;font-weight:600;color:var(--accent);padding:6px 10px;border-radius:99px;background:var(--accent-soft)}
+.secnav{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.secnav:not(.open){display:none}
+.sidehead{display:none}
+.secbtn{display:flex;align-items:center;gap:8px;min-height:42px;padding:6px 10px;border:1px solid transparent;border-radius:10px;background:none;cursor:pointer;font-size:.875rem;text-align:left}
+.secbtn:hover{background:var(--surface2)}
+.secbtn .secn{flex:none;width:24px;height:24px;border-radius:99px;display:grid;place-items:center;font-family:var(--font-disp);font-weight:700;font-size:.8125rem;color:var(--accent);background:var(--accent-soft)}
+.secbtn .sect{flex:1;min-width:0}
+.secbtn.cur{border-color:var(--accent);background:var(--accent-soft)}
+.secbtn.done .secn{background:var(--accent);color:var(--accent-ink)}
+.secbtn .secc{color:var(--muted);font-size:.75rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.secbtn.done .secc{color:var(--ok);font-weight:700}
+
+/* top menu */
+.menu{position:relative}
+.menu>summary{list-style:none;cursor:pointer}
+.menu>summary::-webkit-details-marker{display:none}
+.menupanel{position:absolute;right:0;top:calc(100% + 6px);z-index:15;width:min(92vw,330px);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 10px 28px rgba(0,0,0,.18);display:grid;gap:8px}
+.menupanel .mstat{font-size:.8125rem;color:var(--muted)}
+.menupanel .btn{width:100%;min-height:42px;text-align:left}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:600px){.menupanel{position:fixed;left:16px;right:16px;top:60px;width:auto}}
+.menupanel .mnote{font-size:.75rem;color:var(--muted);line-height:1.4}
+
+/* progress */
+.meter{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:8px}
+.meter>i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
+
+/* layout */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.lead{margin-top:6px;color:var(--muted);max-width:64ch}
+fieldset.grp{border:0;margin:0 0 22px;padding:0;min-width:0}
+section.grp{margin:0 0 22px}
+fieldset.grp>legend,.gt{padding:0;margin:0 0 8px;font-family:var(--font-ui);font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.fld{padding:14px 16px;border-top:1px solid var(--line);transition:box-shadow .15s}
+.card>.fld:first-child{border-top:0}
+.fld>.lbl{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:.875rem;font-weight:600;color:var(--muted);margin-bottom:8px;line-height:1.35}
+.fstat{flex:none}
+.req{font-size:.75rem;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:1px 8px;border-radius:99px;white-space:nowrap}
+.okbadge{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:700;color:var(--ok);white-space:nowrap}
+.hint{font-size:.8125rem;color:var(--muted);margin:-2px 0 8px}
+.err{font-size:.8125rem;color:var(--bad);margin-top:6px;font-weight:600}
+.fld.need{box-shadow:inset 3px 0 0 var(--accent)}
+.fld.invalid{box-shadow:inset 4px 0 0 var(--bad)}
+input[type=text],input[type=number],select,textarea{width:100%;min-height:46px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font-size:1.03rem;line-height:1.5}
+textarea{min-height:80px;resize:vertical}
+.hasval{background:var(--fill)!important;border-color:transparent!important}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)!important}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;color:var(--ink)}
+.pill[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input:disabled{opacity:.55}
+.cntrow{margin-top:6px;font-size:.8125rem;color:var(--muted)}
+.check{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{width:22px;height:22px;margin-top:2px;accent-color:var(--accent);flex:none}
+
+/* list editor */
+.listedit{display:grid;gap:8px}
+.listrow{display:flex;gap:8px;align-items:center}
+.listrow input{flex:1}
+
+/* table editor */
+.tableedit{display:grid;gap:12px}
+.rowbox{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}
+.rowhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:.8125rem;font-weight:600;color:var(--muted)}
+.rowgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.cell{display:grid;gap:4px;min-width:0}
+.celllbl{font-size:.75rem;color:var(--muted)}
+
+/* matrix editor */
+.matrixedit{display:grid;gap:10px}
+.matrow{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}
+.matrow>.mrl{font-weight:600;font-size:.9375rem;margin-bottom:8px}
+.matcells{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.matcells label{display:grid;gap:4px;font-size:.75rem;color:var(--muted);font-weight:600}
+.matcells textarea{min-height:60px;color:var(--ink);font-weight:400}
+
+/* section head + summary (review) */
+.sechead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.stag{flex:none;margin-top:4px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.stag.todo{background:var(--warn-soft);color:var(--warn)}
+.modebar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.btn.sm{min-height:40px;padding:0 14px;font-size:.875rem}
+dl.sum{margin:0}
+.sum .r{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;row-gap:2px;padding:12px 16px;border-top:1px solid var(--line)}
+.sum .r:first-child{border-top:0}
+.sum dt{grid-column:1;grid-row:1;font-size:.8125rem;font-weight:600;color:var(--muted);line-height:1.35}
+.sum dd{margin:0}
+.sum .v{grid-column:1;grid-row:2;font-size:1rem;color:var(--ink);overflow-wrap:anywhere;line-height:1.5}
+.sum .v.empty{color:var(--muted);font-style:italic}
+.sum .v.reqmiss{color:var(--bad);font-style:normal;font-weight:600}
+.sum .v .clamp{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.sum .v ul{margin:2px 0 0;padding-left:18px}
+.sum .v li+li{margin-top:2px}
+.sum .reqnote{font-size:.8125rem;color:var(--bad);font-weight:600;margin-top:2px}
+.sum .ch{grid-column:2;grid-row:1/span 2;align-self:center}
+.sum .ch button{border:0;background:none;color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:44px;min-width:44px;padding:0 4px}
+@media (min-width:700px){.sum .r{grid-template-columns:220px minmax(0,1fr) auto}.sum dt{grid-column:1;grid-row:1}.sum .v{grid-column:2;grid-row:1}.sum .ch{grid-column:3;grid-row:1}}
+
+/* action bar */
+.actions{position:sticky;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);margin:18px -16px 0;padding:0 0 env(safe-area-inset-bottom,0px)}
+.actions .prog{height:4px;background:var(--line)}
+.actions .prog>i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
+.actions .meta{display:flex;justify-content:space-between;gap:10px;padding:6px 16px 0;font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.actions .meta span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow{display:flex;gap:8px;align-items:center;padding:8px 16px 12px}
+.btn.ic{width:46px;padding:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:none}
+.btn .icn{display:inline-grid;place-items:center;line-height:0}
+.btn .lw{display:none}
+.btn.nx{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;padding:5px 14px;line-height:1.2;text-align:left}
+.btn.nx small{font-size:.75rem;font-weight:500;opacity:.9;white-space:nowrap}
+.btn.nx b{display:block;max-width:100%;font-size:.90625rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (min-width:600px){.btn.ic{width:auto;padding:0 16px}.btn .lw{display:inline}.btn.nx{flex:0 1 auto;min-width:230px;margin-left:auto}}
+.btn{min-height:46px;padding:0 20px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.ghost{border-color:transparent;background:none;color:var(--muted)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.spacer{flex:1}
+.badge{font-size:.75rem;font-weight:700;color:var(--ok);margin-left:6px}
+.alert{margin:0 0 14px;padding:12px 14px;border-radius:12px;background:var(--bad-soft);color:var(--bad);font-size:.9375rem}
+.alert b{display:block;margin-bottom:4px}
+
+/* landing */
+.hero{display:grid;gap:10px;margin-bottom:16px}
+.closure ul{margin:8px 0 0;padding-left:20px;display:grid;gap:6px}
+.draftbox{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--accent-soft);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.genrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+.toast{pointer-events:none;position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:.875rem;max-width:min(92vw,420px);z-index:20;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+
+.lab{margin-top:26px;border:1px dashed var(--line);border-radius:14px;background:var(--surface2)}
+.lab>summary{cursor:pointer;padding:12px 16px;font-weight:600;color:var(--muted)}
+.lab .in{padding:0 16px 14px;display:grid;gap:12px}
+.lab .row{display:flex;gap:8px;flex-wrap:wrap}
+.lab .btn{min-height:38px;padding:0 12px;font-size:.8125rem}
+
+@media (max-width:520px){.btn{padding:0 12px;font-size:.9375rem}.actions{gap:8px}}
+/* desktop: daftar bagian menempel di kiri */
+@media (min-width:960px){
+  .wrap{max-width:1000px}
+  .layout.withnav{display:grid;grid-template-columns:260px minmax(0,1fr);gap:28px;align-items:start}
+  .layout.withnav #secnavwrap{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;margin:0;overscroll-behavior:contain}
+  .layout.withnav main{max-width:680px;min-width:0}
+  .layout.withnav .navbar{padding:12px 10px}
+  .layout.withnav .navcur{display:none}
+  .layout.withnav .sidehead{display:block;margin:2px 8px 8px;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .layout.withnav .secnav{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;border:0}
+  .layout.withnav .secbtn{min-height:40px}
+  .layout.withnav .actions{margin:18px 0 0;border:1px solid var(--line);border-bottom:0;border-radius:12px 12px 0 0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap" id="app">
+  <header class="top">
+    <button type="button" class="brand brandbtn" id="homebtn" title="Kembali ke halaman depan (isian tetap tersimpan)">Bikin CV Taaruf</button>
+    <div class="topr" id="topr"></div>
+  </header>
+  <div class="layout" id="layout">
+    <aside id="secnavwrap" hidden></aside>
+    <main id="main"></main>
+  </div>
+  <details class="lab" id="lab">
+    <summary>Panel uji prototipe (tidak ada di versi rilis)</summary>
+    <div class="in" id="labin"></div>
+  </details>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<dialog class="confirm" id="dlgreset" aria-labelledby="dlgreset-t">
+  <h2 id="dlgreset-t">Hapus draf dan mulai dari awal?</h2>
+  <p>Semua isian yang tersimpan di perangkat ini akan dihapus dan tidak bisa dikembalikan. Berkas cadangan (.json) yang sudah terunduh tidak ikut terhapus.</p>
+  <div class="drow">
+    <button type="button" class="btn" id="dlgreset-bk">Unduh cadangan dulu</button>
+    <button type="button" class="btn" id="dlgreset-no" autofocus>Batal</button>
+    <button type="button" class="btn danger" id="dlgreset-yes">Hapus dan mulai baru</button>
+  </div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function(){
+'use strict';
+const SCHEMA = {"fields": [{"id": "A.01", "sec": "A", "label": "Saya mengisi data ini secara sukarela dan dengan kesadaran penuh, untuk keperluan ta'aruf.", "type": "check", "req": true, "extra": {}}, {"id": "A.02", "sec": "A", "label": "Saya memahami dokumen ini dapat memuat data pribadi yang bersifat spesifik (mis. kesehatan, status pernikahan sebelumnya) dan menyetujui data ini dibagikan kepada pihak yang saya tuju sendiri.", "type": "check", "req": true, "extra": {}}, {"id": "B.01", "sec": "B", "label": "Nama lengkap", "type": "text", "req": true, "extra": {"maxlen": 60}, "grp": "Identitas"}, {"id": "B.02", "sec": "B", "label": "Nama panggilan", "type": "text", "req": true, "extra": {"maxlen": 30}}, {"id": "B.03", "sec": "B", "label": "Jenis kelamin", "type": "select", "req": true, "extra": {"opts": ["Ikhwan", "Akhwat"]}}, {"id": "B.04", "sec": "B", "label": "Tempat lahir", "type": "text", "req": false, "extra": {"maxlen": 40}}, {"id": "B.05", "sec": "B", "label": "Tahun lahir", "type": "number", "req": true, "extra": {"min": 1950, "max": 2010, "ph": "Contoh: 1995"}}, {"id": "B.06", "sec": "B", "label": "Manhaj / mazhab yang diikuti (jika ada)", "type": "selectText", "req": false, "extra": {"opts": ["Sunni", "Syiah", "Sufi", "Lainnya / campuran"], "ph": "Opsional, detail lebih spesifik", "txtMax": 40}, "grp": "Latar belakang dan status"}, {"id": "B.07", "sec": "B", "label": "Suku (ayah - ibu)", "type": "text", "req": true, "extra": {"maxlen": 40, "ph": "Contoh: Sunda - Jawa"}}, {"id": "B.08", "sec": "B", "label": "Status pernikahan", "type": "select", "req": true, "extra": {"optsByGender": {"I": ["Perjaka", "Duda (cerai)", "Duda (ditinggal wafat pasangan)"], "A": ["Gadis", "Janda (cerai)", "Janda (ditinggal wafat suami)"]}}}, {"id": "B.09", "sec": "B", "label": "Izin / restu orang tua atau wali untuk menikah", "type": "select", "req": true, "extra": {"opts": ["Sudah ada", "Belum ada"]}}, {"id": "B.10", "sec": "B", "label": "Kewarganegaraan", "type": "text", "req": false, "extra": {"maxlen": 30, "ph": "Boleh dikosongkan"}}, {"id": "B.11", "sec": "B", "label": "Bahasa yang dikuasai", "type": "text", "req": false, "extra": {"maxlen": 80, "ph": "Contoh: Indonesia, Sunda, Inggris (aktif)"}}, {"id": "C.02", "sec": "C", "label": "Kota / kabupaten domisili", "type": "text", "req": true, "extra": {"maxlen": 40}, "grp": "Domisili dan asal"}, {"id": "C.03", "sec": "C", "label": "Kota asal", "type": "text", "req": true, "extra": {"maxlen": 40, "ph": "Kota/kabupaten asal keluarga"}}, {"id": "C.06", "sec": "C", "label": "Kontak untuk tindak lanjut", "type": "text", "req": false, "extra": {"maxlen": 60, "ph": "Nomor WhatsApp, email, atau kontak wali"}, "grp": "Kontak"}, {"id": "C.10", "sec": "C", "label": "Akun media sosial", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Contoh: Instagram @namaakun", "noneOpt": "Tidak aktif di media sosial"}}, {"id": "D.01", "sec": "D", "label": "Tinggi badan (cm)", "type": "number", "req": true, "extra": {"min": 100, "max": 230, "unit": "cm"}, "grp": "Fisik"}, {"id": "D.02", "sec": "D", "label": "Berat badan (kg)", "type": "number", "req": true, "extra": {"min": 30, "max": 200, "unit": "kg"}}, {"id": "D.03", "sec": "D", "label": "Golongan darah", "type": "select", "req": false, "extra": {"opts": ["A", "B", "AB", "O", "Tidak tahu"]}}, {"id": "D.04", "sec": "D", "label": "Warna kulit", "type": "text", "req": false, "extra": {"maxlen": 30}}, {"id": "D.05", "sec": "D", "label": "Warna & tipe rambut", "type": "text", "req": false, "extra": {"maxlen": 40, "ph": "Contoh: hitam, lurus"}}, {"id": "D.06", "sec": "D", "label": "Warna & bentuk mata", "type": "text", "req": false, "extra": {"maxlen": 40}}, {"id": "D.07", "sec": "D", "label": "Bentuk fisik / ciri khas", "type": "text", "req": false, "extra": {"maxlen": 60}}, {"id": "D.08", "sec": "D", "label": "Riwayat penyakit yang pernah / sedang diderita", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 3, "ph": "Cukup kondisi yang berpengaruh pada kehidupan rumah tangga. Tulis 'tidak ada' bila tidak ada"}, "grp": "Kesehatan"}, {"id": "D.09", "sec": "D", "label": "Cacat fisik / disabilitas", "type": "text", "req": true, "extra": {"maxlen": 100, "ph": "Tulis 'tidak ada' bila tidak ada"}}, {"id": "D.12", "sec": "D", "label": "Kebiasaan merokok / alkohol / napza", "type": "selectText", "req": true, "extra": {"opts": ["Tidak pernah", "Sudah berhenti", "Merokok", "Vape", "Konsumsi lain (jelaskan)"], "ph": "Opsional, detail (mis. jumlah per hari, target berhenti)", "txtMax": 80}, "grp": "Kebiasaan"}, {"id": "D.13", "sec": "D", "label": "Pola makan / diet (kepatuhan halal)", "type": "text", "req": false, "extra": {"maxlen": 80}}, {"id": "D.14", "sec": "D", "label": "Pola tidur", "type": "text", "req": false, "extra": {"maxlen": 80, "ph": "Contoh: tidur 22.00, bangun 03.30"}}, {"id": "E.01", "sec": "E", "label": "Riwayat pendidikan formal", "type": "table", "req": true, "extra": {"cols": [{"key": "jenjang", "label": "Jenjang", "type": "select", "opts": ["SD/MI", "SMP/MTs", "SMA/SMK/MA", "D1-D4", "S1", "S2", "S3"]}, {"key": "institusi", "label": "Nama institusi", "type": "text"}, {"key": "jurusan", "label": "Jurusan", "type": "text"}, {"key": "masuk", "label": "Tahun masuk", "type": "text", "w": 70}, {"key": "lulus", "label": "Tahun lulus", "type": "text", "w": 70}], "minRows": 1, "maxRows": 8}}, {"id": "E.02", "sec": "E", "label": "Pendidikan agama / non-formal", "type": "table", "req": false, "extra": {"cols": [{"key": "program", "label": "Program", "type": "text"}, {"key": "lembaga", "label": "Lembaga", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6, "ph": "Contoh: pesantren, halaqah, program hifz"}}, {"id": "E.03", "sec": "E", "label": "Pelatihan / sertifikasi", "type": "table", "req": false, "extra": {"cols": [{"key": "nama", "label": "Nama pelatihan", "type": "text"}, {"key": "penyelenggara", "label": "Penyelenggara", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6}}, {"id": "F.01", "sec": "F", "label": "Pekerjaan / profesi saat ini", "type": "text", "req": true, "extra": {"maxlen": 80, "ph": "Jabatan dan bidang"}, "grp": "Pekerjaan saat ini"}, {"id": "F.02", "sec": "F", "label": "Deskripsi pekerjaan (tugas, hari dan jam kerja)", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "F.03", "sec": "F", "label": "Riwayat pekerjaan sebelumnya", "type": "table", "req": false, "extra": {"cols": [{"key": "instansi", "label": "Instansi / usaha", "type": "text"}, {"key": "jabatan", "label": "Jabatan", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6}, "grp": "Pengalaman"}, {"id": "F.04", "sec": "F", "label": "Pengalaman organisasi", "type": "table", "req": false, "extra": {"cols": [{"key": "organisasi", "label": "Nama organisasi", "type": "text"}, {"key": "jabatan", "label": "Jabatan", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6}}, {"id": "F.05", "sec": "F", "label": "Pengalaman kepanitiaan", "type": "table", "req": false, "extra": {"cols": [{"key": "kegiatan", "label": "Nama kegiatan", "type": "text"}, {"key": "penyelenggara", "label": "Penyelenggara", "type": "text"}, {"key": "jabatan", "label": "Jabatan", "type": "text"}], "minRows": 0, "maxRows": 6}}, {"id": "F.06", "sec": "F", "label": "Prestasi dan penghargaan", "type": "table", "req": false, "extra": {"cols": [{"key": "kegiatan", "label": "Nama kegiatan", "type": "text"}, {"key": "penyelenggara", "label": "Penyelenggara", "type": "text"}, {"key": "ket", "label": "Keterangan", "type": "text"}], "minRows": 0, "maxRows": 6}}, {"id": "F.07", "sec": "F", "label": "Keahlian khusus", "type": "text", "req": false, "extra": {"maxlen": 100}, "grp": "Keahlian, penghasilan, dan hobi"}, {"id": "F.08", "sec": "F", "label": "Penghasilan (kisaran per bulan)", "type": "selectText", "req": false, "extra": {"opts": ["Belum berpenghasilan tetap", "Di bawah 3 juta", "3 sampai 5 juta", "5 sampai 10 juta", "10 sampai 20 juta", "Di atas 20 juta", "Tidak disebutkan"], "ph": "Catatan opsional", "txtMax": 60}}, {"id": "F.09", "sec": "F", "label": "Hobi", "type": "text", "req": true, "extra": {"maxlen": 100}}, {"id": "G.01", "sec": "G", "label": "Siapa Anda? (deskripsi diri)", "type": "textarea", "req": true, "extra": {"maxlen": 1400, "rows": 5, "minWords": 100, "maxWords": 200, "ph": "Narasi bebas, 100 sampai 200 kata"}, "grp": "Tentang diri"}, {"id": "G.02", "sec": "G", "label": "Motto hidup", "type": "text", "req": false, "extra": {"maxlen": 80}}, {"id": "G.03", "sec": "G", "label": "Kelebihan saya", "type": "list", "req": true, "extra": {"min": 1, "max": 5, "itemMax": 60, "ph": "Contoh: Sabar"}, "grp": "Kelebihan dan kekurangan"}, {"id": "G.04", "sec": "G", "label": "Kekurangan saya", "type": "list", "req": true, "extra": {"min": 1, "max": 5, "itemMax": 60}}, {"id": "G.05", "sec": "G", "label": "Hal yang disukai dan tidak disukai", "type": "text", "req": false, "extra": {"maxlen": 150}, "grp": "Minat dan pandangan"}, {"id": "G.06", "sec": "G", "label": "Bacaan favorit", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.07", "sec": "G", "label": "Tontonan / media favorit", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.08", "sec": "G", "label": "Tokoh idola (dalam / luar negeri)", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Sertakan alasan singkat"}}, {"id": "G.09", "sec": "G", "label": "Kegiatan waktu luang", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.10", "sec": "G", "label": "Pergaulan dengan tetangga / lingkungan", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.11", "sec": "G", "label": "Keterlibatan dakwah / kegiatan sosial", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.12", "sec": "G", "label": "Pandangan tentang poligami", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "H.02", "sec": "H", "label": "Gambaran orang tua", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 3, "ph": "Pekerjaan atau aktivitas, kota, dan karakter singkat ayah dan ibu. Tanpa nama."}, "grp": "Orang tua"}, {"id": "H.05", "sec": "H", "label": "Status hidup / wafat orang tua", "type": "select", "req": true, "extra": {"opts": ["Keduanya masih hidup", "Hanya ayah yang masih hidup", "Hanya ibu yang masih hidup", "Keduanya sudah wafat"]}}, {"id": "H.14", "sec": "H", "label": "Wali nikah", "type": "select", "req": true, "extra": {"opts": ["Kakek (ayah dari ayah)", "Saudara laki-laki kandung", "Paman (saudara laki-laki ayah)", "Wali hakim", "Belum ditentukan"], "showIf": {"all": [{"id": "B.03", "isIn": ["Akhwat"]}, {"id": "H.05", "isIn": ["Hanya ibu yang masih hidup", "Keduanya sudah wafat"]}]}}}, {"id": "H.12", "sec": "H", "label": "Urutan anak", "type": "sibling", "req": true, "extra": {}, "grp": "Saudara kandung"}, {"id": "H.13", "sec": "H", "label": "Gambaran saudara kandung", "type": "text", "req": false, "extra": {"maxlen": 150, "ph": "Satu kalimat tanpa nama. Contoh: 1 kakak laki-laki sudah menikah, 1 adik perempuan kuliah"}}, {"id": "H.11", "sec": "H", "label": "Status anak dari pernikahan sebelumnya", "type": "select", "req": true, "extra": {"opts": ["Belum punya anak", "Punya anak, tinggal bersama saya", "Punya anak, tidak tinggal bersama saya"], "showIf": {"id": "B.08", "notIn": ["Perjaka", "Gadis"]}}, "grp": "Anak"}, {"id": "H.09", "sec": "H", "label": "Data anak (dari pernikahan sebelumnya)", "type": "table", "req": false, "extra": {"cols": [{"key": "usia", "label": "Usia", "type": "text", "w": 60}, {"key": "lp", "label": "L/P", "type": "select", "opts": ["L", "P"], "w": 60}], "minRows": 0, "maxRows": 8, "showIf": {"id": "H.11", "isIn": ["Punya anak, tinggal bersama saya", "Punya anak, tidak tinggal bersama saya"]}}}, {"id": "H.10", "sec": "H", "label": "Kondisi keagamaan keluarga", "type": "text", "req": false, "extra": {"maxlen": 120, "ph": "Contoh: aktif di masjid; moderat"}, "grp": "Kondisi keagamaan keluarga"}, {"id": "I.01", "sec": "I", "label": "Sholat wajib", "type": "selectText", "req": true, "extra": {"opts": ["Selalu tepat waktu", "Sering tepat waktu", "Kadang terlewat", "Masih belajar konsisten"], "ph": "Opsional, detail (berjamaah atau tidak)", "txtMax": 80}, "grp": "Sholat dan puasa"}, {"id": "I.02", "sec": "I", "label": "Sholat sunnah", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Contoh: rawatib, dhuha, tahajud, dan frekuensinya"}}, {"id": "I.03", "sec": "I", "label": "Puasa Ramadhan", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "I.04", "sec": "I", "label": "Puasa sunnah", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Contoh: Senin-Kamis, Ayyamul Bidh"}}, {"id": "I.05", "sec": "I", "label": "Zakat / infaq / sedekah", "type": "text", "req": false, "extra": {"maxlen": 100}, "grp": "Al-Qur'an, dzikir, dan kajian"}, {"id": "I.06", "sec": "I", "label": "Tilawah dan hafalan Al-Qur'an", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Frekuensi tilawah dan jumlah hafalan"}}, {"id": "I.07", "sec": "I", "label": "Dzikir harian", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "I.08", "sec": "I", "label": "Pengajian rutin yang diikuti", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Jenis kajian dan frekuensi, tanpa nama majelis"}}, {"id": "I.09", "sec": "I", "label": "Haji / umrah", "type": "selectText", "req": false, "extra": {"opts": ["Sudah", "Ada rencana", "Belum ada rencana"], "ph": "Opsional, detail", "txtMax": 60}, "grp": "Lainnya"}, {"id": "I.10", "sec": "I", "label": "Sholat Jumat / berjamaah di masjid", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "I.11", "sec": "I", "label": "Busana syar'i", "type": "selectText", "req": false, "extra": {"optsByGender": {"A": ["Bercadar", "Berhijab lebar (syar'i)", "Berhijab", "Belum berhijab"], "I": ["Berjenggot", "Tidak berjenggot"]}, "ph": "Detail tambahan (opsional)", "txtMax": 60}}, {"id": "J.01", "sec": "J", "label": "Kesiapan ilmu pranikah", "type": "text", "req": true, "extra": {"maxlen": 150}, "grp": "Kesiapan"}, {"id": "J.02", "sec": "J", "label": "Kesiapan mental / psikis", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "J.03", "sec": "J", "label": "Kesiapan fisik / kesehatan", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "J.04", "sec": "J", "label": "Kesiapan finansial", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Jelaskan tanpa angka pasti"}}, {"id": "J.09", "sec": "J", "label": "Tanggungan nafkah keluarga", "type": "text", "req": false, "extra": {"maxlen": 120, "ph": "Contoh: membantu biaya kuliah satu adik setiap bulan. Kosongkan bila tidak ada"}}, {"id": "J.05", "sec": "J", "label": "Kesiapan orang tua / wali", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "J.06", "sec": "J", "label": "Tanggungan utang / cicilan", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Sebutkan jenis, bukan nomor rekening"}, "grp": "Rencana dan komitmen"}, {"id": "J.07", "sec": "J", "label": "Rencana waktu menikah", "type": "text", "req": true, "extra": {"maxlen": 120, "ph": "Gunakan waktu relatif, contoh: 3-6 bulan setelah bertemu calon yang cocok"}}, {"id": "J.08", "sec": "J", "label": "Komitmen pribadi untuk mencapai harapan pernikahan", "type": "list", "req": true, "extra": {"min": 1, "max": 3, "itemMax": 100}}, {"id": "K.01", "sec": "K", "label": "Tujuan menikah", "type": "list", "req": true, "extra": {"min": 1, "max": 6, "itemMax": 100}, "grp": "Tujuan"}, {"id": "K.02", "sec": "K", "label": "Visi pernikahan", "type": "textarea", "req": true, "extra": {"maxlen": 400, "rows": 3}, "grp": "Visi, misi, dan nilai"}, {"id": "K.03", "sec": "K", "label": "Misi pernikahan", "type": "textarea", "req": true, "extra": {"maxlen": 400, "rows": 3}}, {"id": "K.04", "sec": "K", "label": "Nilai yang diusung setelah menikah", "type": "list", "req": true, "extra": {"min": 1, "max": 5, "itemMax": 100}}, {"id": "K.05", "sec": "K", "label": "Matriks rencana hidup", "type": "matrix", "req": true, "extra": {"rowLabels": ["Sebagai pribadi", "Sebagai anggota masyarakat", "Sebagai bagian keluarga", "Dalam profesi"], "colLabels": ["Sekarang", "Setelah menikah"], "cellMax": 120}, "grp": "Rencana hidup"}, {"id": "L.01", "sec": "L", "label": "Gambaran acara pernikahan", "type": "text", "req": false, "extra": {"maxlen": 150}, "grp": "Acara pernikahan"}, {"id": "L.02", "sec": "L", "label": "Sumber dana acara pernikahan", "type": "select", "req": false, "extra": {"opts": ["Pihak laki-laki", "Pihak perempuan", "Patungan / berbagi", "Belum dibahas"]}}, {"id": "L.03", "sec": "L", "label": "Mahar", "type": "text", "req": false, "extra": {"maxlen": 80, "ph": "Gunakan redaksi umum, mis. 'sesuai kesepakatan'"}}, {"id": "L.04", "sec": "L", "label": "Tempat tinggal setelah menikah", "type": "text", "req": true, "extra": {"maxlen": 100, "ph": "Kota dan bentuk hunian yang diharapkan"}, "grp": "Setelah menikah"}, {"id": "L.05", "sec": "L", "label": "Kehidupan rumah tangga (pembagian peran)", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.06", "sec": "L", "label": "Pekerjaan dan karier ke depan", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.07", "sec": "L", "label": "Pandangan tentang kebolehan istri bekerja", "type": "selectText", "req": false, "extra": {"opts": ["Mendukung penuh", "Mendukung dengan syarat", "Lebih memilih fokus di rumah", "Dibicarakan bersama"], "ph": "Catatan opsional", "txtMax": 80}}, {"id": "L.08", "sec": "L", "label": "Jumlah anak dan pendidikan anak", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.09", "sec": "L", "label": "Pengelolaan keuangan keluarga", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "L.10", "sec": "L", "label": "Peningkatan ilmu keislaman", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Rencana belajar bersama"}, "grp": "Target bersama"}, {"id": "L.11", "sec": "L", "label": "Target bersama jangka pendek (1-3 tahun)", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.12", "sec": "L", "label": "Target bersama jangka panjang (di atas 5 tahun)", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "M.01", "sec": "M", "label": "Kriteria mutlak (tidak dapat ditawar)", "type": "textarea", "req": false, "extra": {"maxlen": 300, "rows": 2, "ph": "Kosongkan bila tidak ada. Contoh bidang: usia, domisili, pendidikan, status pernikahan"}, "grp": "Kriteria utama"}, {"id": "M.02", "sec": "M", "label": "Kriteria preferensi non-fisik (tidak mutlak)", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 2}}, {"id": "M.03", "sec": "M", "label": "Kriteria religiusitas calon", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 2, "ph": "Ibadah wajib dan sunnah, kemampuan baca Al-Qur'an, busana"}}, {"id": "M.04", "sec": "M", "label": "Preferensi mazhab / manhaj calon", "type": "selectText", "req": false, "extra": {"opts": ["Sunni", "Syiah", "Sufi", "Lainnya / campuran"], "ph": "Opsional, detail", "txtMax": 40}, "grp": "Kriteria lain"}, {"id": "M.05", "sec": "M", "label": "Kriteria fisik", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "M.06", "sec": "M", "label": "Kriteria dari orang tua / wali", "type": "text", "req": false, "extra": {"maxlen": 150, "ph": "Bila ada, komunikasikan ke orang tua/wali"}}, {"id": "N.01", "sec": "N", "label": "Informasi penting lain", "type": "textarea", "req": false, "extra": {"maxlen": 300, "rows": 2}, "grp": "Informasi tambahan"}, {"id": "N.02", "sec": "N", "label": "Pernyataan: seluruh informasi di atas adalah benar", "type": "check", "req": true, "extra": {}, "grp": "Pernyataan dan tanda tangan"}, {"id": "N.03", "sec": "N", "label": "Pernyataan: sudah siap menikah dan siap berikhtiar taaruf secara syar'i", "type": "check", "req": true, "extra": {}}, {"id": "N.04", "sec": "N", "label": "Nama lengkap (sebagai tanda tangan)", "type": "text", "req": true, "extra": {"maxlen": 60, "ph": "Ketik nama lengkap"}}], "sections": [{"id": "B", "title": "B. Data Diri", "short": "Data Diri"}, {"id": "C", "title": "C. Domisili & Kontak", "short": "Domisili & Kontak"}, {"id": "D", "title": "D. Fisik & Kesehatan", "short": "Fisik & Kesehatan"}, {"id": "E", "title": "E. Pendidikan", "short": "Pendidikan"}, {"id": "F", "title": "F. Pekerjaan & Aktivitas", "short": "Pekerjaan"}, {"id": "G", "title": "G. Profil Diri & Karakter", "short": "Profil Diri"}, {"id": "H", "title": "H. Keluarga", "short": "Keluarga"}, {"id": "I", "title": "I. Ibadah & Kebiasaan", "short": "Ibadah"}, {"id": "J", "title": "J. Kesiapan Menikah", "short": "Kesiapan Menikah"}, {"id": "K", "title": "K. Visi & Nilai Pernikahan", "short": "Visi & Nilai"}, {"id": "L", "title": "L. Rencana Pernikahan & Pasca-Nikah", "short": "Rencana Nikah"}, {"id": "M", "title": "M. Kriteria Calon Pasangan", "short": "Kriteria Calon"}, {"id": "N", "title": "N. Penutup", "short": "Penutup"}], "attach": ["Foto wajah tampak depan (wajib) - terbaru maksimal 1 bulan, kondisi natural", "Foto tampak samping (opsional)", "Foto KTP (bila diminta) - kirim hanya di tahap lanjut dan beri tanda air, misalnya 'Hanya untuk ta'aruf, [tanggal]'", "Akta cerai - khusus duda/janda cerai; cukup ditunjukkan saat proses administrasi nikah"], "samples": {"I": {"A.01": true, "A.02": true, "B.03": "Ikhwan", "B.01": "Ahmad Fauzan Hidayat", "B.02": "Fauzan", "B.04": "Bandung", "B.05": "1995", "B.06": {"lvl": "Sunni", "txt": "Mazhab Syafi'i"}, "B.07": "Sunda - Jawa", "B.08": "Duda (cerai)", "B.09": "Sudah ada", "B.10": "Indonesia", "B.11": "Indonesia, Sunda, Inggris (aktif)", "C.02": "Depok", "C.03": "Bandung", "C.06": "WhatsApp 0812-3456-7890", "D.01": "172", "D.02": "68", "D.03": "O", "D.04": "Sawo matang", "D.05": "Hitam, lurus pendek", "D.06": "Cokelat tua, agak sipit", "D.07": "Berkacamata minus, badan sedang", "D.08": "Tidak ada penyakit kronis. Pernah dirawat karena tifus pada 2019 dan sudah pulih sepenuhnya.", "D.09": "Tidak ada", "D.12": {"lvl": "Tidak pernah", "txt": ""}, "D.13": "Selalu memastikan makanan halal; mengurangi gorengan", "D.14": "Tidur sekitar 22.00, bangun 03.45 untuk tahajud", "E.01": [{"jenjang": "SMA/SMK/MA", "institusi": "SMA Negeri di Bandung", "jurusan": "IPA", "masuk": "2010", "lulus": "2013"}, {"jenjang": "S1", "institusi": "Institut Teknologi Bandung", "jurusan": "Teknik Sipil", "masuk": "2013", "lulus": "2017"}], "E.02": [{"program": "Tahsin dan tahfizh juz 29-30", "lembaga": "Rumah tahfizh di Depok", "tahun": "2020-2022"}], "E.03": [{"nama": "Ahli K3 Konstruksi", "penyelenggara": "Lembaga sertifikasi profesi", "tahun": "2021"}], "F.01": "Insinyur sipil, pengawas proyek gedung bertingkat", "F.02": "Mengawasi mutu dan jadwal pekerjaan di lokasi proyek; Senin-Jumat 08.00-17.00, sesekali Sabtu", "F.03": [{"instansi": "Konsultan perencana struktur, Bandung", "jabatan": "Asisten perencana", "tahun": "2017-2019"}], "F.04": [{"organisasi": "Remaja masjid kampus", "jabatan": "Koordinator kajian", "tahun": "2014-2015"}], "F.05": [{"kegiatan": "Pesantren kilat Ramadhan", "penyelenggara": "DKM masjid perumahan", "jabatan": "Ketua panitia"}], "F.07": "Membaca gambar struktur, AutoCAD, pertukangan kayu dasar", "F.08": {"lvl": "10 sampai 20 juta", "txt": ""}, "F.09": "Membaca, bersepeda, membuat perabot kayu kecil", "G.01": "Saya anak kedua dari tiga bersaudara, tumbuh di keluarga sederhana yang hangat di Bandung. Sejak kuliah saya terbiasa mandiri dan aktif di masjid kampus, yang banyak membentuk cara saya memandang tanggung jawab. Di tempat kerja saya dikenal teliti dan tenang ketika ada masalah di lapangan. Pernikahan pertama saya berakhir pada 2023, dan dari sana saya belajar pentingnya komunikasi yang jujur dan kesabaran. Sekarang saya membesarkan putri saya yang berusia lima tahun dengan dibantu orang tua. Di waktu luang saya membuat perabot kayu kecil dan bersepeda di akhir pekan. Saya berharap membangun rumah tangga yang tenang, saling menguatkan dalam ibadah, dan tumbuh bersama dalam ilmu.", "G.02": "Bekerja rapi, beribadah tepat waktu", "G.03": ["Sabar dan tenang saat ada masalah", "Teliti dalam bekerja", "Senang belajar hal baru"], "G.04": ["Kadang terlalu perfeksionis", "Kurang ekspresif menunjukkan perasaan"], "G.05": "Suka diskusi santai dan perjalanan ke alam; tidak suka janji yang tidak ditepati", "G.06": "Sirah Nabawiyah, buku sejarah Islam, buku teknik", "G.07": "Kajian daring dan film dokumenter sejarah", "G.08": "Umar bin Khattab, karena tegas dan adil", "G.09": "Bersepeda pagi dan menyelesaikan proyek kayu di teras rumah", "G.10": "Akrab dengan tetangga; ikut ronda dan kerja bakti bulanan", "G.11": "Pengurus DKM perumahan bidang pembangunan", "H.02": "Ayah pensiunan guru SMP dan ibu pengajar TPA, keduanya tinggal di Bandung. Ayah tenang dan disiplin; ibu hangat dan cermat.", "H.05": "Keduanya masih hidup", "H.11": "Punya anak, tinggal bersama saya", "H.09": [{"usia": "5", "lp": "P"}], "H.10": "Keluarga aktif di masjid; orang tua rutin mengikuti kajian pekanan", "I.01": {"lvl": "Sering tepat waktu", "txt": "Berjamaah di masjid untuk Subuh, Maghrib, dan Isya"}, "I.02": "Rawatib hampir setiap hari, dhuha di kantor, tahajud 3-4 kali sepekan", "I.03": "Penuh setiap tahun", "I.04": "Senin-Kamis bila tidak sedang di lapangan", "I.05": "Zakat penghasilan setiap bulan; sedekah pekanan di masjid", "I.06": "Tilawah satu juz per hari; hafalan juz 29 dan 30", "I.07": "Dzikir pagi dan petang", "I.08": "Kajian tafsir pekanan di masjid perumahan, Ahad pagi", "I.09": {"lvl": "Ada rencana", "txt": "Umrah bersama orang tua"}, "I.10": "Jumat selalu di masjid; berjamaah bila sedang di rumah", "I.11": {"lvl": "Berjenggot", "txt": ""}, "J.01": "Mengikuti kelas pranikah daring 8 pertemuan (2024) dan membaca fikih munakahat", "J.02": "Sudah berdamai dengan pengalaman sebelumnya dan siap memulai dengan lebih matang", "J.03": "Sehat; rutin berolahraga tiga kali sepekan", "J.04": "Penghasilan tetap cukup untuk menafkahi keluarga; sudah punya tabungan dan rumah sederhana", "J.05": "Orang tua mendukung dan siap mendampingi proses ta'aruf", "J.06": "Cicilan KPR berjalan, sisa tujuh tahun", "J.07": "3-6 bulan setelah bertemu calon yang cocok", "J.08": ["Menjadi imam yang membimbing dengan lembut", "Terbuka dalam urusan keuangan keluarga", "Menyediakan waktu khusus untuk keluarga setiap akhir pekan"], "K.01": ["Menyempurnakan separuh agama", "Membangun keluarga yang sakinah, mawaddah, wa rahmah", "Memberi lingkungan yang hangat untuk putri saya"], "K.02": "Keluarga yang menjadikan ibadah sebagai poros kehidupan, saling menguatkan, dan tumbuh bersama dalam ilmu.", "K.03": "Membiasakan ibadah berjamaah di rumah, belajar agama bersama setiap pekan, dan mengelola keuangan secara terbuka.", "K.04": ["Kejujuran", "Saling menghormati", "Musyawarah dalam mengambil keputusan"], "K.05": {"0_0": "Menjaga ibadah harian dan kesehatan", "0_1": "Menambah kajian bersama pasangan", "1_0": "Pengurus DKM perumahan", "1_1": "Tetap aktif dengan pembagian waktu yang disepakati", "2_0": "Ayah bagi putri saya dan anak bagi orang tua", "2_1": "Suami, ayah, dan menantu yang hadir", "3_0": "Pengawas proyek", "3_1": "Mengurangi dinas luar kota agar lebih banyak di rumah"}, "L.01": "Akad sederhana di masjid, walimah kecil bersama keluarga dekat", "L.02": "Pihak laki-laki", "L.03": "Sesuai kesepakatan", "L.04": "Depok, di rumah yang sudah saya miliki", "L.05": "Suami pencari nafkah utama; pekerjaan rumah dikerjakan bersama", "L.06": "Tetap di bidang konstruksi; menargetkan posisi manajer proyek", "L.07": {"lvl": "Mendukung dengan syarat", "txt": "Selama disepakati bersama dan keluarga tetap terurus"}, "L.08": "Terbuka untuk dua atau tiga anak lagi; pendidikan dasar di sekolah Islam", "L.09": "Dikelola bersama dengan anggaran bulanan tertulis", "L.10": "Kajian pekanan bersama dan target hafalan keluarga", "L.11": "Menata rumah untuk keluarga baru dan memulai tabungan umrah", "L.12": "Umrah bersama keluarga dan melunasi KPR", "M.01": "Seiman, menjaga sholat wajib, dan bersedia menerima putri saya", "M.02": "Sabar, komunikatif, dan menyukai anak-anak", "M.03": "Menjaga sholat wajib, lancar membaca Al-Qur'an, berhijab syar'i", "M.04": {"lvl": "Sunni", "txt": ""}, "M.06": "Orang tua berharap calon berdomisili di Jabodetabek atau Jawa Barat", "N.01": "Saya memiliki satu putri berusia lima tahun yang tinggal bersama saya.", "N.02": true, "N.03": true, "N.04": "Ahmad Fauzan Hidayat", "C.10": "Instagram @akun_fiktif_fauzan", "H.12": {"n": "2", "of": "3", "only": false}, "H.13": "Satu kakak laki-laki dan satu adik perempuan, keduanya sudah menikah", "J.09": "Membantu sebagian kebutuhan bulanan orang tua"}, "A": {"A.01": true, "A.02": true, "B.03": "Akhwat", "B.01": "Nadia Rahmawati", "B.02": "Nadia", "B.04": "Klaten", "B.05": "1998", "B.06": {"lvl": "Sunni", "txt": ""}, "B.07": "Jawa - Jawa", "B.08": "Gadis", "B.09": "Sudah ada", "B.10": "Indonesia", "B.11": "Indonesia, Jawa, Inggris (pasif)", "C.02": "Sleman, Yogyakarta", "C.03": "Klaten", "D.01": "158", "D.02": "50", "D.03": "A", "D.04": "Kuning langsat", "D.05": "Hitam, bergelombang", "D.06": "Hitam, bulat", "D.07": "Badan mungil, ada tahi lalat kecil di pipi kiri", "D.08": "Tidak ada penyakit kronis. Alergi debu ringan, terkendali dengan obat bila kambuh.", "D.09": "Tidak ada", "D.12": {"lvl": "Tidak pernah", "txt": ""}, "D.13": "Halal; lebih suka memasak sendiri", "D.14": "Tidur 21.30, bangun 04.00", "E.01": [{"jenjang": "SMA/SMK/MA", "institusi": "SMA Negeri di Klaten", "jurusan": "IPA", "masuk": "2013", "lulus": "2016"}, {"jenjang": "S1", "institusi": "Universitas Gadjah Mada", "jurusan": "Farmasi dan Profesi Apoteker", "masuk": "2016", "lulus": "2021"}], "E.02": [{"program": "Tahsin dan bahasa Arab dasar", "lembaga": "Lembaga Al-Qur'an kampus", "tahun": "2017-2019"}], "E.03": [{"nama": "Pelayanan kefarmasian klinis", "penyelenggara": "Organisasi profesi apoteker", "tahun": "2023"}], "F.01": "Apoteker rumah sakit", "F.02": "Pelayanan resep rawat jalan dan konseling obat; sif pagi atau siang, Senin-Sabtu", "F.03": [{"instansi": "Apotek komunitas, Sleman", "jabatan": "Apoteker pendamping", "tahun": "2021-2023"}], "F.04": [{"organisasi": "Keputrian masjid kampus", "jabatan": "Sekretaris", "tahun": "2017-2018"}], "F.05": [{"kegiatan": "Bakti sosial kesehatan desa", "penyelenggara": "Himpunan mahasiswa farmasi", "jabatan": "Koordinator obat"}], "F.06": [{"kegiatan": "Lomba karya tulis kesehatan", "penyelenggara": "Tingkat universitas", "ket": "Juara 2 (2018)"}], "F.07": "Konseling obat, memasak, membuat materi presentasi", "F.08": {"lvl": "5 sampai 10 juta", "txt": ""}, "F.09": "Memasak, merajut, membaca novel", "G.01": "Saya anak sulung dari empat bersaudara dan bekerja sebagai apoteker di sebuah rumah sakit di Yogyakarta. Teman-teman mengenal saya sebagai pendengar yang sabar dan orang yang rapi dalam merencanakan sesuatu. Sebagai anak pertama, saya terbiasa membantu orang tua mengurus adik-adik, sehingga saya menghargai kebersamaan dan kerja sama dalam keluarga. Saya senang memasak untuk orang-orang terdekat dan sedang belajar merajut. Dalam urusan agama, saya masih terus belajar; saat ini saya menjaga hafalan dua juz dan rutin mengikuti kajian muslimah pekanan. Saya berharap bertemu pasangan yang mau tumbuh bersama, saling mengingatkan dalam kebaikan, dan bersama-sama membangun rumah yang tenang untuk pulang setiap hari.", "G.02": "Pelan-pelan asal istiqamah", "G.03": ["Pendengar yang sabar", "Rapi dan terencana", "Mudah beradaptasi"], "G.04": ["Sulit menolak permintaan orang lain", "Mudah khawatir menjelang hal besar"], "G.05": "Suka suasana rumah yang tenang dan obrolan panjang; tidak suka suara keras dan terburu-buru", "G.06": "Tafsir tematik, novel sejarah, buku parenting", "G.07": "Kajian daring dan acara memasak", "G.08": "Khadijah binti Khuwailid, karena teguh dan dermawan", "G.09": "Mencoba resep baru dan merajut", "G.10": "Dekat dengan ibu-ibu kompleks; ikut pengajian bulanan RT", "G.11": "Relawan konsultasi obat gratis di masjid sebulan sekali", "H.02": "Ayah berwiraswasta toko bangunan dan ibu guru SD, keduanya di Klaten. Ayah tegas dan pekerja keras; ibu sabar dan telaten.", "H.05": "Keduanya masih hidup", "H.10": "Keluarga taat beribadah; ayah menjadi imam musala di kampung", "I.01": {"lvl": "Selalu tepat waktu", "txt": "Di awal waktu, di rumah atau musala kantor"}, "I.02": "Rawatib, dhuha setiap hari, tahajud 2-3 kali sepekan", "I.03": "Penuh setiap tahun", "I.04": "Ayyamul Bidh setiap bulan", "I.05": "Infaq bulanan ke lembaga pengasuhan anak yatim", "I.06": "Tilawah setengah juz per hari; hafalan juz 29 dan 30", "I.07": "Dzikir pagi-petang dan setelah sholat", "I.08": "Kajian muslimah pekanan, Sabtu sore", "I.09": {"lvl": "Ada rencana", "txt": "Umrah setelah menikah"}, "I.10": "Berjamaah di musala kantor bila memungkinkan", "I.11": {"lvl": "Berhijab lebar (syar'i)", "txt": ""}, "J.01": "Kelas pranikah muslimah 6 pertemuan (2025) dan kajian fikih keluarga", "J.02": "Tenang dan siap; sudah berdiskusi dengan orang tua tentang peran istri", "J.03": "Sehat; rutin jalan pagi", "J.04": "Punya tabungan pribadi dan terbiasa mencatat pengeluaran", "J.05": "Orang tua merestui dan siap mendampingi proses ta'aruf", "J.06": "Tidak ada", "J.07": "Dalam 6 bulan setelah bertemu calon yang cocok", "J.08": ["Menjadi istri yang mendukung dan jujur", "Terus belajar agama bersama suami", "Menjaga hubungan baik dengan kedua keluarga besar"], "K.01": ["Beribadah dan menyempurnakan separuh agama", "Membangun keluarga yang saling menguatkan", "Mendidik anak menjadi generasi yang shalih"], "K.02": "Rumah yang tenang, penuh ilmu, dan menjadi tempat pulang yang nyaman bagi semua anggotanya.", "K.03": "Membiasakan kajian keluarga pekanan, mengatur keuangan dengan hemat, dan menjaga silaturahmi dengan kedua keluarga besar.", "K.04": ["Kejujuran", "Kesederhanaan", "Saling memaafkan"], "K.05": {"0_0": "Menjaga ibadah dan menambah hafalan", "0_1": "Menambah hafalan bersama suami", "1_0": "Relawan konsultasi obat di masjid", "1_1": "Tetap aktif dengan jadwal yang disepakati", "2_0": "Anak sulung yang membantu adik-adik", "2_1": "Istri dan ibu yang hadir untuk keluarga", "3_0": "Apoteker rumah sakit", "3_1": "Tetap bekerja paruh waktu bila disepakati"}, "L.01": "Akad di masjid dekat rumah orang tua, walimah sederhana", "L.02": "Patungan / berbagi", "L.03": "Sesuai kesepakatan", "L.04": "Yogyakarta, atau mengikuti tempat kerja suami", "L.05": "Suami pencari nafkah utama; tugas rumah dibagi sesuai kesepakatan", "L.06": "Tetap berpraktik sebagai apoteker dengan jam kerja yang lebih fleksibel", "L.07": {"lvl": "Dibicarakan bersama", "txt": ""}, "L.08": "Dua sampai tiga anak; pesantren untuk jenjang menengah bila anak berkenan", "L.09": "Anggaran bulanan tertulis, dikelola bersama", "L.10": "Kajian bersama pekanan dan belajar bahasa Arab", "L.11": "Tinggal di rumah sendiri dan memulai tabungan pendidikan anak", "M.01": "Seiman, menjaga sholat wajib, dan tidak merokok", "M.02": "Bertanggung jawab, lembut dalam bertutur, dan mau terus belajar", "M.03": "Menjaga sholat berjamaah, lancar membaca Al-Qur'an, rutin mengikuti kajian", "M.04": {"lvl": "Sunni", "txt": ""}, "M.06": "Orang tua berharap calon bersedia sering berkunjung ke Klaten", "N.02": true, "N.03": true, "N.04": "Nadia Rahmawati", "C.10": "Tidak aktif di media sosial", "H.12": {"n": "1", "of": "4", "only": false}, "H.13": "Tiga adik (dua laki-laki, satu perempuan), belum ada yang menikah", "J.09": "Membantu biaya kuliah satu adik setiap bulan"}}};
+const F = SCHEMA.fields, SECTIONS = SCHEMA.sections, ATTACH = SCHEMA.attach;
+const byId = Object.fromEntries(F.map(f=>[f.id,f]));
+const bySec = {}; SECTIONS.forEach(s=>{ bySec[s.id]=F.filter(f=>f.sec===s.id); });
+const CTRL=new Set(F.filter(f=>f.extra&&f.extra.showIf).flatMap(f=>{ const c=f.extra.showIf; return c.all?c.all.map(x=>x.id):[c.id]; }));
+const PDF_NOTE='Dokumen ini untuk pihak yang dituju. Mohon tidak disebarluaskan.';
+const PRODUCT_NAME='Bikin CV Taaruf';
+// Isi dengan domain resmi setelah didaftarkan; kosong = tidak dicetak di PDF.
+const SITE_DOMAIN='';
+const DRAFT_KEY='ctgv1_draft_v1';
+const SEC_INTRO={
+  B:'Identitas dasar Anda.', C:'Kota domisili, kota asal, dan kontak (opsional).',
+  D:'Kondisi fisik dan kesehatan.', E:'Riwayat pendidikan formal dan non-formal.',
+  F:'Pekerjaan, pengalaman, dan aktivitas.', G:'Deskripsi diri, karakter, dan minat.',
+  H:'Gambaran keluarga tanpa nama anggota keluarga.', I:'Praktik ibadah dan kebiasaan keagamaan sehari-hari.',
+  J:'Kesiapan Anda menuju pernikahan.', K:'Tujuan, visi, misi, dan nilai dalam pernikahan.',
+  L:'Rencana acara pernikahan dan kehidupan setelah menikah.', M:'Kriteria yang Anda harapkan dari calon pasangan.',
+  N:'Informasi tambahan, pernyataan, dan pembuatan PDF.'
+};
+
+const S={d:{},stage:'landing',sec:null,pdf:false};
+let tried=false, storageOK=true, saveT=0, dirty=false, lastBackupTs=0, lastSaveTs=0, resumeOffer=null;
+const VIEW={};
+const ICON_BACK='<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_DL='<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-4-4 4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_OK='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5l2.5 2.5L10 3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+const $=s=>document.querySelector(s);
+
+/* ---------- utilities ---------- */
+function h(tag,attrs,...kids){
+  const e=document.createElement(tag);
+  if(attrs) for(const k in attrs){
+    const v=attrs[k]; if(v==null||v===false) continue;
+    if(k==='class') e.className=v; else if(k==='html') e.innerHTML=v;
+    else if(k.slice(0,2)==='on') e.addEventListener(k.slice(2),v);
+    else e.setAttribute(k,v===true?'':v);
+  }
+  for(const c of kids.flat()){ if(c==null||c===false) continue; e.append(c.nodeType?c:document.createTextNode(c)); }
+  return e;
+}
+function toast(msg,ms){
+  const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast._t);
+  toast._t=setTimeout(()=>{t.hidden=true},ms||3200);
+}
+function trimStr(x){ return (x==null?'':String(x)).trim(); }
+function GV(){ const g=S.d['B.03']; return g==='Akhwat'?'A':(g==='Ikhwan'?'I':null); }
+function condOK(c){ const v=S.d[c.id]; if(c.notIn) return !!v&&!c.notIn.includes(v); if(c.isIn) return c.isIn.includes(v); return true; }
+function visible(f){ const c=f.extra&&f.extra.showIf; if(!c) return true; return c.all?c.all.every(condOK):condOK(c); }
+function fieldOpts(f){ const e=f.extra; if(e.optsByGender){ const g=GV(); return e.optsByGender[g]||e.optsByGender['I']||Object.values(e.optsByGender)[0]; } return e.opts||[]; }
+
+/* ---------- storage ---------- */
+function draftPayload(){ return {d:S.d,sec:S.sec,stage:S.stage,pdf:S.pdf,backupTs:lastBackupTs,ts:Date.now()}; }
+function saveDraft(){
+  try{ localStorage.setItem(DRAFT_KEY,JSON.stringify(draftPayload())); storageOK=true; lastSaveTs=Date.now(); }
+  catch(e){ storageOK=false; }
+  updateTopStorageTag();
+  const ss=document.getElementById('savestat'); if(ss) ss.textContent=saveStatusText();
+}
+function saveDraftSoon(){ clearTimeout(saveT); saveT=setTimeout(saveDraft,250); }
+function loadDraft(){ try{ const r=localStorage.getItem(DRAFT_KEY); return r?JSON.parse(r):null; }catch(e){ storageOK=false; return null; } }
+function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
+function draftHasData(dr){ return !!dr && dr.d && Object.keys(dr.d).length>0; }
+function applyDraft(dr){
+  S.d=dr.d||{}; S.sec=dr.sec||'B'; S.pdf=!!dr.pdf; S.stage='form'; lastBackupTs=dr.backupTs||0;
+  resumeOffer=null; saveDraft(); toast('Draf dimuat.'); render();
+}
+function hhmm(ts){ return new Date(ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}); }
+function saveStatusText(){ if(!storageOK) return 'Draf tidak dapat disimpan di sini'; return lastSaveTs?('Tersimpan otomatis '+hhmm(lastSaveTs)):'Tersimpan otomatis'; }
+function updateTopStorageTag(){ const el=document.getElementById('storagetag'); if(el) el.textContent=storageOK?'Draf lokal tersimpan':'Draf lokal tidak dapat disimpan di perangkat ini'; }
+
+/* ---------- value helpers ---------- */
+function isFilled(f){
+  const x=S.d[f.id];
+  switch(f.type){
+    case 'check': return x===true;
+    case 'text': case 'number': case 'select': case 'textarea': return trimStr(x)!=='';
+    case 'sibling': return !!x && (!!x.only || (trimStr(x.n)!==''&&trimStr(x.of)!==''));
+    case 'selectText': return !!x && (trimStr(x.lvl)!==''||trimStr(x.txt)!=='');
+    case 'list': return Array.isArray(x) && x.some(v=>trimStr(v)!=='');
+    case 'table': return Array.isArray(x) && x.some(row=>row && Object.values(row).some(v=>trimStr(v)!==''));
+    case 'matrix': return !!x && Object.values(x).some(v=>trimStr(v)!=='');
+    default: return false;
+  }
+}
+function reqOK(f){
+  if(!f.req||!visible(f)) return true; const x=S.d[f.id];
+  switch(f.type){
+    case 'check': return x===true;
+    case 'list': { const items=(x||[]).filter(v=>trimStr(v)!==''); return items.length>=(f.extra.min||1); }
+    case 'table': { const rows=(x||[]).filter(row=>row&&Object.values(row).some(v=>trimStr(v)!=='')); return rows.length>=(f.extra.minRows||1); }
+    case 'matrix': { if(!x) return false; const need=f.extra.rowLabels.length*f.extra.colLabels.length; const have=Object.values(x).filter(v=>trimStr(v)!=='').length; return have>=need; }
+    default: return isFilled(f);
+  }
+}
+function vText(f){
+  const x=S.d[f.id];
+  switch(f.type){
+    case 'text': case 'select': case 'textarea': return trimStr(x);
+    case 'sibling': return x?(x.only?'Anak tunggal':((trimStr(x.n)&&trimStr(x.of))?('Anak ke-'+trimStr(x.n)+' dari '+trimStr(x.of)+' bersaudara'):'')):'';
+    case 'number': return (x!=null&&String(x).trim()!=='') ? (x+(f.extra.unit?' '+f.extra.unit:'')) : '';
+    case 'selectText': return x? [trimStr(x.lvl),trimStr(x.txt)].filter(Boolean).join(' - ') : '';
+    default: return '';
+  }
+}
+function listItems(f){ return (S.d[f.id]||[]).map(trimStr).filter(Boolean); }
+function tableRows(f){ return (S.d[f.id]||[]).filter(row=>row&&Object.values(row).some(v=>trimStr(v)!=='')); }
+function matrixCell(f,r,c){ const x=S.d[f.id]||{}; return trimStr(x[r+'_'+c]); }
+
+/* ---------- control builders ---------- */
+function changed(id){
+  dirty=true; saveDraftSoon(); if(tried) markInvalid(S.sec); refreshLiveIndicators(); if(id&&byId[id]) refreshFieldState(byId[id]);
+}
+function refreshFieldState(f){
+  const el=document.getElementById('f-'+f.id); if(!el) return;
+  const need=f.req&&visible(f)&&!reqOK(f); el.classList.toggle('need',need);
+  const st=el.querySelector('.fstat'); if(st){ st.innerHTML=need?'<span class="req">Wajib</span>':'<span class="okbadge">'+ICON_OK+'Terisi</span>'; }
+}
+function markVal(el){ if(el&&el.matches&&el.matches('input[type=text],input[type=number],textarea,select')) el.classList.toggle('hasval',trimStr(el.value)!==''); }
+function markAllVals(root){ (root||document).querySelectorAll('input[type=text],input[type=number],textarea,select').forEach(markVal); }
+function setD(id,v){ S.d[id]=v; changed(id); if(CTRL.has(id)&&S.stage==='form') setTimeout(()=>{ const sy=window.scrollY; render(); window.scrollTo(0,sy); },0); }
+function selectControl(f,opts,getV,setV){
+  const short=opts.length<=4&&opts.every(o=>o.length<=26);
+  if(short){
+    const wrap=h('div',{class:'pills',role:'radiogroup'}); const btns=[];
+    const refresh=()=>btns.forEach(b=>b.setAttribute('aria-pressed',String(getV()===b.dataset.v)));
+    opts.forEach(o=>{ const b=h('button',{type:'button',class:'pill','data-v':o,'aria-pressed':'false'},o); b.addEventListener('click',()=>{ setV(getV()===o?'':o); refresh(); }); btns.push(b); wrap.append(b); });
+    refresh(); return wrap;
+  }
+  const sel=h('select',{'aria-labelledby':'lb-'+f.id}); sel.append(h('option',{value:''},'Pilih...'));
+  opts.forEach(o=>sel.append(h('option',{value:o},o))); sel.value=getV()||'';
+  sel.addEventListener('change',()=>setV(sel.value)); return sel;
+}
+function buildListControl(f){
+  const min=f.extra.min||0, max=f.extra.max||10, itemMax=f.extra.itemMax||100;
+  const wrap=h('div',{class:'listedit'});
+  function getArr(){ let a=(S.d[f.id]||[]).slice(); while(a.length<Math.max(min,1)) a.push(''); return a; }
+  function redraw(){
+    const arr=getArr(); wrap.innerHTML='';
+    arr.forEach((val,i)=>{
+      const inp=h('input',{type:'text',maxlength:itemMax,placeholder:'Butir '+(i+1)+(f.extra.ph?(' - '+f.extra.ph):'')});
+      inp.value=val;
+      inp.addEventListener('input',()=>{ const a=getArr(); a[i]=inp.value; S.d[f.id]=a; changed(f.id); });
+      const rm=h('button',{type:'button',class:'tag plain',onclick:()=>{ const a=getArr(); a.splice(i,1); S.d[f.id]=a; changed(f.id); redraw(); }},'Hapus');
+      wrap.append(h('div',{class:'listrow'},inp,rm));
+    });
+    if(arr.length<max) wrap.append(h('button',{type:'button',class:'btn',style:'margin-top:6px',onclick:()=>{ const a=getArr(); a.push(''); S.d[f.id]=a; changed(f.id); redraw(); }},'+ Tambah butir'));
+    wrap.append(h('div',{class:'cntrow'},'Terisi '+arr.filter(v=>v.trim()).length+' dari maksimal '+max+(min?(', minimal '+min):'')+' butir.'));
+    markAllVals(wrap);
+  }
+  redraw();
+  return wrap;
+}
+function buildTableControl(f){
+  const cols=f.extra.cols, min=f.extra.minRows||0, max=f.extra.maxRows||10;
+  const wrap=h('div',{class:'tableedit'});
+  function getRows(){ let a=(S.d[f.id]||[]).map(r=>Object.assign({},r)); while(a.length<Math.max(min,a.length?0:1)) a.push({}); return a; }
+  function redraw(){
+    const rows=getRows(); wrap.innerHTML='';
+    rows.forEach((row,ri)=>{
+      const box=h('div',{class:'rowbox'});
+      box.append(h('div',{class:'rowhead'},h('span',null,'Baris '+(ri+1)),
+        h('button',{type:'button',class:'tag plain',onclick:()=>{ const a=getRows(); a.splice(ri,1); S.d[f.id]=a; changed(f.id); redraw(); }},'Hapus baris')));
+      const grid=h('div',{class:'rowgrid'});
+      cols.forEach(col=>{
+        const cell=h('div',{class:'cell'}); cell.append(h('label',{class:'celllbl'},col.label));
+        let ctl;
+        if(col.type==='select'){
+          ctl=h('select',null); ctl.append(h('option',{value:''},'Pilih...'));
+          (col.opts||[]).forEach(o=>ctl.append(h('option',{value:o},o)));
+          ctl.value=row[col.key]||'';
+          ctl.addEventListener('change',()=>{ const a=getRows(); a[ri][col.key]=ctl.value; S.d[f.id]=a; changed(f.id); });
+        } else {
+          ctl=h('input',{type:'text',maxlength:col.maxlen||60}); ctl.value=row[col.key]||'';
+          ctl.addEventListener('input',()=>{ const a=getRows(); a[ri][col.key]=ctl.value; S.d[f.id]=a; changed(f.id); });
+        }
+        cell.append(ctl); grid.append(cell);
+      });
+      box.append(grid); wrap.append(box);
+    });
+    if(rows.length<max) wrap.append(h('button',{type:'button',class:'btn',style:'margin-top:6px',onclick:()=>{ const a=getRows(); a.push({}); S.d[f.id]=a; changed(f.id); redraw(); }},'+ Tambah baris'));
+    const filled=rows.filter(r=>Object.values(r).some(v=>trimStr(v))).length;
+    wrap.append(h('div',{class:'cntrow'},'Baris terisi '+filled+' dari maksimal '+max+(min?(', minimal '+min):'')+'.'));
+    markAllVals(wrap);
+  }
+  redraw();
+  return wrap;
+}
+function buildMatrixControl(f){
+  const rowLabels=f.extra.rowLabels, colLabels=f.extra.colLabels, cellMax=f.extra.cellMax||120;
+  const wrap=h('div',{class:'matrixedit'});
+  rowLabels.forEach((rl,ri)=>{
+    const cells=h('div',{class:'matcells'});
+    colLabels.forEach((cl,ci)=>{
+      const key=ri+'_'+ci;
+      const ta=h('textarea',{maxlength:cellMax,rows:2,'aria-label':rl+' - '+cl});
+      ta.value=(S.d[f.id]||{})[key]||'';
+      ta.addEventListener('input',()=>{ const x=Object.assign({},S.d[f.id]); x[key]=ta.value; setD(f.id,x); });
+      cells.append(h('label',null,cl,ta));
+    });
+    wrap.append(h('div',{class:'matrow'},h('div',{class:'mrl'},rl),cells));
+  });
+  return wrap;
+}
+function buildControl(f){
+  switch(f.type){
+    case 'text': {
+      const inp=h('input',{type:'text',id:'in-'+f.id,maxlength:f.extra.maxlen||100,placeholder:f.extra.ph||'',autocomplete:'off'});
+      const none=f.extra.noneOpt;
+      if(!none){ inp.value=S.d[f.id]||''; inp.addEventListener('input',()=>setD(f.id,inp.value)); return inp; }
+      const cb=h('input',{type:'checkbox',id:'in-'+f.id+'-none'});
+      const sync=()=>{ const on=S.d[f.id]===none; cb.checked=on; inp.disabled=on; inp.value=on?'':(S.d[f.id]||''); markVal(inp); };
+      inp.addEventListener('input',()=>setD(f.id,inp.value));
+      cb.addEventListener('change',()=>{ setD(f.id,cb.checked?none:''); sync(); });
+      sync();
+      return h('div',null,inp,h('label',{class:'check',style:'margin-top:10px',for:'in-'+f.id+'-none'},cb,h('span',null,none)));
+    }
+    case 'sibling': {
+      const x=()=>S.d[f.id]||{n:'',of:'',only:false};
+      const a=h('input',{type:'number',id:'in-'+f.id,inputmode:'numeric',min:1,max:20,placeholder:'Contoh: 2'}); a.value=x().n||'';
+      const b=h('input',{type:'number',id:'in-'+f.id+'-of',inputmode:'numeric',min:1,max:20,placeholder:'Contoh: 3'}); b.value=x().of||'';
+      const cb=h('input',{type:'checkbox',id:'in-'+f.id+'-only'}); cb.checked=!!x().only;
+      const sync=()=>{ a.disabled=b.disabled=cb.checked; };
+      a.addEventListener('input',()=>setD(f.id,Object.assign({},x(),{n:a.value})));
+      b.addEventListener('input',()=>setD(f.id,Object.assign({},x(),{of:b.value})));
+      cb.addEventListener('change',()=>{ setD(f.id,Object.assign({},x(),{only:cb.checked})); sync(); });
+      sync();
+      return h('div',null,h('div',{class:'two'},h('div',{class:'cell'},h('label',{class:'celllbl',for:'in-'+f.id},'Anak ke-'),a),h('div',{class:'cell'},h('label',{class:'celllbl',for:'in-'+f.id+'-of'},'Dari ... bersaudara'),b)),h('label',{class:'check',style:'margin-top:10px',for:'in-'+f.id+'-only'},cb,h('span',null,'Anak tunggal')));
+    }
+    case 'number': {
+      const ph=(f.extra.min!=null&&f.extra.max!=null)?(f.extra.min+' - '+f.extra.max):'';
+      const inp=h('input',{type:'number',id:'in-'+f.id,inputmode:'numeric',min:f.extra.min,max:f.extra.max,placeholder:ph});
+      inp.value=S.d[f.id]||''; inp.addEventListener('input',()=>setD(f.id,inp.value)); return inp;
+    }
+    case 'select': return selectControl(f,fieldOpts(f),()=>S.d[f.id]||'',v=>setD(f.id,v));
+    case 'selectText': {
+      const x=()=>S.d[f.id]||{lvl:'',txt:''};
+      const sc=selectControl(f,fieldOpts(f),()=>x().lvl,v=>setD(f.id,Object.assign({},x(),{lvl:v})));
+      const inp=h('input',{type:'text',id:'in-'+f.id,maxlength:f.extra.txtMax||60,placeholder:f.extra.ph||''});
+      inp.value=x().txt||''; inp.addEventListener('input',()=>setD(f.id,Object.assign({},x(),{txt:inp.value})));
+      return h('div',null,sc,h('div',{style:'margin-top:10px'},inp));
+    }
+    case 'check': {
+      const cb=h('input',{type:'checkbox',id:'in-'+f.id}); cb.checked=S.d[f.id]===true;
+      cb.addEventListener('change',()=>setD(f.id,cb.checked));
+      return h('label',{class:'check',for:'in-'+f.id},cb,h('span',null,f.label));
+    }
+    case 'textarea': {
+      const ta=h('textarea',{id:'in-'+f.id,maxlength:f.extra.maxlen||500,rows:f.extra.rows||3,placeholder:f.extra.ph||''});
+      ta.value=S.d[f.id]||'';
+      const wantCnt=!!(f.extra.minWords||f.extra.maxWords);
+      const cnt=wantCnt?h('div',{class:'hint',id:'wc-'+f.id,style:'margin:6px 0 0'}):null;
+      const updCnt=()=>{ if(!cnt) return; const words=ta.value.trim()?ta.value.trim().split(/\s+/).length:0; const lo=f.extra.minWords,hi=f.extra.maxWords;
+        let msg=words+' kata'; if(lo||hi) msg+=' (disarankan '+(lo||0)+(hi?('-'+hi):'+')+' kata)'; cnt.textContent=msg; cnt.style.color=lo&&words<lo?'var(--warn)':''; };
+      ta.addEventListener('input',()=>{ setD(f.id,ta.value); updCnt(); });
+      updCnt();
+      return cnt?h('div',null,ta,cnt):ta;
+    }
+    case 'list': return buildListControl(f);
+    case 'table': return buildTableControl(f);
+    case 'matrix': return buildMatrixControl(f);
+  }
+  return h('div');
+}
+function buildField(f){
+  const el=h('div',{class:'fld',id:'f-'+f.id});
+  if(f.type!=='check') el.append(h('div',{class:'lbl',id:'lb-'+f.id},h('span',null,f.label),f.req?h('span',{class:'fstat'}):null));
+  if(f.type==='number'&&f.extra.unit) el.append(h('div',{class:'hint'},'Angka saja, dalam '+f.extra.unit+'.'));
+  el.append(buildControl(f));
+  el.append(h('div',{class:'err',hidden:true,id:'er-'+f.id},'Lengkapi isian ini.'));
+  setTimeout(()=>refreshFieldState(f),0);
+  return el;
+}
+function markInvalid(secId){
+  if(!secId) return;
+  (bySec[secId]||[]).forEach(f=>{
+    const el=document.getElementById('f-'+f.id); if(!el) return; const bad=f.req&&!reqOK(f);
+    el.classList.toggle('invalid',bad); const er=document.getElementById('er-'+f.id); if(er) er.hidden=!bad;
+  });
+}
+function sectionStatus(id){
+  const fs=(bySec[id]||[]).filter(f=>f.req&&visible(f));
+  const doneCount=fs.filter(reqOK).length;
+  return {total:fs.length,doneCount,done:fs.length>0&&doneCount===fs.length};
+}
+function refreshLiveIndicators(){
+  const reqFs=F.filter(f=>f.req&&visible(f)); const done=reqFs.filter(reqOK).length; const pct=reqFs.length?Math.round(100*done/reqFs.length):0;
+  const bar=document.getElementById('progbar'); if(bar){ bar.style.width=pct+'%'; const pb=bar.parentNode; if(pb&&pb.setAttribute) pb.setAttribute('aria-valuenow',done); }
+  const txt=document.getElementById('progtxt'); if(txt) txt.textContent=done+'/'+reqFs.length+' wajib terisi';
+  const tg=document.getElementById('sectag'); if(tg&&S.sec){ const st=sectionStatus(S.sec); tg.textContent=st.done?'Lengkap':(st.doneCount+' dari '+st.total+' wajib'); tg.className='stag'+(st.done?'':' todo'); }
+  document.querySelectorAll('.secbtn').forEach(b=>{
+    const id=b.dataset.sec; if(!id) return; const st=sectionStatus(id);
+    b.classList.toggle('done',st.done); const c=b.querySelector('.secc'); if(c) c.textContent=st.total?(st.doneCount+'/'+st.total):'';
+  });
+}
+
+/* ---------- saving files ---------- */
+async function saveFile(name,blob){
+  let dl=null;
+  try{ if(window.claude&&typeof window.claude.use==='function') dl=await window.claude.use('downloads'); }catch(e){}
+  if(dl){
+    try{ await dl.save({filename:name,data:blob}); return 'saved'; }
+    catch(e){ return (e&&e.code==='declined')?'declined':'error'; }
+  }
+  try{
+    const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),5000); return 'saved';
+  }catch(e){ return 'error'; }
+}
+function downloadBackupSilently(){
+  try{
+    const blob=new Blob([JSON.stringify(draftPayload())],{type:'application/json'});
+    const url=URL.createObjectURL(blob); const a=document.createElement('a');
+    a.href=url; a.download='cadangan-bikin-cv-taaruf.json'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+    lastBackupTs=Date.now(); dirty=false; return true;
+  }catch(e){ return false; }
+}
+async function manualBackup(payload){
+  const blob=new Blob([JSON.stringify(payload&&payload.d?payload:draftPayload())],{type:'application/json'});
+  const res=await saveFile('cadangan-bikin-cv-taaruf.json',blob);
+  if(res==='saved'){ lastBackupTs=Date.now(); dirty=false; toast('Cadangan diunduh.'); }
+  else if(res==='declined') toast('Penyimpanan dibatalkan.');
+  else toast('Unduhan tidak berjalan di sini.',4500);
+  saveDraft(); updateBackupStat();
+}
+const BACKUP_MIN_MS=180000;
+function maybeAutoBackup(minGap){
+  if(!dirty) return;
+  if(Date.now()-lastBackupTs < (minGap!=null?minGap:BACKUP_MIN_MS)) return;
+  if(downloadBackupSilently()){ saveDraft(); updateBackupStat(); }
+}
+function backupStatusText(){ return lastBackupTs? ('Cadangan otomatis terakhir '+new Date(lastBackupTs).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})) : 'Cadangan otomatis: belum ada'; }
+function updateBackupStat(){ const el=document.getElementById('backupstat'); if(el) el.textContent=backupStatusText(); }
+function fileLoadButton(label,cls){
+  const inp=h('input',{type:'file',accept:'.json,application/json',style:'display:none',onchange:e=>{
+    const file=e.target.files&&e.target.files[0]; if(!file) return;
+    const reader=new FileReader();
+    reader.onload=()=>{
+      try{
+        const obj=JSON.parse(reader.result);
+        if(!obj||typeof obj.d!=='object') throw new Error('format tidak dikenali');
+        const doApply=()=>applyDraft(obj);
+        if(S.stage==='form'&&Object.keys(S.d).length){
+          if(confirm('Memuat berkas ini akan menimpa isian yang sedang berjalan di sesi ini. Lanjutkan?')) doApply();
+        } else doApply();
+      }catch(err){ toast('Berkas tidak dapat dibaca. Gunakan berkas cadangan (.json) dari formulir ini.',5000); }
+      inp.value='';
+    };
+    reader.readAsText(file);
+  }});
+  const btn=h('button',{type:'button',class:cls||'btn',onclick:()=>inp.click()},label||'Muat draf dari berkas cadangan (.json)');
+  return h('span',null,btn,inp);
+}
+
+/* ---------- PDF ---------- */
+const BULAN=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+function today(){ const d=new Date(); return d.getDate()+' '+BULAN[d.getMonth()]+' '+d.getFullYear(); }
+function ageFrom(y){
+  const n=parseInt(y,10); if(!n) return '';
+  const a=new Date().getFullYear()-n;
+  return (a>0&&a<120)?('\u00b1 '+a+' tahun (lahir '+n+')'):'';
+}
+function lastEdu(){
+  const f=byId['E.01']; const order=(f.extra.cols.find(c=>c.key==='jenjang')||{}).opts||[];
+  let best=null, bi=-1; tableRows(f).forEach(r=>{ const i=order.indexOf(r.jenjang); if(i>bi){ bi=i; best=r; } });
+  if(!best) return ''; return [best.jenjang,trimStr(best.institusi)].filter(Boolean).join(' - ');
+}
+function buildPdf(){
+  const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:'mm',format:'a4'});
+  const PW=210,PH=297,PM=18,CW=PW-2*PM,LW=54,BOT=PH-24; let y=PM;
+  const PAL={I:{acc:[28,79,138],soft:[220,231,244]},A:{acc:[138,45,91],soft:[244,223,233]}};
+  const pal=PAL[GV()]||{acc:[15,92,78],soft:[221,239,234]};
+  const acc=pal.acc,soft=pal.soft,ink=[20,48,42],mut=[84,104,98],ln=[214,224,221],zeb=[245,248,247];
+  const gWord=GV()==='A'?'Akhwat':'Ikhwan';
+  let curSec=''; const pageSec={};
+  const newPage=()=>{ doc.addPage(); y=PM; pageSec[doc.getNumberOfPages()]=curSec; };
+  doc.setProperties({title:"CV Ta'aruf - "+(trimStr(S.d['B.01'])||'-'),subject:"CV Ta'aruf "+gWord,author:trimStr(S.d['B.01']),keywords:"ta'aruf, CV",creator:PRODUCT_NAME});
+  const need=hh=>{ if(y+hh>BOT) newPage(); };
+  const font=(w,sz,col)=>{ doc.setFont('helvetica',w); doc.setFontSize(sz); doc.setTextColor(...col); };
+  const nm=trimStr(S.d['B.01'])||'-'; const pang=trimStr(S.d['B.02']);
+
+  /* ---- header ---- */
+  font('bold',8.5,acc); doc.text("CV TA'ARUF",PM,y+3,{charSpace:0.6});
+  { const gl=gWord.toUpperCase(); font('bold',8,[255,255,255]); const bw=doc.getTextWidth(gl)+0.6*(gl.length-1)+6;
+    doc.setFillColor(...acc); doc.roundedRect(PM+CW-bw,y-0.9,bw,5.8,1,1,'F'); doc.text(gl,PM+CW-bw+3,y+3,{charSpace:0.6}); }
+  font('bold',24,ink); const nl=doc.splitTextToSize(nm,CW); doc.text(nl,PM,y+14); y+=14+(nl.length-1)*9;
+  font('normal',10,mut); doc.text((pang?('Panggilan '+pang+'   |   '):'')+'Dibuat '+today(),PM,y+7);
+  font('italic',8.5,mut); doc.text(PDF_NOTE,PM,y+12.5); y+=17;
+
+  /* ---- ringkasan ---- */
+  const age=ageFrom(S.d['B.05']);
+  const tb=[vText(byId['D.01']),vText(byId['D.02'])].filter(Boolean).join(' / ');
+  const facts=[
+    ['Usia',age],['Domisili',vText(byId['C.02'])],
+    ['Status pernikahan',vText(byId['B.08'])],['Pendidikan terakhir',lastEdu()],
+    ['Pekerjaan',vText(byId['F.01'])],['Tinggi / berat',tb],
+    ['Suku',vText(byId['B.07'])],['Kota asal',vText(byId['C.03'])]
+  ].filter(x=>x[1]);
+  if(facts.length){
+    const colW=(CW-12)/2; const rows=[];
+    for(let i=0;i<facts.length;i+=2) rows.push(facts.slice(i,i+2));
+    font('bold',10.5,ink);
+    const rh=rows.map(r=>Math.max(...r.map(([l,v])=>doc.splitTextToSize(v,colW-4).length))*4.8+6.2);
+    const boxH=10+rh.reduce((a,b)=>a+b,0)+2;
+    doc.setFillColor(...soft); doc.roundedRect(PM,y,CW,boxH,3,3,'F');
+    font('bold',8.5,acc); doc.text('RINGKASAN',PM+6,y+7,{charSpace:0.5});
+    let yy=y+11;
+    rows.forEach((r,ri)=>{
+      r.forEach(([l,v],ci)=>{ const x=PM+6+ci*(colW+0); font('normal',8.5,mut); doc.text(l,x,yy+3); font('bold',10.5,ink); doc.text(doc.splitTextToSize(v,colW-4),x,yy+8); });
+      yy+=rh[ri];
+    });
+    y+=boxH+8;
+  }
+
+  /* ---- blocks ---- */
+  function sectionHeader(title,letter,firstNeed){
+    need(16+(firstNeed||28)); if(y===PM) pageSec[doc.getNumberOfPages()]=(letter?letter+'. ':'')+title; y+=3;
+    let x=PM;
+    if(letter){ doc.setFillColor(...acc); doc.roundedRect(PM,y,6.6,6.6,1,1,'F'); font('bold',9,[255,255,255]); doc.text(letter,PM+3.3,y+4.6,{align:'center'}); x=PM+9.6; }
+    font('bold',10.5,acc); doc.text(String(title).toUpperCase(),x,y+4.9,{charSpace:0.4});
+    doc.setDrawColor(...acc); doc.setLineWidth(0.5); doc.line(PM,y+8.8,PM+CW,y+8.8);
+    y+=13; zi=0; curSec=(letter?letter+'. ':'')+title;
+  }
+  function groupHeader(t,extra){
+    need(28+(extra||0)); y+=1.5;
+    font('bold',9,acc); doc.text(t,PM,y+3.5);
+    doc.setDrawColor(...acc); doc.setLineWidth(0.25); doc.line(PM,y+5.5,PM+CW,y+5.5); y+=8; zi=0;
+  }
+  let zi=0;
+  function kvRow(l,v){
+    font('normal',10.5,ink); const vl=doc.splitTextToSize(String(v),CW-LW-6);
+    font('normal',9,mut); const ll=doc.splitTextToSize(l,LW-4);
+    const hh=Math.max(vl.length*5,ll.length*4.3)+3.6; need(hh);
+    if(zi++%2===0){ doc.setFillColor(...zeb); doc.rect(PM,y,CW,hh,'F'); }
+    font('normal',9,mut); doc.text(ll,PM+2,y+5);
+    font('normal',10.5,ink); doc.text(vl,PM+LW,y+5.2,{lineHeightFactor:1.36});
+    y+=hh;
+  }
+  function blockLabel(l,extra){ need(16+(extra||0)); font('bold',9,mut); doc.text(doc.splitTextToSize(l,CW),PM+2,y+4.5); y+=7; }
+  function longBlock(l,text){
+    blockLabel(l);
+    font('normal',10.5,ink); const lines=doc.splitTextToSize(text,CW-8);
+    const y0=y; let start=y;
+    lines.forEach(line=>{ if(y+5.4>BOT){ doc.setFillColor(...acc); doc.rect(PM+2,start,0.8,y-start,'F'); newPage(); start=y; } font('normal',10.5,ink); doc.text(line,PM+6,y+4); y+=5.4; });
+    doc.setFillColor(...acc); doc.rect(PM+2,start,0.8,y-start,'F');
+    y+=4; zi=0;
+  }
+  function bulletBlock(l,items){
+    if(!items.length) return;
+    font('normal',10.5,ink); const hs=items.map(it=>doc.splitTextToSize(it,CW-12).length*5.2+1.2);
+    const keep=hs.reduce((a,b)=>a+b,0); blockLabel(l,keep<=60?keep:hs.slice(0,3).reduce((a,b)=>a+b,0));
+    items.forEach(it=>{
+      font('normal',10.5,ink); const lines=doc.splitTextToSize(it,CW-12); const hh=lines.length*5.2+1.2; need(hh);
+      doc.setFillColor(...acc); doc.circle(PM+4.2,y+2.9,0.8,'F');
+      doc.text(lines,PM+8,y+4,{lineHeightFactor:1.4}); y+=hh;
+    });
+    y+=3; zi=0;
+  }
+  function pdfTable(cols,rows,opt){
+    if(!rows||!rows.length) return; opt=opt||{};
+    const weights=cols.map(c=>c.w||90); const totalW=weights.reduce((a,b)=>a+b,0);
+    const cw=weights.map(w=>CW*w/totalW);
+    const drawHeader=()=>{
+      font('bold',8.5,acc);
+      const hl=cols.map((c,i)=>doc.splitTextToSize(c.label,cw[i]-4)); const hh=Math.max(...hl.map(x=>x.length))*3.8+3.6;
+      doc.setFillColor(...soft); doc.rect(PM,y,CW,hh,'F');
+      let x=PM; cols.forEach((c,i)=>{ doc.text(hl[i],x+2,y+4.6); x+=cw[i]; });
+      y+=hh;
+    };
+    need(22); drawHeader();
+    rows.forEach((row,ri)=>{
+      font('normal',9.5,ink);
+      const cellLines=cols.map((c,i)=>doc.splitTextToSize(String(trimStr(row[c.key])||'-'),cw[i]-4));
+      const hh=Math.max(...cellLines.map(l=>l.length))*4.5+3.4;
+      if(y+hh>BOT){ newPage(); drawHeader(); }
+      if(ri%2===1){ doc.setFillColor(...zeb); doc.rect(PM,y,CW,hh,'F'); }
+      let x=PM; cols.forEach((c,i)=>{ font(opt.boldFirst&&i===0?'bold':'normal',9.5,ink); doc.text(cellLines[i],x+2,y+4.7,{lineHeightFactor:1.3}); x+=cw[i]; });
+      y+=hh;
+    });
+    doc.setDrawColor(...ln); doc.setLineWidth(0.25); doc.line(PM,y,PM+CW,y);
+    y+=5; zi=0;
+  }
+  function renderField(f){
+    if(f.type==='list') bulletBlock(f.label,listItems(f));
+    else if(f.type==='table'){ blockLabel(f.label,20); pdfTable(f.extra.cols,tableRows(f)); }
+    else if(f.type==='matrix'){
+      blockLabel(f.label,20);
+      const cols=[{key:'rl',label:'Peran',w:70}].concat(f.extra.colLabels.map((c,ci)=>({key:'c'+ci,label:c,w:100})));
+      const rows=f.extra.rowLabels.map((rl,ri)=>{ const r={rl}; f.extra.colLabels.forEach((c,ci)=>{ r['c'+ci]=matrixCell(f,ri,ci); }); return r; });
+      pdfTable(cols,rows,{boldFirst:true});
+    }
+    else {
+      const v=vText(f);
+      if(f.type==='textarea'&&(v.length>90||/\n/.test(v))) longBlock(f.label,v); else kvRow(f.label,v);
+    }
+  }
+
+  SECTIONS.forEach(sec=>{
+    const all=bySec[sec.id].filter(f=>f.type!=='check'&&f.id!=='N.04'&&visible(f));
+    const groups=[]; let cur=null;
+    all.forEach(f=>{ if(!cur||f.grp){ cur={t:f.grp||null,fs:[]}; groups.push(cur); } if(isFilled(f)) cur.fs.push(f); });
+    const used=groups.filter(g=>g.fs.length); if(!used.length) return;
+    const g0=used[0]; const cx0=['table','matrix','list'].includes(g0.fs[0].type);
+    const showG0=!!(g0.t&&used.length>1&&!(g0.fs.length===1&&g0.fs[0].label===g0.t));
+    sectionHeader(sec.title.replace(/^[A-Z]\.\s*/,''),sec.id,showG0?(28+(cx0?30:0)):(cx0?40:14));
+    used.forEach(g=>{ if(g.t&&used.length>1&&!(g.fs.length===1&&g.fs[0].label===g.t)) groupHeader(g.t,['table','matrix','list'].includes(g.fs[0].type)?30:0); g.fs.forEach(renderField); y+=2; });
+    y+=4;
+  });
+
+  /* ---- lampiran ---- */
+  sectionHeader('Lampiran yang disiapkan terpisah');
+  ATTACH.forEach(a=>{
+    font('normal',10.5,ink); const lines=doc.splitTextToSize(a,CW-12); const hh=lines.length*5.2+2; need(hh);
+    doc.setDrawColor(...acc); doc.setLineWidth(0.35); doc.rect(PM+2,y+0.8,3.6,3.6);
+    doc.text(lines,PM+9,y+4,{lineHeightFactor:1.4}); y+=hh;
+  });
+  font('normal',9,mut);
+  const note=doc.splitTextToSize('Berkas di atas tidak disertakan pada PDF ini. Siapkan dan kirimkan terpisah sesuai kesepakatan dengan pihak yang dituju.',CW-4);
+  need(note.length*4.2+4); doc.text(note,PM+2,y+4); y+=note.length*4.2+8;
+
+  /* ---- pernyataan & tanda tangan ---- */
+  need(62); sectionHeader('Pernyataan');
+  [byId['N.02'],byId['N.03']].forEach(f=>{
+    const t=f.label.replace(/^Pernyataan:\s*/i,''); const txt='Saya menyatakan '+t.charAt(0).toLowerCase()+t.slice(1)+'.';
+    font('normal',10.5,ink); const lines=doc.splitTextToSize(txt,CW-12); const hh=lines.length*5.2+2.4;
+    doc.setDrawColor(...acc); doc.setLineWidth(0.35); doc.rect(PM+2,y+0.8,3.6,3.6);
+    doc.setLineWidth(0.6); doc.line(PM+2.7,y+2.7,PM+3.6,y+3.7); doc.line(PM+3.6,y+3.7,PM+5,y+1.5);
+    doc.text(lines,PM+9,y+4,{lineHeightFactor:1.4}); y+=hh;
+  });
+  y+=8;
+  const sx=PM+CW-72;
+  font('normal',9,mut); doc.text('Tanggal pengisian: '+today(),sx,y);
+  y+=14; doc.setDrawColor(...ink); doc.setLineWidth(0.3); doc.line(sx,y,PM+CW,y);
+  font('bold',12,ink); doc.text(trimStr(S.d['N.04'])||nm,sx,y+6);
+  font('normal',8.5,mut); doc.text('Nama lengkap (sebagai tanda tangan)',sx,y+11);
+
+  const n=doc.getNumberOfPages();
+  for(let i=1;i<=n;i++){ doc.setPage(i);
+    if(i>1){ /* kepala halaman berjalan */
+      font('bold',8.5,acc); doc.text(nm,PM,11); const nw=doc.getTextWidth(nm);
+      font('normal',8.5,mut); doc.text('  \u00b7  '+gWord,PM+nw,11);
+      if(pageSec[i]){ font('normal',8.5,mut); doc.text(doc.splitTextToSize(pageSec[i],90)[0],PM+CW,11,{align:'right'}); }
+      doc.setDrawColor(...ln); doc.setLineWidth(0.25); doc.line(PM,13,PM+CW,13);
+    }
+    font('normal',8,mut); doc.setDrawColor(...ln); doc.setLineWidth(0.25);
+    doc.line(PM,PH-16,PM+CW,PH-16);
+    doc.text(PDF_NOTE,PM,PH-11);
+    doc.text('Dibuat dengan '+PRODUCT_NAME+(SITE_DOMAIN?(' ('+SITE_DOMAIN+')'):'')+'   |   Halaman '+i+' dari '+n,PM+CW,PH-11,{align:'right'}); }
+  return doc;
+}
+function pdfName(){
+  const g=GV()==='A'?'Akhwat':'Ikhwan';
+  const n=trimStr(S.d['B.01']).normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);
+  return 'CV-Taaruf-'+g+(n?'-'+n:'')+'.pdf';
+}
+async function genPdf(){
+  const missAll=F.filter(f=>f.req&&visible(f)&&!reqOK(f));
+  if(missAll.length){
+    tried=true;
+    const secsWithMiss=[...new Set(missAll.map(f=>f.sec==='A'?'gerbang awal':f.sec))];
+    if(S.sec==='N'){
+      const al=$('#alert'); if(al){ al.hidden=false; al.innerHTML=''; al.append(h('b',null,'PDF belum bisa dibuat. Ada '+missAll.length+' isian wajib yang belum lengkap di bagian: '),secsWithMiss.join(', ')+'.'); al.scrollIntoView({block:'center'}); }
+      markInvalid(S.sec);
+    } else {
+      const target=missAll.find(f=>f.sec!=='A')?.sec || 'B';
+      go(target);
+      setTimeout(()=>{ const al2=$('#alert'); if(al2){ al2.hidden=false; al2.innerHTML=''; al2.append(h('b',null,'Lengkapi dulu isian wajib berikut:'),missAll.filter(f=>f.sec===target).map(f=>f.label).join('; ')); } markInvalid(target); },50);
+    }
+    return;
+  }
+  if(!window.jspdf){ toast('Pustaka PDF belum termuat. Periksa koneksi internet lalu coba lagi.',5000); return; }
+  try{
+    const doc=buildPdf(); const blob=doc.output('blob');
+    const res=await saveFile(pdfName(),blob);
+    if(res==='saved'){ S.pdf=true; saveDraft(); toast('PDF dibuat.'); render(); }
+    else if(res==='declined') toast('Penyimpanan dibatalkan.');
+    else toast('Unduhan tidak berjalan di sini.',4500);
+  }catch(e){ toast('PDF gagal dibuat: '+(e&&e.message||e),5000); }
+}
+
+/* ---------- screens ---------- */
+let navOpen=false;
+function renderTop(){
+  const t=$('#topr'); t.innerHTML='';
+  const g=S.d['B.03'];
+  const panel=h('div',{class:'menupanel'},
+    h('div',{class:'mstat',id:'storagetag'},storageOK?'Draf lokal tersimpan':'Draf lokal tidak dapat disimpan di perangkat ini'),
+    S.stage==='form'?h('div',{class:'mstat',id:'backupstat'},backupStatusText()):null,
+    S.stage==='form'?h('button',{type:'button',class:'btn',onclick:manualBackup},'Unduh cadangan sekarang'):null,
+    fileLoadButton('Muat draf dari berkas cadangan','btn'),
+    S.stage==='form'?h('button',{type:'button',class:'btn',onclick:()=>{ S.stage='landing'; render(); window.scrollTo(0,0); }},'Ubah jenis kelamin ('+(g||'-')+')'):null,
+    h('p',{class:'mnote'},'Cadangan (.json) terunduh otomatis berkala. Bila ada beberapa berkas, pakai yang terbaru.'),
+    hasAnyDraft()?h('button',{type:'button',class:'linkbtn',style:'justify-self:start',onclick:confirmReset},'Mulai dari awal (hapus draf)'):null);
+  const gc=S.stage==='form'?GV():null;
+  if(gc) t.append(h('span',{class:'gbadge',id:'gbadge'},gc==='A'?'AKHWAT':'IKHWAN'));
+  t.append(h('details',{class:'menu'},h('summary',{class:'tag'},'Draf dan cadangan'),panel));
+}
+function renderNav(){
+  const wrap=$('#secnavwrap'); wrap.hidden=false; wrap.innerHTML='';
+  const i=SEC_ORDER.indexOf(S.sec); const sec=SECTIONS[i];
+  const nav=h('nav',{class:'secnav'+(navOpen?' open':''),id:'secnav','aria-label':'Bagian formulir'});
+  SECTIONS.forEach(s=>{
+    const st=sectionStatus(s.id);
+    nav.append(h('button',{type:'button',class:'secbtn'+(S.sec===s.id?' cur':'')+(st.done?' done':''),'data-sec':s.id,'aria-current':S.sec===s.id?'step':null,onclick:()=>go(s.id)},
+      h('span',{class:'secn'},s.id),h('span',{class:'sect'},s.title.replace(/^[A-Z]\.\s*/,'')),
+      st.total?h('span',{class:'secc'},st.doneCount+'/'+st.total):null));
+  });
+  const tg=h('button',{type:'button',class:'navcur',id:'navtoggle','aria-expanded':String(navOpen),'aria-controls':'secnav',onclick:()=>{ navOpen=!navOpen; nav.classList.toggle('open',navOpen); tg.setAttribute('aria-expanded',String(navOpen)); chev.textContent=navOpen?'Tutup daftar':'Semua bagian'; }},
+    h('span',null,h('span',{class:'nc1'},'Bagian '+(i+1)+' dari '+SECTIONS.length),h('span',{class:'nc2'},sec.title.replace(/^[A-Z]\.\s*/,''))));
+  const chev=h('span',{class:'chev'},navOpen?'Tutup daftar':'Semua bagian'); tg.append(chev);
+  wrap.append(h('div',{class:'navbar'},tg,h('p',{class:'sidehead'},'Bagian formulir'),nav));
+}
+function renderLanding(main){
+  main.append(h('section',{class:'hero'},
+    h('h1',null,PRODUCT_NAME),
+    h('p',{class:'lead'},"CV ta'aruf lengkap dalam 13 bagian, bisa dicicil kapan saja. Isian tersimpan otomatis di perangkat ini, dan berkas cadangan terunduh otomatis secara berkala agar dapat dipindah ke perangkat lain.")));
+  const inSession=S.sec&&Object.keys(S.d).length>0;
+  if(inSession){
+    const sec=SECTIONS.find(x=>x.id===S.sec);
+    main.append(h('div',{class:'draftbox'},h('div',null,h('b',null,'Isian Anda masih tersimpan. '),'Terakhir di bagian '+(sec?sec.title:S.sec)+'.'),
+      h('div',{class:'genrow',style:'margin:0;align-items:center'},
+        h('button',{type:'button',class:'btn primary',id:'contbtn',onclick:()=>{ S.stage='form'; saveDraft(); render(); window.scrollTo(0,0); }},'Lanjutkan mengisi'),
+        h('button',{type:'button',class:'linkbtn',onclick:confirmReset},'Mulai dari awal'))));
+  }
+  if(resumeOffer){
+    const dr=resumeOffer;
+    main.append(h('div',{class:'draftbox'},h('div',null,h('b',null,'Draf ditemukan. '),'Tersimpan '+new Date(dr.ts).toLocaleString('id-ID')+'.'),
+      h('div',{class:'genrow',style:'margin:0'},
+        h('button',{type:'button',class:'btn primary',onclick:()=>applyDraft(dr)},'Lanjutkan draf'),
+        h('button',{type:'button',class:'linkbtn',onclick:confirmReset},'Mulai dari awal'))));
+  }
+  const closure=h('section',{class:'panel closure',style:'margin-bottom:14px'},
+    h('h2',{style:'font-size:1.1rem'},'Sebelum mulai'),
+    h('ul',null,
+      h('li',null,'Isian diproses di perangkat ini dan tidak dikirim ke server mana pun.'),
+      h('li',null,'Anda dapat berpindah bagian secara bebas; tidak perlu selesai sekaligus.'),
+      h('li',null,'Draf tersimpan otomatis di peramban ini. Berkas cadangan (.json) terunduh otomatis secara berkala; simpan berkas ini bila berpindah perangkat.'),
+      h('li',null,'Hasil akhir berupa satu PDF untuk Anda kirimkan sendiri kepada pihak yang dituju, bukan untuk dibagikan ke publik. Tidak ada fitur unggah dokumen.'),
+      h('li',null,'Formulir ini tidak meminta nama anggota keluarga, alamat lengkap, maupun tanggal lahir lengkap.')),
+    h('div',{class:'card',style:'margin-top:14px'},buildField(byId['A.01']), buildField(byId['A.02']), buildField(byId['B.03'])));
+  main.append(closure);
+  main.append(h('div',{class:'panel',style:'margin-bottom:14px'},
+    h('b',null,'Punya berkas cadangan dari perangkat lain?'),
+    h('p',{class:'small muted',style:'margin:4px 0 10px'},'Pilih berkas cadangan (.json) untuk melanjutkan di sini.'),
+    fileLoadButton()));
+  main.append(h('div',{class:'actions',style:'margin:14px -16px 0'},h('div',{class:'arow'},h('span',{class:'spacer'}),
+    h('button',{type:'button',class:'btn primary',id:'go',onclick:()=>{
+      if(!(isFilled(byId['A.01'])&&isFilled(byId['A.02'])&&reqOK(byId['B.03']))) return;
+      if(!S.sec) S.sec='B'; S.stage='form'; saveDraft(); render(); window.scrollTo(0,0);
+    }},S.sec&&Object.keys(S.d).length?'Lanjutkan mengisi':'Mulai isi form'))));
+  main.addEventListener('click',()=>setTimeout(updGo,0));
+  main.addEventListener('change',()=>setTimeout(updGo,0));
+  function updGo(){ const btn=$('#go'); if(btn) btn.disabled=!(isFilled(byId['A.01'])&&isFilled(byId['A.02'])&&reqOK(byId['B.03'])); }
+  updGo();
+}
+const SEC_ORDER=SECTIONS.map(s=>s.id);
+function prevSec(id){ const i=SEC_ORDER.indexOf(id); return SEC_ORDER[Math.max(0,i-1)]; }
+function nextSec(id){ const i=SEC_ORDER.indexOf(id); return SEC_ORDER[Math.min(SEC_ORDER.length-1,i+1)]; }
+function groupsOf(secId){
+  const out=[]; let cur=null;
+  bySec[secId].filter(visible).forEach(f=>{ if(!cur||f.grp){ cur={t:f.grp||null,fs:[]}; out.push(cur); } cur.fs.push(f); });
+  return out;
+}
+function viewOf(id){ return VIEW[id] || (sectionStatus(id).done ? 'review' : 'edit'); }
+function setView(id,mode){ VIEW[id]=mode; render(); window.scrollTo(0,0); }
+function editField(id){
+  const sec=byId[id].sec; VIEW[sec]='edit'; render();
+  const el=document.getElementById('f-'+id);
+  if(el){ el.scrollIntoView({block:'center'}); const c=el.querySelector('input,select,textarea,button.pill'); if(c) c.focus({preventScroll:true}); }
+}
+function sumValue(f){
+  if(!isFilled(f)) return null;
+  switch(f.type){
+    case 'check': return 'Ya';
+    case 'list': return h('ul',null,listItems(f).map(t=>h('li',null,t)));
+    case 'table': { const cols=f.extra.cols; return h('ul',null,tableRows(f).map(r=>h('li',null,cols.map(c=>trimStr(r[c.key])).filter(Boolean).join(' · ')))); }
+    case 'matrix': return h('ul',null,f.extra.rowLabels.map((rl,ri)=>h('li',null,h('b',null,rl+': '),f.extra.colLabels.map((cl,ci)=>cl+' - '+(matrixCell(f,ri,ci)||'belum diisi')).join('; '))));
+    default: { const v=vText(f); return f.type==='textarea'?h('span',{class:'clamp'},v):v; }
+  }
+}
+function sumRow(f,hideLabel){
+  const v=sumValue(f); const miss=f.req&&!reqOK(f);
+  const vd=v==null ? h('dd',{class:'v empty'+(miss?' reqmiss':'')},miss?'Belum diisi (wajib)':'Belum diisi') : h('dd',{class:'v'},v);
+  if(v!=null&&miss) vd.append(h('div',{class:'reqnote'},'Belum lengkap (wajib)'));
+  return h('div',{class:'r',id:'s-'+f.id},
+    h('dt',{class:hideLabel?'sr':null},f.label), vd,
+    h('dd',{class:'ch'},h('button',{type:'button','aria-label':(v==null?'Isi: ':'Ubah: ')+f.label,onclick:()=>editField(f.id)},v==null?'Isi':'Ubah')));
+}
+function actionBar(secId){
+  const i=SEC_ORDER.indexOf(secId); const prev=SECTIONS[i-1], next=SECTIONS[i+1];
+  const reqFs=F.filter(f=>f.req&&visible(f)); const done=reqFs.filter(reqOK).length; const pct=reqFs.length?Math.round(100*done/reqFs.length):0;
+  const back=h('button',{type:'button',class:'btn ic',disabled:prev?null:true,'aria-label':prev?('Kembali ke bagian '+prev.title):'Kembali',title:prev?('Kembali ke '+prev.title):null,onclick:()=>{ if(prev) go(prev.id); }},
+    h('span',{class:'icn',html:ICON_BACK}),h('span',{class:'lw'},'Kembali'));
+  const bk=h('button',{type:'button',class:'btn ic',id:'bkbtn','aria-label':'Cadangkan: unduh berkas cadangan (.json)',title:'Unduh berkas cadangan (.json)',onclick:manualBackup},
+    h('span',{class:'icn',html:ICON_DL}),h('span',{class:'lw'},'Cadangkan'));
+  const nx=next
+    ? h('button',{type:'button',class:'btn primary nx','aria-label':'Lanjut ke bagian '+next.title,onclick:()=>go(next.id)},h('small',null,'Lanjut ke bagian '+next.id),h('b',null,next.short))
+    : h('button',{type:'button',class:'btn primary nx',onclick:genPdf},h('small',null,S.pdf?'PDF sudah dibuat':'Langkah terakhir'),h('b',null,'Buat PDF'));
+  return h('div',{class:'actions'},
+    h('div',{class:'prog',role:'progressbar','aria-label':'Isian wajib terisi','aria-valuemin':'0','aria-valuemax':String(reqFs.length),'aria-valuenow':String(done)},h('i',{id:'progbar',style:'width:'+pct+'%'})),
+    h('div',{class:'meta'},h('span',{id:'progtxt'},done+'/'+reqFs.length+' wajib terisi'),h('span',{id:'savestat'},saveStatusText())),
+    h('div',{class:'arow'},back,bk,nx));
+}
+function renderSectionBody(main,secId){
+  const sec=SECTIONS.find(s=>s.id===secId); const st=sectionStatus(secId);
+  const mode=VIEW[secId]=viewOf(secId);
+  main.append(h('div',{class:'sechead'},
+    h('div',null,h('h2',null,sec.title),h('p',{class:'lead'},SEC_INTRO[secId]||'')),
+    h('span',{class:'stag'+(st.done?'':' todo'),id:'sectag'},st.done?'Lengkap':(st.doneCount+' dari '+st.total+' wajib'))));
+  const anyFilled=bySec[secId].some(f=>visible(f)&&isFilled(f));
+  if(mode==='review') main.append(h('div',{class:'modebar'},h('button',{type:'button',class:'btn sm',id:'modebtn',onclick:()=>setView(secId,'edit')},'Ubah isian bagian ini')));
+  else if(anyFilled) main.append(h('div',{class:'modebar'},h('button',{type:'button',class:'btn sm',id:'modebtn',onclick:()=>setView(secId,'review')},'Lihat ringkasan')));
+  main.append(h('div',{class:'alert',id:'alert',role:'alert',hidden:true}));
+  groupsOf(secId).forEach(g=>{
+    const single=g.fs.length===1&&g.fs[0].label===g.t;
+    if(mode==='review'){
+      main.append(h('section',{class:'grp'},g.t?h('h3',{class:'gt'},g.t):null,h('div',{class:'card'},h('dl',{class:'sum'},g.fs.map(f=>sumRow(f,single))))));
+    } else {
+      const els=g.fs.map(buildField);
+      if(single){ const sp=els[0].querySelector('.lbl>span'); if(sp) sp.classList.add('sr'); }
+      main.append(h('fieldset',{class:'grp','aria-label':g.t?null:sec.title},g.t?h('legend',null,g.t):null,h('div',{class:'card'},els)));
+    }
+  });
+  if(secId==='N'){
+    main.append(h('div',{class:'panel',style:'margin-bottom:14px'},
+      h('b',null,'Sebelum mengirim PDF'),
+      h('ul',{style:'margin-top:8px;padding-left:20px;display:grid;gap:4px'},
+        h('li',null,'Kirim lewat pesan pribadi kepada pihak yang dituju, atau kepada walinya.'),
+        h('li',null,'Jangan unggah ke grup, media sosial, atau tautan publik. Setiap halaman PDF memuat catatan "Mohon tidak disebarluaskan".'),
+        h('li',null,'Untuk dibagikan ke publik, gunakan kartu dari generator versi mini yang tidak memuat data pribadi.'))));
+    main.append(h('div',{class:'panel',style:'margin-bottom:14px'},
+      h('b',null,'Lampiran yang perlu disiapkan terpisah'),
+      h('p',{class:'small muted',style:'margin-top:4px'},'Berkas ini tidak diunggah di sini. Daftar berikut hanya pengingat dan dicantumkan sebagai daftar centang pada PDF.'),
+      h('ul',{style:'margin-top:8px;padding-left:20px'},ATTACH.map(a=>h('li',null,a)))));
+  }
+  main.append(actionBar(secId));
+  if(mode==='edit'&&tried) markInvalid(secId);
+}
+function hasAnyDraft(){ return Object.keys(S.d).length>0 || !!resumeOffer; }
+function resetAll(){
+  clearDraft(); S.d={}; S.stage='landing'; S.sec=null; S.pdf=false; tried=false;
+  Object.keys(VIEW).forEach(k=>delete VIEW[k]); lastBackupTs=0; dirty=false; resumeOffer=null;
+  render(); window.scrollTo(0,0); toast('Draf dihapus. Silakan mulai dari awal.');
+}
+function confirmReset(){
+  const dm=document.querySelector('details.menu[open]'); if(dm) dm.open=false;
+  const d=$('#dlgreset'); if(d.showModal) d.showModal(); else d.setAttribute('open','');
+  $('#dlgreset-no').focus();
+}
+function closeReset(){ const d=$('#dlgreset'); if(d.close) d.close(); else d.removeAttribute('open'); }
+function goHome(){ if(S.stage==='form'){ saveDraft(); S.stage='landing'; render(); } window.scrollTo(0,0); }
+function applyTheme(){
+  const g=S.stage==='form'?GV():null;
+  if(g) document.documentElement.setAttribute('data-g',g); else document.documentElement.removeAttribute('data-g');
+  $('#layout').classList.toggle('withnav',S.stage==='form');
+}
+function render(){
+  applyTheme();
+  renderTop();
+  const main=$('#main'); main.innerHTML='';
+  if(S.stage!=='form'){ $('#secnavwrap').hidden=true; renderLanding(main); markAllVals(main); renderLab(); return; }
+  renderNav();
+  renderSectionBody(main,S.sec);
+  markAllVals(main);
+  renderLab();
+}
+function go(id,mode){ maybeAutoBackup(90000); saveDraft(); S.sec=id; tried=false; if(mode) VIEW[id]=mode; else delete VIEW[id]; render(); window.scrollTo(0,0); }
+
+/* ---------- lab panel (prototype testing only) ---------- */
+function autoSample(g){ return JSON.parse(JSON.stringify(SCHEMA.samples[g])); }
+function renderLab(){
+  const box=$('#labin'); if(!box) return; box.innerHTML='';
+  box.append(h('div',{class:'row'},
+    h('button',{type:'button',class:'btn',onclick:()=>{ S.d=autoSample('I'); S.stage='form'; S.sec=S.sec||'B'; S.pdf=false; dirty=true; saveDraft(); render(); toast('Contoh data Ikhwan dimuat (data fiktif).'); }},'Isi contoh (Ikhwan)'),
+    h('button',{type:'button',class:'btn',onclick:()=>{ S.d=autoSample('A'); S.stage='form'; S.sec=S.sec||'B'; S.pdf=false; dirty=true; saveDraft(); render(); toast('Contoh data Akhwat dimuat (data fiktif).'); }},'Isi contoh (Akhwat)'),
+    h('button',{type:'button',class:'btn',onclick:()=>{ clearDraft(); S.d={}; S.stage='landing'; S.sec=null; S.pdf=false; tried=false; render(); toast('Semua isian dikosongkan.'); }},'Kosongkan semua')));
+  box.append(h('p',{class:'small muted'},'Panel ini hanya untuk menguji formulir dan dihapus pada versi rilis.'));
+}
+
+/* ---------- boot ---------- */
+const dr0=loadDraft(); if(draftHasData(dr0)) resumeOffer=dr0;
+render();
+setInterval(()=>maybeAutoBackup(BACKUP_MIN_MS),30000);
+$('#homebtn').addEventListener('click',goHome);
+$('#dlgreset-no').addEventListener('click',closeReset);
+$('#dlgreset-yes').addEventListener('click',()=>{ closeReset(); resetAll(); });
+$('#dlgreset-bk').addEventListener('click',()=>{ manualBackup(Object.keys(S.d).length?null:resumeOffer); });
+document.addEventListener('input',e=>markVal(e.target));
+document.addEventListener('change',e=>markVal(e.target));
+document.addEventListener('click',e=>{ document.querySelectorAll('details.menu[open]').forEach(d=>{ if(!d.contains(e.target)) d.open=false; }); });
+window.__ctgv1={S,go,render,goHome,autoSample,maybeAutoBackup,downloadBackupSilently};
+})();
+</script>
+
+
+</body>
+</html>
