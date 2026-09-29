@@ -35,13 +35,13 @@ oleh Amal, karena itu mengubah janji privasi aplikasi ini.
 Keduanya dimuat via CDN langsung di `index.html` — tidak ada `package.json`
 atau proses build.
 
-## Lapor ke sesi "Auditor project kajian"
+## Lapor ke sesi "Auditor Project"
 
 Amal menugaskan satu sesi Claude terpisah sebagai auditor lintas-project
 (awalnya untuk `jadwalkajian` + `catatankajian`, sekarang juga mengawasi
 repo ini). Cari session ID terkini dengan `list_sessions` berdasarkan judul
-**"Auditor project kajian"** (nama ini historis dari dua project kajian
-yang lebih dulu diaudit — bisa jadi sudah diganti nama, cek dulu), atau
+**"Auditor Project"** (nama umum, sengaja tidak spesifik ke satu project —
+kalau sudah tidak valid/berganti nama lagi, cek dulu sebelum asumsi), atau
 tanya Amal langsung.
 
 **Wajib lapor untuk** (bukan tiap perbaikan kecil — hanya yang signifikan):
