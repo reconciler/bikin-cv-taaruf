@@ -10,6 +10,9 @@ Versi saat ini: **v7**.
 - `index.html` — seluruh aplikasi (HTML+CSS+JS dalam satu berkas): definisi
   field form, logika render (`render()`, `h()` — hyperscript kecil buatan
   sendiri), validasi, autosave, ekspor PDF via jsPDF.
+- `lib/jspdf-2.5.1.umd.min.js` — salinan jsPDF (dari paket npm `jspdf@2.5.1`,
+  lisensi MIT) yang dimuat `index.html`. Jangan diedit; ganti file utuh jika
+  memperbarui versi.
 - `README.md` — cara pakai & catatan teknis untuk pengguna akhir.
 
 ## Hosting
@@ -21,19 +24,22 @@ workflow tambahan. Tidak ada isu biaya/kredit (GitHub Pages gratis).
 ## Data & privasi
 
 Draf disimpan otomatis di `localStorage` peramban pengguna (key sesuai
-`DRAFT_KEY` di `index.html`) — **tidak ada backend, tidak ada data terkirim
-ke server mana pun**. Pengguna bisa mengunduh cadangan draf manual sebagai
+`DRAFT_KEY` di `index.html`) — **tidak ada backend, isian tidak pernah
+terkirim ke server mana pun**. Satu-satunya permintaan ke pihak ketiga adalah
+Google Fonts (alamat IP pengunjung terlihat oleh Google). Pengguna bisa mengunduh cadangan draf manual sebagai
 `cadangan-bikin-cv-taaruf.json`. Perlakukan ini sebagai batasan desain yang
 sengaja — jangan tambahkan pengiriman data ke server tanpa diminta eksplisit
 oleh Amal, karena itu mengubah janji privasi aplikasi ini.
 
-## Dependensi eksternal
+## Dependensi
 
-- jsPDF 2.5.1 (cdnjs) — pembuatan PDF di sisi klien.
-- Google Fonts: Bricolage Grotesque, Public Sans.
+- jsPDF 2.5.1 — pembuatan PDF di sisi klien. Disimpan di repo
+  (`lib/jspdf-2.5.1.umd.min.js`), bukan dari CDN, supaya kode yang berjalan
+  selalu sama dengan yang ada di repo dan PDF tetap bisa dibuat meski CDN
+  bermasalah.
+- Google Fonts: Bricolage Grotesque, Public Sans — dimuat dari server Google.
 
-Keduanya dimuat via CDN langsung di `index.html` — tidak ada `package.json`
-atau proses build.
+Tidak ada `package.json` atau proses build.
 
 ## Lapor ke sesi "Auditor Project"
 
