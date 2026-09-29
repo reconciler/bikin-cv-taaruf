@@ -1,11 +1,11 @@
 # Bikin CV Taaruf
 
-Aplikasi web satu berkas (`index.html`) untuk menyusun CV taaruf dan mengekspornya ke PDF. Versi: **v6**.
+Aplikasi web satu berkas (`index.html`) untuk menyusun CV taaruf dan mengekspornya ke PDF. Versi: **v7**.
 
 ## Cara pakai
 
 - Buka `index.html` langsung di peramban (tanpa instalasi atau build), atau
-- Aktifkan GitHub Pages (Settings → Pages → branch `main`, folder `/`) lalu buka URL yang diberikan.
+- Aktifkan GitHub Pages (Settings → Pages → pilih branch yang berisi `index.html`, folder `/`) lalu buka URL yang diberikan.
 
 ## Catatan teknis
 
