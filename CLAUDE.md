@@ -44,6 +44,22 @@ repo ini). Cari session ID terkini dengan `list_sessions` berdasarkan judul
 kalau sudah tidak valid/berganti nama lagi, cek dulu sebelum asumsi), atau
 tanya Amal langsung.
 
+**Aturan akses berkas** (disetujui Amal, 29 Sep 2026, dipicu insiden nyata di
+repo ini — push sesi PIC dan Auditor ke `main` nyaris bentrok dalam selang
+beberapa menit, non-fast-forward, harus di-rebase. Tidak ada kerusakan, tapi
+push ke `main` langsung tayang di GitHub Pages, jadi penulisan paralel
+berisiko konflik nyata):
+- **Hanya sesi PIC repo ini yang boleh mengubah berkas inti fitur/fungsi**:
+  `index.html`, `lib/`.
+- **Auditor Project boleh mengubah**: `CLAUDE.md`, `AUDIT-HANDOFF-*.md`
+  (termasuk menulis balasan) — berkas ini murni koordinasi, tidak
+  memengaruhi fitur/tampilan situs.
+- **`README.md`** — wilayah abu-abu (dokumentasi pengguna akhir, bukan
+  fitur, tapi juga bukan koordinasi Auditor). Diputuskan: **milik PIC**,
+  disamakan dengan berkas inti — README menjelaskan produk yang sedang
+  dikerjakan PIC, sebaiknya satu tangan dengan perubahan fiturnya. Auditor
+  boleh usulkan perubahan lewat `AUDIT-HANDOFF-*.md`, bukan edit langsung.
+
 **Wajib lapor untuk** (bukan tiap perbaikan kecil — hanya yang signifikan):
 - Perubahan struktur/skema field form yang besar (bukan sekadar tambah
   satu field), perubahan versi (`v7` → berikutnya)
