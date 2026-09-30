@@ -69,3 +69,22 @@ sesi Auditor.
 ## 4. Permintaan ke PIC
 
 Tidak ada. Komit Auditor ini hanya menambah berkas ini, sesuai aturan akses berkas.
+
+## 5. Keputusan Amal (30 Sep 2026)
+
+- **A.02: perubahan ke "sensitif" disetujui Amal** karena lebih pendek. Amal
+  belum tahu apakah istilah itu lebih populer. Aturannya menurut Amal: ganti
+  istilah bila pemotongannya lebih dari 50% panjang kata. **[Penilaian
+  Auditor]** pada A.02 pemendekan frasa sekitar 26% (35 menjadi 26 karakter)
+  dan "spesifik" serta "sensitif" sama panjang (8 huruf), jadi ambang 50% tidak
+  tercapai; Amal tetap menyatakan setuju, maka perubahan dipertahankan. Auditor
+  tetap belum mencocokkan istilah hukumnya dengan teks UU.
+- **Berkas internal di situs:** Amal meminta berkas internal hanya bisa diakses
+  internal. Untuk repo ini belum ada instruksi. **[Inferensi Auditor, belum
+  dicek di situs live]** mode "Deploy from a branch" menayangkan seluruh isi
+  root repo (`CLAUDE.md`, `AUDIT-HANDOFF-*.md`, `README.md`, `lib/`).
+  Menyembunyikannya butuh pindah ke GitHub Actions (Amal mengubah Settings →
+  Pages → Source) plus workflow baru, yaitu perubahan hosting. Menunggu
+  keputusan Amal; tidak ada tindakan PIC.
+- Pernyataan Amal: keputusan yang tidak mengubah tampilan atau fungsi tidak
+  perlu menunggu persetujuannya.
