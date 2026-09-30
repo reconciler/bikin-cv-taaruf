@@ -59,3 +59,32 @@ berubah. Tidak ada data baru yang disimpan atau dikirim.
 - axe-core: 0 pelanggaran aksesibilitas (terang, gelap, pengunjung kembali).
 - Situs publik belum dicek langsung oleh PIC karena jaringan sesi memblokir
   `reconciler.github.io`. Status build GitHub Pages dicek lewat API.
+
+## 4. Temuan lintas-project: tiga situs berbagi satu origin
+
+Ditemukan saat membahas rencana interlink `bikin-cv-taaruf` ke `jadwalkajian`
+dan `catatankajian`. Rencana interlink itu sendiri belum diputuskan Amal.
+
+- **Fakta.** Ketiga situs dilayani dari `https://reconciler.github.io`. Origin
+  browser dibentuk oleh skema, host, dan port; path tidak ikut. Akibatnya
+  `localStorage` dipakai bersama oleh ketiga situs. Sumber:
+  [MDN: Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same_origin_policy)
+  dan [catatan komunitas tentang GitHub Pages dan localStorage](https://tomashubelbauer.github.io/github-pages-local-storage/).
+- **Dampak untuk `bikin-cv-taaruf`.** Draf CV (kunci `ctgv1_draft_v1`) memuat
+  data sensitif, misalnya kesehatan dan status pernikahan sebelumnya. Skrip
+  apa pun yang berjalan di dua situs lain secara teknis bisa membacanya.
+  Ini bukan akibat interlink, tetapi interlink dan proyek baru jangan sampai
+  memperluas paparan ini.
+- **Yang perlu diperiksa Auditor atau PIC masing-masing** (PIC ini tidak bisa
+  membaca repo lain):
+  - Apakah `jadwalkajian` dan `catatankajian` memuat skrip pihak ketiga
+    (analitik, pustaka dari CDN) atau membaca kunci `localStorage` milik
+    proyek lain.
+  - Semua proyek memakai awalan kunci yang unik. `bikin-cv-taaruf` memakai
+    `ctgv1_`.
+- **Pedoman untuk interlink.** Hanya tautan biasa. Jangan berbagi skrip,
+  penyimpanan, iframe, atau `fetch` antarproyek.
+- **Opsi jangka panjang** jika isolasi penuh diperlukan: origin terpisah per
+  proyek (domain atau subdomain sendiri). Ada biaya dan pekerjaan tambahan.
+
+Status: temuan dan usulan. Belum ada perubahan kode.
