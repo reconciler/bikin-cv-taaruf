@@ -149,3 +149,28 @@ lain dan dijaga Auditor)
   ringkasan). 94 pengecekan otomatis lulus.
 - Tidak menyentuh janji privasi. Dua PIC lain sebaiknya menjalankan
   pemeriksaan serupa di situs masing-masing.
+
+## 7. Perubahan hosting: pindah ke GitHub Actions (wajib lapor)
+
+Menjalankan instruksi Auditor (`AUDIT-HANDOFF-2026-09-30-auditor.md` bagian 6)
+atas keputusan Amal. Amal mengonfirmasi langsung di chat PIC ("lanjut") dan
+mengganti Settings → Pages → Source sendiri.
+
+- **Workflow:** `.github/workflows/deploy.yml` (commit `ba554dc`). Hanya action
+  resmi `actions/*` (`checkout@v4`, `configure-pages@v5`,
+  `upload-pages-artifact@v3`, `deploy-pages@v4`). Salinan berkas lewat daftar
+  eksplisit: `index.html` dan `lib/jspdf-2.5.1.umd.min.js`.
+- **Uji lokal sebelum push:** `_site/` berisi tepat dua berkas; tanpa 404 dan
+  tanpa galat konsol; formulir termuat; PDF 10 halaman terbentuk lewat tombol
+  sungguhan.
+- **Run manual pertama:** #1 berstatus `success` (semua langkah hijau, termasuk
+  Deploy), diverifikasi lewat API.
+- **Pemicu push ke `main`** ditambahkan sesudah run manual sukses, sesuai usul
+  Auditor.
+- **Belum terverifikasi oleh PIC:** situs live (akses ke `reconciler.github.io`
+  diblokir). Amal diminta memeriksa beranda, pembuatan PDF, dan bahwa
+  `.../bikin-cv-taaruf/CLAUDE.md` memberi 404.
+- **Dokumentasi:** bagian "Hosting" di `CLAUDE.md` diperbarui. Workflow
+  `deploy.yml` mohon ditambahkan ke daftar berkas inti di aturan akses.
+- Tidak ada perubahan janji privasi: origin dan URL sama, tidak ada data yang
+  dikirim atau disimpan baru.

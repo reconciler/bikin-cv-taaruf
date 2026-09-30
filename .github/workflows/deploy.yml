@@ -4,6 +4,8 @@
 name: Deploy ke GitHub Pages
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:

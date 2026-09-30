@@ -17,9 +17,20 @@ Versi saat ini: **v7**.
 
 ## Hosting
 
-GitHub Pages, mode **"Deploy from a branch"** (`main`) — bukan GitHub
-Actions custom. Push ke `main` langsung terbit, tidak ada build step atau
-workflow tambahan. Tidak ada isu biaya/kredit (GitHub Pages gratis).
+GitHub Pages dengan sumber **GitHub Actions** (sejak 30 Sep 2026, atas
+keputusan Amal). Workflow `.github/workflows/deploy.yml` berjalan di setiap
+push ke `main` dan bisa dijalankan manual. Hanya action resmi `actions/*`.
+Tidak ada build step; workflow hanya menyalin berkas situs ke `_site/`.
+Tidak ada isu biaya/kredit (GitHub Pages gratis).
+
+- **Yang tayang hanya:** `index.html` dan `lib/jspdf-2.5.1.umd.min.js`.
+  `CLAUDE.md`, `AUDIT-HANDOFF-*.md`, dan `README.md` tidak tayang di situs
+  (404). Berkas itu tetap terbaca di repo GitHub karena repo ini publik.
+- **Berkas situs baru harus didaftarkan** di langkah "Salin berkas situs" pada
+  `deploy.yml` (daftar eksplisit, bukan "semua kecuali"). Kalau lupa, berkas
+  itu tidak tayang dan situs memberi 404.
+- **Jika situs rusak:** Amal mengembalikan Settings → Pages → Source ke
+  "Deploy from a branch" (`main`, root). Situs pulih seketika.
 
 ## Data & privasi
 
