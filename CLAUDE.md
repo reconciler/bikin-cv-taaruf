@@ -41,6 +41,44 @@ oleh Amal, karena itu mengubah janji privasi aplikasi ini.
 
 Tidak ada `package.json` atau proses build.
 
+## Gaya bahasa (teks yang dibaca pengguna)
+
+Permintaan Amal (30 Sep 2026): bahasa harus mudah dipahami lulusan SMA dan
+tidak terlalu baku — pakai istilah yang umum dipakai orang Indonesia.
+
+- Istilah: "file" (bukan "berkas"), "browser" (bukan "peramban"), "HP atau
+  laptop" (bukan "perangkat"), "isian" (bukan "draf"), "link" (bukan
+  "tautan"), "fitur PDF" (bukan "pustaka PDF"), "narkoba" (bukan "napza"),
+  "kalau" (bukan "bila"), "bisa" (bukan "dapat"). Jangan tampilkan istilah
+  teknis seperti ".json" di layar; sebut "file cadangan". Nama file
+  `cadangan-bikin-cv-taaruf.json` boleh disebut karena itulah yang terlihat
+  di folder unduhan.
+- Ejaan: **"taaruf"** (tanpa apostrof) di semua teks, sama dengan nama produk
+  dan alamat situs, dan sesuai KBBI daring.
+- Kalimat pendek (paling banyak sekitar 15-20 kata), satu gagasan per
+  kalimat, sebut hal yang spesifik (nama tombol, angka, nama file). Hal
+  terpenting ditaruh paling awal.
+- Tetap pakai "Anda" (sopan dan konsisten di seluruh aplikasi).
+- Isi PDF (dokumen untuk pihak lain) sengaja tetap formal. Ubah hanya bila
+  diminta.
+
+## Halaman depan (catatan desain)
+
+Ditulis ulang 30 Sep 2026 setelah ulasan copywriting dan UX. Jangan dikembalikan
+ke bentuk lama tanpa alasan kuat:
+
+- Judul menyebut hasil (satu file PDF siap kirim), bukan nama produk. Tiga
+  poin utama saja; sisanya di "Selengkapnya".
+- Tombol utama **selalu aktif**. Kalau isian awal belum lengkap, petunjuk di
+  sebelah tombol menyebut apa yang kurang, dan klik akan memunculkan pesan di
+  dekat isian yang kurang. Tidak memakai tombol nonaktif karena kontrasnya
+  buruk dan pengguna tidak tahu sebabnya.
+- Pengunjung yang kembali hanya melihat satu tombol utama ("Lanjutkan
+  isian"); kartu mulai disembunyikan.
+- "Pintu masuk" = jenis kelamin dipilih dan dua pernyataan dicentang
+  (`gateOK()`). Isian dari draf atau file cadangan yang belum lolos pintu ini
+  dikembalikan ke halaman depan, tidak langsung masuk formulir.
+
 ## Lapor ke sesi "Auditor Project"
 
 Amal menugaskan satu sesi Claude terpisah sebagai auditor lintas-project
