@@ -68,7 +68,7 @@ dan `catatankajian`. Rencana interlink itu sendiri belum diputuskan Amal.
 - **Fakta.** Ketiga situs dilayani dari `https://reconciler.github.io`. Origin
   browser dibentuk oleh skema, host, dan port; path tidak ikut. Akibatnya
   `localStorage` dipakai bersama oleh ketiga situs. Sumber:
-  [MDN: Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same_origin_policy)
+  [MDN: Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy)
   dan [catatan komunitas tentang GitHub Pages dan localStorage](https://tomashubelbauer.github.io/github-pages-local-storage/).
 - **Dampak untuk `bikin-cv-taaruf`.** Draf CV (kunci `ctgv1_draft_v1`) memuat
   data sensitif, misalnya kesehatan dan status pernikahan sebelumnya. Skrip
