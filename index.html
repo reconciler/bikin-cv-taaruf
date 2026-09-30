@@ -98,6 +98,14 @@ button.tag{cursor:pointer}
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:600px){.menupanel{position:fixed;left:16px;right:16px;top:60px;width:auto}}
 .menupanel .mnote{font-size:.75rem;color:var(--muted);line-height:1.4}
+.menupanel{max-height:calc(100vh - 76px);max-height:calc(100dvh - 76px);overflow:auto;overscroll-behavior:contain}
+.mgroup{display:grid;gap:8px}
+.mgroup+.mgroup{border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
+.mgroup.links{gap:0}
+.mhead{margin:0 0 4px;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mline{display:flex;flex-wrap:wrap;align-items:center;gap:4px;min-height:44px;font-size:.9375rem}
+.mlink{display:flex;align-items:center;min-height:44px;font-size:.9375rem}
+.mline a,.mlink{color:var(--accent);font-weight:600;text-underline-offset:3px}
 
 /* progress */
 .meter{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:8px}
@@ -274,6 +282,15 @@ const PDF_NOTE='Dokumen ini untuk pihak yang dituju. Mohon tidak disebarluaskan.
 const PRODUCT_NAME='Bikin CV Taaruf';
 // Alamat situs publik (tanpa https://); dicetak sebagai tautan di footer PDF. Kosong = tidak dicetak.
 const SITE_DOMAIN='reconciler.github.io/bikin-cv-taaruf';
+// Tautan di menu "Tentang". Daftar proyek saudara harus sama dengan CLAUDE.md (dijaga Auditor).
+const ABOUT={
+  owner:{name:'@amalwoodworking',url:'https://www.instagram.com/amalwoodworking/'},
+  source:{name:'Kode sumber di GitHub',url:'https://github.com/reconciler/bikin-cv-taaruf'},
+  others:[
+    {name:'Jadwal Kajian',url:'https://reconciler.github.io/jadwalkajian/'},
+    {name:'Catatan Kajian',url:'https://reconciler.github.io/catatankajian/'}
+  ]
+};
 const DRAFT_KEY='ctgv1_draft_v1';
 const DL_FAIL='Unduhan gagal. Coba buka halaman ini di Chrome atau browser lain.';
 const SEC_INTRO={
@@ -856,20 +873,36 @@ async function genPdf(){
 
 /* ---------- screens ---------- */
 let navOpen=false;
+/* tautan ke luar dibuka di tab baru tanpa referrer, supaya asal kunjungan (aplikasi ini) tidak ikut terkirim */
+function extLink(a,text,cls,hidden){ return h('a',{class:cls||null,href:a.url,target:'_blank',rel:'noopener noreferrer'},text,h('span',{class:'sr'},hidden)); }
+function aboutGroups(){
+  return [
+    h('div',{class:'mgroup links'},
+      h('p',{class:'mhead'},'Tentang'),
+      h('p',{class:'mline'},'Dibuat oleh',extLink(ABOUT.owner,ABOUT.owner.name,null,' di Instagram (buka di tab baru)')),
+      extLink(ABOUT.source,ABOUT.source.name,'mlink',' (buka di tab baru)')),
+    h('div',{class:'mgroup links'},
+      h('p',{class:'mhead'},'Proyek lain'),
+      ABOUT.others.map(o=>h('a',{class:'mlink',href:o.url},o.name)))
+  ];
+}
 function renderTop(){
   const t=$('#topr'); t.innerHTML='';
   const g=S.d['B.03'];
   const panel=h('div',{class:'menupanel'},
-    h('div',{class:'mstat',id:'storagetag'},storageTagText()),
-    S.stage==='form'?h('div',{class:'mstat',id:'backupstat'},backupStatusText()):null,
-    S.stage==='form'?h('button',{type:'button',class:'btn',onclick:manualBackup},'Unduh cadangan sekarang'):null,
-    fileLoadButton('Buka file cadangan','btn'),
-    S.stage==='form'?h('button',{type:'button',class:'btn',onclick:()=>{ S.stage='landing'; render(); window.scrollTo(0,0); }},'Ubah jenis kelamin ('+(g||'-')+')'):null,
-    h('p',{class:'mnote'},'File cadangan ikut terunduh otomatis saat Anda mengisi. Kalau ada banyak, pakai yang paling baru.'),
-    hasAnyDraft()?h('button',{type:'button',class:'linkbtn',style:'justify-self:start',onclick:confirmReset},'Mulai dari awal (hapus isian)'):null);
+    h('div',{class:'mgroup'},
+      h('p',{class:'mhead'},'Data & cadangan'),
+      h('div',{class:'mstat',id:'storagetag'},storageTagText()),
+      S.stage==='form'?h('div',{class:'mstat',id:'backupstat'},backupStatusText()):null,
+      S.stage==='form'?h('button',{type:'button',class:'btn',onclick:manualBackup},'Unduh cadangan sekarang'):null,
+      fileLoadButton('Buka file cadangan','btn'),
+      S.stage==='form'?h('button',{type:'button',class:'btn',onclick:()=>{ S.stage='landing'; render(); window.scrollTo(0,0); }},'Ubah jenis kelamin ('+(g||'-')+')'):null,
+      h('p',{class:'mnote'},'File cadangan ikut terunduh otomatis saat Anda mengisi. Kalau ada banyak, pakai yang paling baru.'),
+      hasAnyDraft()?h('button',{type:'button',class:'linkbtn',style:'justify-self:start',onclick:confirmReset},'Mulai dari awal (hapus isian)'):null),
+    aboutGroups());
   const gc=S.stage==='form'?GV():null;
   if(gc) t.append(h('span',{class:'gbadge',id:'gbadge'},gc==='A'?'AKHWAT':'IKHWAN'));
-  t.append(h('details',{class:'menu'},h('summary',{class:'tag'},'Data & cadangan'),panel));
+  t.append(h('details',{class:'menu'},h('summary',{class:'tag'},'Menu'),panel));
 }
 function renderNav(){
   const wrap=$('#secnavwrap'); wrap.hidden=false; wrap.innerHTML='';
@@ -895,7 +928,7 @@ const KEY_POINTS=[
 const MORE_POINTS=[
   'Tidak ada pertanyaan tentang nama anggota keluarga, alamat lengkap, atau tanggal lahir lengkap.',
   'Tidak ada fitur unggah dokumen.',
-  'Mau lanjut di HP atau laptop lain? Unduh file cadangan, lalu buka di sana lewat menu "Data & cadangan". File cadangan juga terunduh otomatis saat Anda mengisi.'
+  'Mau lanjut di HP atau laptop lain? Unduh file cadangan lewat "Menu" saat mengisi, lalu buka file itu di sana. File cadangan juga terunduh otomatis.'
 ];
 const GATE_IDS=['B.03','A.01','A.02'];
 function hasWork(){ return !!resumeOffer || Object.keys(S.d).some(k=>!GATE_IDS.includes(k)); } /* ada isian di luar pilihan awal yang bisa tertimpa */
@@ -1096,6 +1129,7 @@ $('#dlgreset-bk').addEventListener('click',()=>{ manualBackup(Object.keys(S.d).l
 document.addEventListener('input',e=>markVal(e.target));
 document.addEventListener('change',e=>markVal(e.target));
 document.addEventListener('click',e=>{ document.querySelectorAll('details.menu[open]').forEach(d=>{ if(!d.contains(e.target)) d.open=false; }); });
+document.addEventListener('keydown',e=>{ if(e.key!=='Escape') return; const d=document.querySelector('details.menu[open]'); if(!d) return; d.open=false; const s=d.querySelector('summary'); if(s) s.focus(); });
 })();
 </script>
 

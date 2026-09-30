@@ -79,6 +79,32 @@ ke bentuk lama tanpa alasan kuat:
   (`gateOK()`). Isian dari draf atau file cadangan yang belum lolos pintu ini
   dikembalikan ke halaman depan, tidak langsung masuk formulir.
 
+## Menu "Tentang" dan tautan antarproyek (catatan desain)
+
+Ditambahkan 30 Sep 2026 atas permintaan Amal. Polanya dimaksudkan bisa dipakai
+ulang di `jadwalkajian` dan `catatankajian`.
+
+- **Satu akordeon "Menu" di header**, bukan pil tambahan. Diukur dengan font
+  asli di lebar 320 sampai 1280 px: dua pil membuat header pecah dua baris di
+  ponsel, satu pil tidak. Tinggi header harus tetap 44 px.
+- **Isi berurutan:** Data & cadangan (khusus proyek ini), Tentang (Dibuat oleh
+  dengan tautan Instagram, kode sumber di GitHub), Proyek lain (semua proyek
+  saudara). **Tanpa deskripsi singkat** (permintaan Amal).
+- **Aturan:** hanya tautan biasa. Tanpa skrip, penyimpanan, `fetch`, iframe,
+  atau parameter pelacak yang dibagi antarproyek (ketiga situs satu origin;
+  lihat `AUDIT-HANDOFF-2026-09-30.md` bagian 4). Tautan ke luar (Instagram,
+  GitHub) dibuka di tab baru dengan `rel="noopener noreferrer"` supaya asal
+  kunjungan tidak terkirim. Proyek saudara dibuka di tab yang sama. Menu
+  menutup dengan klik di luar dan tombol Esc.
+- **Daftar resmi** ada di konstanta `ABOUT` di `index.html` dan harus sama
+  dengan daftar ini:
+  - Pembuat: `@amalwoodworking`, https://www.instagram.com/amalwoodworking/
+  - Jadwal Kajian: https://reconciler.github.io/jadwalkajian/
+  - Catatan Kajian: https://reconciler.github.io/catatankajian/
+  - Kode sumber proyek ini: https://github.com/reconciler/bikin-cv-taaruf
+- Tautan langsung di header dua proyek lain (pil dan spanduk) boleh tetap,
+  tetapi sebaiknya distandarkan ke satu bentuk.
+
 ## Lapor ke sesi "Auditor Project"
 
 Amal menugaskan satu sesi Claude terpisah sebagai auditor lintas-project

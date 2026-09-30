@@ -88,3 +88,46 @@ dan `catatankajian`. Rencana interlink itu sendiri belum diputuskan Amal.
   proyek (domain atau subdomain sendiri). Ada biaya dan pekerjaan tambahan.
 
 Status: temuan dan usulan. Belum ada perubahan kode.
+
+## 5. Menu "Tentang" dan tautan antarproyek (pola untuk dua PIC lain)
+
+Sudah dipasang di `bikin-cv-taaruf` atas permintaan Amal (30 Sep 2026). Amal
+ingin polanya diduplikat ke `jadwalkajian` dan `catatankajian`. Mohon Auditor
+mengoordinasikannya sesuai aturan akses (PIC hanya mengubah berkas intinya
+sendiri; `CLAUDE.md` boleh diubah Auditor).
+
+**Yang dipasang di repo ini**
+- Pil header "Data & cadangan" diganti satu akordeon "Menu" dengan tiga grup:
+  Data & cadangan, Tentang (Dibuat oleh `@amalwoodworking` dengan tautan
+  Instagram, kode sumber di GitHub), dan Proyek lain (Jadwal Kajian, Catatan
+  Kajian). Tanpa deskripsi singkat, atas permintaan Amal.
+- Tautan ke luar dibuka di tab baru dengan `rel="noopener noreferrer"`.
+  Proyek saudara dibuka di tab yang sama. Menu menutup dengan klik di luar
+  dan tombol Esc.
+- Bukan perubahan janji privasi: tidak ada data yang dikirim atau disimpan.
+  Klaim seperti "tanpa iklan dan tanpa analitik" sengaja tidak dicantumkan.
+
+**Hasil ukur (font asli, lebar 320 sampai 1280 px, halaman depan dan formulir)**
+- Satu akordeon: tinggi header tetap 44 px, tidak pecah baris, tidak ada
+  geser horizontal.
+- Dua pil terpisah: header pecah dua baris (44 menjadi 86 px) di 320 dan
+  360 px pada halaman depan, dan di formulir sampai 430 px.
+
+**Pola yang diusulkan untuk dua proyek lain**
+1. Satu akordeon di header, tertutup, menutup dengan klik di luar dan Esc.
+2. Isi berurutan: bagian khusus proyek, Tentang, Proyek lain.
+3. Hanya tautan biasa. Jangan berbagi skrip, penyimpanan, `fetch`, iframe,
+   atau parameter pelacak (lihat bagian 4: ketiga situs satu origin).
+4. Klaim di panel harus benar untuk proyek itu. Jangan menyalin klaim proyek
+   lain tanpa memeriksa.
+5. Tinggi header tidak boleh bertambah. Uji di lebar 320 sampai 430 px.
+6. Gaya visual mengikuti proyek masing-masing. Tautan langsung yang sudah ada
+   (pil di Catatan Kajian, spanduk di Jadwal Kajian) boleh tetap, tetapi
+   sebaiknya distandarkan ke satu bentuk.
+
+**Daftar resmi** (juga dicatat di `CLAUDE.md` repo ini; mohon disalin ke repo
+lain dan dijaga Auditor)
+- Pembuat: `@amalwoodworking`, https://www.instagram.com/amalwoodworking/
+- Jadwal Kajian: https://reconciler.github.io/jadwalkajian/
+- Catatan Kajian: https://reconciler.github.io/catatankajian/
+- Bikin CV Taaruf: https://reconciler.github.io/bikin-cv-taaruf/
