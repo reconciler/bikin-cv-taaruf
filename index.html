@@ -411,12 +411,12 @@ function setD(id,v){ S.d[id]=v; changed(id); if(CTRL.has(id)&&S.stage==='form') 
 function selectControl(f,opts,getV,setV){
   const short=opts.length<=4&&opts.every(o=>o.length<=26);
   if(short){
-    const wrap=h('div',{class:'pills',role:'radiogroup'}); const btns=[];
+    const wrap=h('div',{class:'pills',role:'radiogroup','aria-labelledby':'lt-'+f.id,'aria-required':f.req?'true':null}); const btns=[];
     const refresh=()=>btns.forEach(b=>b.setAttribute('aria-pressed',String(getV()===b.dataset.v)));
     opts.forEach(o=>{ const b=h('button',{type:'button',class:'pill','data-v':o,'aria-pressed':'false'},o); b.addEventListener('click',()=>{ setV(getV()===o?'':o); refresh(); }); btns.push(b); wrap.append(b); });
     refresh(); return wrap;
   }
-  const sel=h('select',{'aria-labelledby':'lb-'+f.id}); sel.append(h('option',{value:''},'Pilih...'));
+  const sel=h('select',{'aria-labelledby':'lt-'+f.id,'aria-required':f.req?'true':null}); sel.append(h('option',{value:''},'Pilih...'));
   opts.forEach(o=>sel.append(h('option',{value:o},o))); sel.value=getV()||'';
   sel.addEventListener('change',()=>setV(sel.value)); return sel;
 }
@@ -427,7 +427,7 @@ function buildListControl(f){
   function redraw(){
     const arr=getArr(); wrap.innerHTML='';
     arr.forEach((val,i)=>{
-      const inp=h('input',{type:'text',maxlength:itemMax,placeholder:'Butir '+(i+1)+(f.extra.ph?(' - '+f.extra.ph):'')});
+      const inp=h('input',{type:'text',maxlength:itemMax,'aria-label':f.label+', butir '+(i+1),placeholder:'Butir '+(i+1)+(f.extra.ph?(' - '+f.extra.ph):'')});
       inp.value=val;
       inp.addEventListener('input',()=>{ const a=getArr(); a[i]=inp.value; S.d[f.id]=a; changed(f.id); });
       const rm=h('button',{type:'button',class:'tag plain',onclick:()=>{ const a=getArr(); a.splice(i,1); S.d[f.id]=a; changed(f.id); redraw(); }},'Hapus');
@@ -455,12 +455,12 @@ function buildTableControl(f){
         const cell=h('div',{class:'cell'}); cell.append(h('label',{class:'celllbl'},col.label));
         let ctl;
         if(col.type==='select'){
-          ctl=h('select',null); ctl.append(h('option',{value:''},'Pilih...'));
+          ctl=h('select',{'aria-label':col.label+', baris '+(ri+1)}); ctl.append(h('option',{value:''},'Pilih...'));
           (col.opts||[]).forEach(o=>ctl.append(h('option',{value:o},o)));
           ctl.value=row[col.key]||'';
           ctl.addEventListener('change',()=>{ const a=getRows(); a[ri][col.key]=ctl.value; S.d[f.id]=a; changed(f.id); });
         } else {
-          ctl=h('input',{type:'text',maxlength:col.maxlen||60}); ctl.value=row[col.key]||'';
+          ctl=h('input',{type:'text',maxlength:col.maxlen||60,'aria-label':col.label+', baris '+(ri+1)}); ctl.value=row[col.key]||'';
           ctl.addEventListener('input',()=>{ const a=getRows(); a[ri][col.key]=ctl.value; S.d[f.id]=a; changed(f.id); });
         }
         cell.append(ctl); grid.append(cell);
@@ -551,11 +551,22 @@ function buildControl(f){
   }
   return h('div');
 }
+/* beri nama yang terbaca pembaca layar pada kolom isian yang belum punya label atau aria-label */
+function nameControls(el,f){
+  if(f.type==='check') return;
+  el.querySelectorAll('input,textarea,select').forEach(c=>{
+    if(c.type==='checkbox'||c.type==='file') return;
+    if(c.hasAttribute('aria-label')||c.hasAttribute('aria-labelledby')||(c.labels&&c.labels.length)) return;
+    c.setAttribute('aria-labelledby','lt-'+f.id);
+    if(f.req) c.setAttribute('aria-required','true');
+  });
+}
 function buildField(f){
   const el=h('div',{class:'fld',id:'f-'+f.id});
-  if(f.type!=='check') el.append(h('div',{class:'lbl',id:'lb-'+f.id},h('span',null,f.label),f.req?h('span',{class:'fstat'}):null));
+  if(f.type!=='check') el.append(h('div',{class:'lbl',id:'lb-'+f.id},h('span',{id:'lt-'+f.id},f.label),f.req?h('span',{class:'fstat'}):null));
   if(f.type==='number'&&f.extra.unit) el.append(h('div',{class:'hint'},'Angka saja, dalam '+f.extra.unit+'.'));
   el.append(buildControl(f));
+  nameControls(el,f);
   el.append(h('div',{class:'err',hidden:true,id:'er-'+f.id},'Lengkapi isian ini.'));
   setTimeout(()=>refreshFieldState(f),0);
   return el;
@@ -1053,6 +1064,7 @@ function actionBar(secId){
 function renderSectionBody(main,secId){
   const sec=SECTIONS.find(s=>s.id===secId); const st=sectionStatus(secId);
   const mode=VIEW[secId]=viewOf(secId);
+  main.append(h('h1',{class:'sr'},'Isi CV taaruf'));
   main.append(h('div',{class:'sechead'},
     h('div',null,h('h2',null,sec.title),h('p',{class:'lead'},SEC_INTRO[secId]||'')),
     h('span',{class:'stag'+(st.done?'':' todo'),id:'sectag'},st.done?'Lengkap':(st.doneCount+' dari '+st.total+' wajib'))));
