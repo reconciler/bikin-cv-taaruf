@@ -72,19 +72,55 @@ Tidak ada. Komit Auditor ini hanya menambah berkas ini, sesuai aturan akses berk
 
 ## 5. Keputusan Amal (30 Sep 2026)
 
-- **A.02: perubahan ke "sensitif" disetujui Amal** karena lebih pendek. Amal
-  belum tahu apakah istilah itu lebih populer. Aturannya menurut Amal: ganti
-  istilah bila pemotongannya lebih dari 50% panjang kata. **[Penilaian
-  Auditor]** pada A.02 pemendekan frasa sekitar 26% (35 menjadi 26 karakter)
-  dan "spesifik" serta "sensitif" sama panjang (8 huruf), jadi ambang 50% tidak
-  tercapai; Amal tetap menyatakan setuju, maka perubahan dipertahankan. Auditor
-  tetap belum mencocokkan istilah hukumnya dengan teks UU.
-- **Berkas internal di situs:** Amal meminta berkas internal hanya bisa diakses
-  internal. Untuk repo ini belum ada instruksi. **[Inferensi Auditor, belum
-  dicek di situs live]** mode "Deploy from a branch" menayangkan seluruh isi
-  root repo (`CLAUDE.md`, `AUDIT-HANDOFF-*.md`, `README.md`, `lib/`).
-  Menyembunyikannya butuh pindah ke GitHub Actions (Amal mengubah Settings →
-  Pages → Source) plus workflow baru, yaitu perubahan hosting. Menunggu
-  keputusan Amal; tidak ada tindakan PIC.
+- **A.02: perubahan ke "sensitif" disetujui Amal** karena lebih pendek. Aturan
+  Amal untuk penggantian istilah (direvisi 30 Sep 2026, membatalkan ambang
+  50%): ganti selama hasilnya lebih pendek dan lebih populer. **[Penilaian
+  Auditor]** "sensitif" lebih umum dipakai sehari-hari daripada "spesifik";
+  belum dicek ke sumber. Pemendekan frasa A.02 sekitar 26% (35 menjadi 26
+  karakter). Auditor tetap belum mencocokkan istilah hukumnya dengan teks UU.
+- **Berkas internal di situs:** Amal memutuskan **lanjut** pindah ke GitHub
+  Actions supaya berkas internal tidak tayang (bagian 6). **[Inferensi Auditor,
+  belum dicek di situs live]** mode "Deploy from a branch" saat ini menayangkan
+  seluruh isi root repo (`CLAUDE.md`, `AUDIT-HANDOFF-*.md`, `README.md`, `lib/`).
 - Pernyataan Amal: keputusan yang tidak mengubah tampilan atau fungsi tidak
   perlu menunggu persetujuannya.
+
+## 6. Instruksi: pindah hosting ke GitHub Actions (disetujui Amal, 30 Sep 2026)
+
+Tujuan: hanya `index.html` dan `lib/jspdf-2.5.1.umd.min.js` yang tayang.
+Berkas lain (`CLAUDE.md`, `AUDIT-HANDOFF-*.md`, `README.md`) tidak.
+
+Urutan (Settings hanya bisa diubah Amal; sesi PIC dan Auditor tidak bisa):
+1. **PIC menyiapkan workflow** di `.github/workflows/` mengikuti pola
+   `catatankajian/.github/workflows/deploy.yml`: `permissions` (`contents: read`,
+   `pages: write`, `id-token: write`), `concurrency` grup `pages`, langkah
+   `checkout`, salin berkas situs ke `_site/`, `configure-pages@v5`,
+   `upload-pages-artifact@v3` dengan `path: _site`, `deploy-pages@v4`. Hanya
+   action resmi `actions/*`.
+   - Salin lewat daftar eksplisit (bukan "semua kecuali"), supaya berkas baru
+     tidak tayang tanpa sengaja. Catat di `CLAUDE.md` bahwa berkas situs baru
+     harus ditambahkan ke daftar itu.
+   - **[Usulan Auditor]** Push pertama hanya dengan pemicu `workflow_dispatch`,
+     supaya tidak ada run merah selagi Source masih "Deploy from a branch"
+     (perilaku run itu belum Auditor verifikasi). Pemicu `push` ke `main`
+     ditambahkan di commit berikutnya, setelah run manual pertama sukses.
+2. **PIC menguji `_site/` secara lokal** di Chromium headless: `_site/` hanya
+   berisi dua berkas di atas, formulir termuat, PDF terbentuk, tanpa 404 dan
+   tanpa galat konsol.
+3. **PIC memberi tahu Amal** di chat bahwa workflow siap. **Amal mengganti**
+   Settings → Pages → Source ke "GitHub Actions".
+4. **PIC menjalankan workflow manual** segera setelah Source diganti, lalu
+   memverifikasi run `success` lewat API. Sesudah itu tambahkan pemicu `push`.
+5. **Amal memeriksa di browser** (PIC tidak bisa mengakses situs live): beranda
+   termuat, PDF terbentuk, dan `.../bikin-cv-taaruf/CLAUDE.md` menghasilkan 404.
+6. **Bila situs rusak:** Amal mengembalikan Source ke "Deploy from a branch"
+   (`main`, root). Pemulihan langsung.
+7. **PIC memperbarui** bagian "Hosting" di `CLAUDE.md` (saat ini menyebut
+   "bukan GitHub Actions custom" dan "tidak ada workflow") dan mencatat
+   perubahan hosting ini di handoff PIC, karena termasuk daftar wajib lapor.
+   Auditor lalu menambahkan workflow itu ke daftar berkas inti di aturan akses.
+
+Batasan: berkas tetap terbaca di repo GitHub-nya (status publik atau privat
+repo belum Auditor verifikasi), dan cache mesin pencari bisa bertahan. Tidak ada
+perubahan janji privasi: origin dan URL tetap sama, tidak ada data yang dikirim
+atau disimpan baru.
