@@ -201,7 +201,19 @@ dl.sum{margin:0}
 
 /* landing */
 .hero{display:grid;gap:10px;margin-bottom:16px}
-.closure ul{margin:8px 0 0;padding-left:20px;display:grid;gap:6px}
+.hero .lead{color:var(--ink);font-size:1.0625rem}
+.points{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:10px}
+.points li{display:flex;gap:10px;align-items:flex-start;line-height:1.45}
+.points .ck{flex:none;width:22px;height:22px;margin-top:1px;border-radius:99px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.stephead{font-size:1.1rem;margin:0 0 8px}
+.more{margin:8px 0 0}
+.more>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:.9375rem;font-weight:600;color:var(--accent);list-style:none}
+.more>summary::-webkit-details-marker{display:none}
+.more>summary::after{content:"";width:7px;height:7px;margin:-3px 0 0 9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s}
+.more[open]>summary::after{margin-top:3px;transform:rotate(-135deg)}
+.more ul{margin:0 0 4px;padding-left:20px;display:grid;gap:6px;font-size:.9375rem}
+.restore{margin:2px 0 0}
+.starthint{flex:1;min-width:0;font-size:.8125rem;line-height:1.35;color:var(--muted)}
 .draftbox{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--accent-soft);border-radius:12px;padding:12px 14px;margin-bottom:14px}
 .genrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 
@@ -240,8 +252,8 @@ dl.sum{margin:0}
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <dialog class="confirm" id="dlgreset" aria-labelledby="dlgreset-t">
-  <h2 id="dlgreset-t">Hapus draf dan mulai dari awal?</h2>
-  <p>Semua isian yang tersimpan di perangkat ini akan dihapus dan tidak bisa dikembalikan. Berkas cadangan (.json) yang sudah terunduh tidak ikut terhapus.</p>
+  <h2 id="dlgreset-t">Hapus semua isian dan mulai dari awal?</h2>
+  <p>Semua isian yang tersimpan di HP atau laptop ini akan dihapus dan tidak bisa dikembalikan. File cadangan yang sudah terunduh tidak ikut terhapus.</p>
   <div class="drow">
     <button type="button" class="btn" id="dlgreset-bk">Unduh cadangan dulu</button>
     <button type="button" class="btn" id="dlgreset-no" autofocus>Batal</button>
@@ -253,7 +265,7 @@ dl.sum{margin:0}
 <script>
 (function(){
 'use strict';
-const SCHEMA = {"fields": [{"id": "A.01", "sec": "A", "label": "Saya mengisi data ini secara sukarela dan dengan kesadaran penuh, untuk keperluan ta'aruf.", "type": "check", "req": true, "extra": {}}, {"id": "A.02", "sec": "A", "label": "Saya memahami dokumen ini dapat memuat data pribadi yang bersifat spesifik (mis. kesehatan, status pernikahan sebelumnya) dan menyetujui data ini dibagikan kepada pihak yang saya tuju sendiri.", "type": "check", "req": true, "extra": {}}, {"id": "B.01", "sec": "B", "label": "Nama lengkap", "type": "text", "req": true, "extra": {"maxlen": 60}, "grp": "Identitas"}, {"id": "B.02", "sec": "B", "label": "Nama panggilan", "type": "text", "req": true, "extra": {"maxlen": 30}}, {"id": "B.03", "sec": "B", "label": "Jenis kelamin", "type": "select", "req": true, "extra": {"opts": ["Ikhwan", "Akhwat"]}}, {"id": "B.04", "sec": "B", "label": "Tempat lahir", "type": "text", "req": false, "extra": {"maxlen": 40}}, {"id": "B.05", "sec": "B", "label": "Tahun lahir", "type": "number", "req": true, "extra": {"min": 1950, "max": 2010, "ph": "Contoh: 1995"}}, {"id": "B.06", "sec": "B", "label": "Manhaj / mazhab yang diikuti (jika ada)", "type": "selectText", "req": false, "extra": {"opts": ["Sunni", "Syiah", "Sufi", "Lainnya / campuran"], "ph": "Opsional, detail lebih spesifik", "txtMax": 40}, "grp": "Latar belakang dan status"}, {"id": "B.07", "sec": "B", "label": "Suku (ayah - ibu)", "type": "text", "req": true, "extra": {"maxlen": 40, "ph": "Contoh: Sunda - Jawa"}}, {"id": "B.08", "sec": "B", "label": "Status pernikahan", "type": "select", "req": true, "extra": {"optsByGender": {"I": ["Perjaka", "Duda (cerai)", "Duda (ditinggal wafat pasangan)"], "A": ["Gadis", "Janda (cerai)", "Janda (ditinggal wafat suami)"]}}}, {"id": "B.09", "sec": "B", "label": "Izin / restu orang tua atau wali untuk menikah", "type": "select", "req": true, "extra": {"opts": ["Sudah ada", "Belum ada"]}}, {"id": "B.10", "sec": "B", "label": "Kewarganegaraan", "type": "text", "req": false, "extra": {"maxlen": 30, "ph": "Boleh dikosongkan"}}, {"id": "B.11", "sec": "B", "label": "Bahasa yang dikuasai", "type": "text", "req": false, "extra": {"maxlen": 80, "ph": "Contoh: Indonesia, Sunda, Inggris (aktif)"}}, {"id": "C.02", "sec": "C", "label": "Kota / kabupaten domisili", "type": "text", "req": true, "extra": {"maxlen": 40}, "grp": "Domisili dan asal"}, {"id": "C.03", "sec": "C", "label": "Kota asal", "type": "text", "req": true, "extra": {"maxlen": 40, "ph": "Kota/kabupaten asal keluarga"}}, {"id": "C.06", "sec": "C", "label": "Kontak untuk tindak lanjut", "type": "text", "req": false, "extra": {"maxlen": 60, "ph": "Nomor WhatsApp, email, atau kontak wali"}, "grp": "Kontak"}, {"id": "C.10", "sec": "C", "label": "Akun media sosial", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Contoh: Instagram @namaakun", "noneOpt": "Tidak aktif di media sosial"}}, {"id": "D.01", "sec": "D", "label": "Tinggi badan (cm)", "type": "number", "req": true, "extra": {"min": 100, "max": 230, "unit": "cm"}, "grp": "Fisik"}, {"id": "D.02", "sec": "D", "label": "Berat badan (kg)", "type": "number", "req": true, "extra": {"min": 30, "max": 200, "unit": "kg"}}, {"id": "D.03", "sec": "D", "label": "Golongan darah", "type": "select", "req": false, "extra": {"opts": ["A", "B", "AB", "O", "Tidak tahu"]}}, {"id": "D.04", "sec": "D", "label": "Warna kulit", "type": "text", "req": false, "extra": {"maxlen": 30}}, {"id": "D.05", "sec": "D", "label": "Warna & tipe rambut", "type": "text", "req": false, "extra": {"maxlen": 40, "ph": "Contoh: hitam, lurus"}}, {"id": "D.06", "sec": "D", "label": "Warna & bentuk mata", "type": "text", "req": false, "extra": {"maxlen": 40}}, {"id": "D.07", "sec": "D", "label": "Bentuk fisik / ciri khas", "type": "text", "req": false, "extra": {"maxlen": 60}}, {"id": "D.08", "sec": "D", "label": "Riwayat penyakit yang pernah / sedang diderita", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 3, "ph": "Cukup kondisi yang berpengaruh pada kehidupan rumah tangga. Tulis 'tidak ada' bila tidak ada"}, "grp": "Kesehatan"}, {"id": "D.09", "sec": "D", "label": "Cacat fisik / disabilitas", "type": "text", "req": true, "extra": {"maxlen": 100, "ph": "Tulis 'tidak ada' bila tidak ada"}}, {"id": "D.12", "sec": "D", "label": "Kebiasaan merokok / alkohol / napza", "type": "selectText", "req": true, "extra": {"opts": ["Tidak pernah", "Sudah berhenti", "Merokok", "Vape", "Konsumsi lain (jelaskan)"], "ph": "Opsional, detail (mis. jumlah per hari, target berhenti)", "txtMax": 80}, "grp": "Kebiasaan"}, {"id": "D.13", "sec": "D", "label": "Pola makan / diet (kepatuhan halal)", "type": "text", "req": false, "extra": {"maxlen": 80}}, {"id": "D.14", "sec": "D", "label": "Pola tidur", "type": "text", "req": false, "extra": {"maxlen": 80, "ph": "Contoh: tidur 22.00, bangun 03.30"}}, {"id": "E.01", "sec": "E", "label": "Riwayat pendidikan formal", "type": "table", "req": true, "extra": {"cols": [{"key": "jenjang", "label": "Jenjang", "type": "select", "opts": ["SD/MI", "SMP/MTs", "SMA/SMK/MA", "D1-D4", "S1", "S2", "S3"]}, {"key": "institusi", "label": "Nama institusi", "type": "text"}, {"key": "jurusan", "label": "Jurusan", "type": "text"}, {"key": "masuk", "label": "Tahun masuk", "type": "text", "w": 70}, {"key": "lulus", "label": "Tahun lulus", "type": "text", "w": 70}], "minRows": 1, "maxRows": 8}}, {"id": "E.02", "sec": "E", "label": "Pendidikan agama / non-formal", "type": "table", "req": false, "extra": {"cols": [{"key": "program", "label": "Program", "type": "text"}, {"key": "lembaga", "label": "Lembaga", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6, "ph": "Contoh: pesantren, halaqah, program hifz"}}, {"id": "E.03", "sec": "E", "label": "Pelatihan / sertifikasi", "type": "table", "req": false, "extra": {"cols": [{"key": "nama", "label": "Nama pelatihan", "type": "text"}, {"key": "penyelenggara", "label": "Penyelenggara", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6}}, {"id": "F.01", "sec": "F", "label": "Pekerjaan / profesi saat ini", "type": "text", "req": true, "extra": {"maxlen": 80, "ph": "Jabatan dan bidang"}, "grp": "Pekerjaan saat ini"}, {"id": "F.02", "sec": "F", "label": "Deskripsi pekerjaan (tugas, hari dan jam kerja)", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "F.03", "sec": "F", "label": "Riwayat pekerjaan sebelumnya", "type": "table", "req": false, "extra": {"cols": [{"key": "instansi", "label": "Instansi / usaha", "type": "text"}, {"key": "jabatan", "label": "Jabatan", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6}, "grp": "Pengalaman"}, {"id": "F.04", "sec": "F", "label": "Pengalaman organisasi", "type": "table", "req": false, "extra": {"cols": [{"key": "organisasi", "label": "Nama organisasi", "type": "text"}, {"key": "jabatan", "label": "Jabatan", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6}}, {"id": "F.05", "sec": "F", "label": "Pengalaman kepanitiaan", "type": "table", "req": false, "extra": {"cols": [{"key": "kegiatan", "label": "Nama kegiatan", "type": "text"}, {"key": "penyelenggara", "label": "Penyelenggara", "type": "text"}, {"key": "jabatan", "label": "Jabatan", "type": "text"}], "minRows": 0, "maxRows": 6}}, {"id": "F.06", "sec": "F", "label": "Prestasi dan penghargaan", "type": "table", "req": false, "extra": {"cols": [{"key": "kegiatan", "label": "Nama kegiatan", "type": "text"}, {"key": "penyelenggara", "label": "Penyelenggara", "type": "text"}, {"key": "ket", "label": "Keterangan", "type": "text"}], "minRows": 0, "maxRows": 6}}, {"id": "F.07", "sec": "F", "label": "Keahlian khusus", "type": "text", "req": false, "extra": {"maxlen": 100}, "grp": "Keahlian, penghasilan, dan hobi"}, {"id": "F.08", "sec": "F", "label": "Penghasilan (kisaran per bulan)", "type": "selectText", "req": false, "extra": {"opts": ["Belum berpenghasilan tetap", "Di bawah 3 juta", "3 sampai 5 juta", "5 sampai 10 juta", "10 sampai 20 juta", "Di atas 20 juta", "Tidak disebutkan"], "ph": "Catatan opsional", "txtMax": 60}}, {"id": "F.09", "sec": "F", "label": "Hobi", "type": "text", "req": true, "extra": {"maxlen": 100}}, {"id": "G.01", "sec": "G", "label": "Siapa Anda? (deskripsi diri)", "type": "textarea", "req": true, "extra": {"maxlen": 1400, "rows": 5, "minWords": 100, "maxWords": 200, "ph": "Narasi bebas, 100 sampai 200 kata"}, "grp": "Tentang diri"}, {"id": "G.02", "sec": "G", "label": "Motto hidup", "type": "text", "req": false, "extra": {"maxlen": 80}}, {"id": "G.03", "sec": "G", "label": "Kelebihan saya", "type": "list", "req": true, "extra": {"min": 1, "max": 5, "itemMax": 60, "ph": "Contoh: Sabar"}, "grp": "Kelebihan dan kekurangan"}, {"id": "G.04", "sec": "G", "label": "Kekurangan saya", "type": "list", "req": true, "extra": {"min": 1, "max": 5, "itemMax": 60}}, {"id": "G.05", "sec": "G", "label": "Hal yang disukai dan tidak disukai", "type": "text", "req": false, "extra": {"maxlen": 150}, "grp": "Minat dan pandangan"}, {"id": "G.06", "sec": "G", "label": "Bacaan favorit", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.07", "sec": "G", "label": "Tontonan / media favorit", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.08", "sec": "G", "label": "Tokoh idola (dalam / luar negeri)", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Sertakan alasan singkat"}}, {"id": "G.09", "sec": "G", "label": "Kegiatan waktu luang", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.10", "sec": "G", "label": "Pergaulan dengan tetangga / lingkungan", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.11", "sec": "G", "label": "Keterlibatan dakwah / kegiatan sosial", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.12", "sec": "G", "label": "Pandangan tentang poligami", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "H.02", "sec": "H", "label": "Gambaran orang tua", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 3, "ph": "Pekerjaan atau aktivitas, kota, dan karakter singkat ayah dan ibu. Tanpa nama."}, "grp": "Orang tua"}, {"id": "H.05", "sec": "H", "label": "Status hidup / wafat orang tua", "type": "select", "req": true, "extra": {"opts": ["Keduanya masih hidup", "Hanya ayah yang masih hidup", "Hanya ibu yang masih hidup", "Keduanya sudah wafat"]}}, {"id": "H.14", "sec": "H", "label": "Wali nikah", "type": "select", "req": true, "extra": {"opts": ["Kakek (ayah dari ayah)", "Saudara laki-laki kandung", "Paman (saudara laki-laki ayah)", "Wali hakim", "Belum ditentukan"], "showIf": {"all": [{"id": "B.03", "isIn": ["Akhwat"]}, {"id": "H.05", "isIn": ["Hanya ibu yang masih hidup", "Keduanya sudah wafat"]}]}}}, {"id": "H.12", "sec": "H", "label": "Urutan anak", "type": "sibling", "req": true, "extra": {}, "grp": "Saudara kandung"}, {"id": "H.13", "sec": "H", "label": "Gambaran saudara kandung", "type": "text", "req": false, "extra": {"maxlen": 150, "ph": "Satu kalimat tanpa nama. Contoh: 1 kakak laki-laki sudah menikah, 1 adik perempuan kuliah"}}, {"id": "H.11", "sec": "H", "label": "Status anak dari pernikahan sebelumnya", "type": "select", "req": true, "extra": {"opts": ["Belum punya anak", "Punya anak, tinggal bersama saya", "Punya anak, tidak tinggal bersama saya"], "showIf": {"id": "B.08", "notIn": ["Perjaka", "Gadis"]}}, "grp": "Anak"}, {"id": "H.09", "sec": "H", "label": "Data anak (dari pernikahan sebelumnya)", "type": "table", "req": false, "extra": {"cols": [{"key": "usia", "label": "Usia", "type": "text", "w": 60}, {"key": "lp", "label": "L/P", "type": "select", "opts": ["L", "P"], "w": 60}], "minRows": 0, "maxRows": 8, "showIf": {"id": "H.11", "isIn": ["Punya anak, tinggal bersama saya", "Punya anak, tidak tinggal bersama saya"]}}}, {"id": "H.10", "sec": "H", "label": "Kondisi keagamaan keluarga", "type": "text", "req": false, "extra": {"maxlen": 120, "ph": "Contoh: aktif di masjid; moderat"}, "grp": "Kondisi keagamaan keluarga"}, {"id": "I.01", "sec": "I", "label": "Sholat wajib", "type": "selectText", "req": true, "extra": {"opts": ["Selalu tepat waktu", "Sering tepat waktu", "Kadang terlewat", "Masih belajar konsisten"], "ph": "Opsional, detail (berjamaah atau tidak)", "txtMax": 80}, "grp": "Sholat dan puasa"}, {"id": "I.02", "sec": "I", "label": "Sholat sunnah", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Contoh: rawatib, dhuha, tahajud, dan frekuensinya"}}, {"id": "I.03", "sec": "I", "label": "Puasa Ramadhan", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "I.04", "sec": "I", "label": "Puasa sunnah", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Contoh: Senin-Kamis, Ayyamul Bidh"}}, {"id": "I.05", "sec": "I", "label": "Zakat / infaq / sedekah", "type": "text", "req": false, "extra": {"maxlen": 100}, "grp": "Al-Qur'an, dzikir, dan kajian"}, {"id": "I.06", "sec": "I", "label": "Tilawah dan hafalan Al-Qur'an", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Frekuensi tilawah dan jumlah hafalan"}}, {"id": "I.07", "sec": "I", "label": "Dzikir harian", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "I.08", "sec": "I", "label": "Pengajian rutin yang diikuti", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Jenis kajian dan frekuensi, tanpa nama majelis"}}, {"id": "I.09", "sec": "I", "label": "Haji / umrah", "type": "selectText", "req": false, "extra": {"opts": ["Sudah", "Ada rencana", "Belum ada rencana"], "ph": "Opsional, detail", "txtMax": 60}, "grp": "Lainnya"}, {"id": "I.10", "sec": "I", "label": "Sholat Jumat / berjamaah di masjid", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "I.11", "sec": "I", "label": "Busana syar'i", "type": "selectText", "req": false, "extra": {"optsByGender": {"A": ["Bercadar", "Berhijab lebar (syar'i)", "Berhijab", "Belum berhijab"], "I": ["Berjenggot", "Tidak berjenggot"]}, "ph": "Detail tambahan (opsional)", "txtMax": 60}}, {"id": "J.01", "sec": "J", "label": "Kesiapan ilmu pranikah", "type": "text", "req": true, "extra": {"maxlen": 150}, "grp": "Kesiapan"}, {"id": "J.02", "sec": "J", "label": "Kesiapan mental / psikis", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "J.03", "sec": "J", "label": "Kesiapan fisik / kesehatan", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "J.04", "sec": "J", "label": "Kesiapan finansial", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Jelaskan tanpa angka pasti"}}, {"id": "J.09", "sec": "J", "label": "Tanggungan nafkah keluarga", "type": "text", "req": false, "extra": {"maxlen": 120, "ph": "Contoh: membantu biaya kuliah satu adik setiap bulan. Kosongkan bila tidak ada"}}, {"id": "J.05", "sec": "J", "label": "Kesiapan orang tua / wali", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "J.06", "sec": "J", "label": "Tanggungan utang / cicilan", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Sebutkan jenis, bukan nomor rekening"}, "grp": "Rencana dan komitmen"}, {"id": "J.07", "sec": "J", "label": "Rencana waktu menikah", "type": "text", "req": true, "extra": {"maxlen": 120, "ph": "Gunakan waktu relatif, contoh: 3-6 bulan setelah bertemu calon yang cocok"}}, {"id": "J.08", "sec": "J", "label": "Komitmen pribadi untuk mencapai harapan pernikahan", "type": "list", "req": true, "extra": {"min": 1, "max": 3, "itemMax": 100}}, {"id": "K.01", "sec": "K", "label": "Tujuan menikah", "type": "list", "req": true, "extra": {"min": 1, "max": 6, "itemMax": 100}, "grp": "Tujuan"}, {"id": "K.02", "sec": "K", "label": "Visi pernikahan", "type": "textarea", "req": true, "extra": {"maxlen": 400, "rows": 3}, "grp": "Visi, misi, dan nilai"}, {"id": "K.03", "sec": "K", "label": "Misi pernikahan", "type": "textarea", "req": true, "extra": {"maxlen": 400, "rows": 3}}, {"id": "K.04", "sec": "K", "label": "Nilai yang diusung setelah menikah", "type": "list", "req": true, "extra": {"min": 1, "max": 5, "itemMax": 100}}, {"id": "K.05", "sec": "K", "label": "Matriks rencana hidup", "type": "matrix", "req": true, "extra": {"rowLabels": ["Sebagai pribadi", "Sebagai anggota masyarakat", "Sebagai bagian keluarga", "Dalam profesi"], "colLabels": ["Sekarang", "Setelah menikah"], "cellMax": 120}, "grp": "Rencana hidup"}, {"id": "L.01", "sec": "L", "label": "Gambaran acara pernikahan", "type": "text", "req": false, "extra": {"maxlen": 150}, "grp": "Acara pernikahan"}, {"id": "L.02", "sec": "L", "label": "Sumber dana acara pernikahan", "type": "select", "req": false, "extra": {"opts": ["Pihak laki-laki", "Pihak perempuan", "Patungan / berbagi", "Belum dibahas"]}}, {"id": "L.03", "sec": "L", "label": "Mahar", "type": "text", "req": false, "extra": {"maxlen": 80, "ph": "Gunakan redaksi umum, mis. 'sesuai kesepakatan'"}}, {"id": "L.04", "sec": "L", "label": "Tempat tinggal setelah menikah", "type": "text", "req": true, "extra": {"maxlen": 100, "ph": "Kota dan bentuk hunian yang diharapkan"}, "grp": "Setelah menikah"}, {"id": "L.05", "sec": "L", "label": "Kehidupan rumah tangga (pembagian peran)", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.06", "sec": "L", "label": "Pekerjaan dan karier ke depan", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.07", "sec": "L", "label": "Pandangan tentang kebolehan istri bekerja", "type": "selectText", "req": false, "extra": {"opts": ["Mendukung penuh", "Mendukung dengan syarat", "Lebih memilih fokus di rumah", "Dibicarakan bersama"], "ph": "Catatan opsional", "txtMax": 80}}, {"id": "L.08", "sec": "L", "label": "Jumlah anak dan pendidikan anak", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.09", "sec": "L", "label": "Pengelolaan keuangan keluarga", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "L.10", "sec": "L", "label": "Peningkatan ilmu keislaman", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Rencana belajar bersama"}, "grp": "Target bersama"}, {"id": "L.11", "sec": "L", "label": "Target bersama jangka pendek (1-3 tahun)", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.12", "sec": "L", "label": "Target bersama jangka panjang (di atas 5 tahun)", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "M.01", "sec": "M", "label": "Kriteria mutlak (tidak dapat ditawar)", "type": "textarea", "req": false, "extra": {"maxlen": 300, "rows": 2, "ph": "Kosongkan bila tidak ada. Contoh bidang: usia, domisili, pendidikan, status pernikahan"}, "grp": "Kriteria utama"}, {"id": "M.02", "sec": "M", "label": "Kriteria preferensi non-fisik (tidak mutlak)", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 2}}, {"id": "M.03", "sec": "M", "label": "Kriteria religiusitas calon", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 2, "ph": "Ibadah wajib dan sunnah, kemampuan baca Al-Qur'an, busana"}}, {"id": "M.04", "sec": "M", "label": "Preferensi mazhab / manhaj calon", "type": "selectText", "req": false, "extra": {"opts": ["Sunni", "Syiah", "Sufi", "Lainnya / campuran"], "ph": "Opsional, detail", "txtMax": 40}, "grp": "Kriteria lain"}, {"id": "M.05", "sec": "M", "label": "Kriteria fisik", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "M.06", "sec": "M", "label": "Kriteria dari orang tua / wali", "type": "text", "req": false, "extra": {"maxlen": 150, "ph": "Bila ada, komunikasikan ke orang tua/wali"}}, {"id": "N.01", "sec": "N", "label": "Informasi penting lain", "type": "textarea", "req": false, "extra": {"maxlen": 300, "rows": 2}, "grp": "Informasi tambahan"}, {"id": "N.02", "sec": "N", "label": "Pernyataan: seluruh informasi di atas adalah benar", "type": "check", "req": true, "extra": {}, "grp": "Pernyataan dan tanda tangan"}, {"id": "N.03", "sec": "N", "label": "Pernyataan: sudah siap menikah dan siap berikhtiar taaruf secara syar'i", "type": "check", "req": true, "extra": {}}, {"id": "N.04", "sec": "N", "label": "Nama lengkap (sebagai tanda tangan)", "type": "text", "req": true, "extra": {"maxlen": 60, "ph": "Ketik nama lengkap"}}], "sections": [{"id": "B", "title": "B. Data Diri", "short": "Data Diri"}, {"id": "C", "title": "C. Domisili & Kontak", "short": "Domisili & Kontak"}, {"id": "D", "title": "D. Fisik & Kesehatan", "short": "Fisik & Kesehatan"}, {"id": "E", "title": "E. Pendidikan", "short": "Pendidikan"}, {"id": "F", "title": "F. Pekerjaan & Aktivitas", "short": "Pekerjaan"}, {"id": "G", "title": "G. Profil Diri & Karakter", "short": "Profil Diri"}, {"id": "H", "title": "H. Keluarga", "short": "Keluarga"}, {"id": "I", "title": "I. Ibadah & Kebiasaan", "short": "Ibadah"}, {"id": "J", "title": "J. Kesiapan Menikah", "short": "Kesiapan Menikah"}, {"id": "K", "title": "K. Visi & Nilai Pernikahan", "short": "Visi & Nilai"}, {"id": "L", "title": "L. Rencana Pernikahan & Pasca-Nikah", "short": "Rencana Nikah"}, {"id": "M", "title": "M. Kriteria Calon Pasangan", "short": "Kriteria Calon"}, {"id": "N", "title": "N. Penutup", "short": "Penutup"}], "attach": ["Foto wajah tampak depan (wajib) - terbaru maksimal 1 bulan, kondisi natural", "Foto tampak samping (opsional)", "Foto KTP (bila diminta) - kirim hanya di tahap lanjut dan beri tanda air, misalnya 'Hanya untuk ta'aruf, [tanggal]'", "Akta cerai - khusus duda/janda cerai; cukup ditunjukkan saat proses administrasi nikah"]};
+const SCHEMA = {"fields": [{"id": "A.01", "sec": "A", "label": "Saya mengisi data ini dengan sukarela dan sadar, untuk keperluan taaruf.", "type": "check", "req": true, "extra": {}}, {"id": "A.02", "sec": "A", "label": "Saya paham CV ini bisa memuat data pribadi yang sensitif (misalnya kesehatan, status pernikahan sebelumnya). Saya setuju membagikannya ke orang yang saya tuju.", "type": "check", "req": true, "extra": {}}, {"id": "B.01", "sec": "B", "label": "Nama lengkap", "type": "text", "req": true, "extra": {"maxlen": 60}, "grp": "Identitas"}, {"id": "B.02", "sec": "B", "label": "Nama panggilan", "type": "text", "req": true, "extra": {"maxlen": 30}}, {"id": "B.03", "sec": "B", "label": "Jenis kelamin", "type": "select", "req": true, "extra": {"opts": ["Ikhwan", "Akhwat"]}}, {"id": "B.04", "sec": "B", "label": "Tempat lahir", "type": "text", "req": false, "extra": {"maxlen": 40}}, {"id": "B.05", "sec": "B", "label": "Tahun lahir", "type": "number", "req": true, "extra": {"min": 1950, "max": 2010, "ph": "Contoh: 1995"}}, {"id": "B.06", "sec": "B", "label": "Manhaj / mazhab yang diikuti (jika ada)", "type": "selectText", "req": false, "extra": {"opts": ["Sunni", "Syiah", "Sufi", "Lainnya / campuran"], "ph": "Opsional, detail lebih spesifik", "txtMax": 40}, "grp": "Latar belakang dan status"}, {"id": "B.07", "sec": "B", "label": "Suku (ayah - ibu)", "type": "text", "req": true, "extra": {"maxlen": 40, "ph": "Contoh: Sunda - Jawa"}}, {"id": "B.08", "sec": "B", "label": "Status pernikahan", "type": "select", "req": true, "extra": {"optsByGender": {"I": ["Perjaka", "Duda (cerai)", "Duda (ditinggal wafat pasangan)"], "A": ["Gadis", "Janda (cerai)", "Janda (ditinggal wafat suami)"]}}}, {"id": "B.09", "sec": "B", "label": "Izin / restu orang tua atau wali untuk menikah", "type": "select", "req": true, "extra": {"opts": ["Sudah ada", "Belum ada"]}}, {"id": "B.10", "sec": "B", "label": "Kewarganegaraan", "type": "text", "req": false, "extra": {"maxlen": 30, "ph": "Boleh dikosongkan"}}, {"id": "B.11", "sec": "B", "label": "Bahasa yang dikuasai", "type": "text", "req": false, "extra": {"maxlen": 80, "ph": "Contoh: Indonesia, Sunda, Inggris (aktif)"}}, {"id": "C.02", "sec": "C", "label": "Kota / kabupaten domisili", "type": "text", "req": true, "extra": {"maxlen": 40}, "grp": "Domisili dan asal"}, {"id": "C.03", "sec": "C", "label": "Kota asal", "type": "text", "req": true, "extra": {"maxlen": 40, "ph": "Kota/kabupaten asal keluarga"}}, {"id": "C.06", "sec": "C", "label": "Kontak yang bisa dihubungi", "type": "text", "req": false, "extra": {"maxlen": 60, "ph": "Nomor WhatsApp, email, atau kontak wali"}, "grp": "Kontak"}, {"id": "C.10", "sec": "C", "label": "Akun media sosial", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Contoh: Instagram @namaakun", "noneOpt": "Tidak aktif di media sosial"}}, {"id": "D.01", "sec": "D", "label": "Tinggi badan (cm)", "type": "number", "req": true, "extra": {"min": 100, "max": 230, "unit": "cm"}, "grp": "Fisik"}, {"id": "D.02", "sec": "D", "label": "Berat badan (kg)", "type": "number", "req": true, "extra": {"min": 30, "max": 200, "unit": "kg"}}, {"id": "D.03", "sec": "D", "label": "Golongan darah", "type": "select", "req": false, "extra": {"opts": ["A", "B", "AB", "O", "Tidak tahu"]}}, {"id": "D.04", "sec": "D", "label": "Warna kulit", "type": "text", "req": false, "extra": {"maxlen": 30}}, {"id": "D.05", "sec": "D", "label": "Warna & tipe rambut", "type": "text", "req": false, "extra": {"maxlen": 40, "ph": "Contoh: hitam, lurus"}}, {"id": "D.06", "sec": "D", "label": "Warna & bentuk mata", "type": "text", "req": false, "extra": {"maxlen": 40}}, {"id": "D.07", "sec": "D", "label": "Bentuk fisik / ciri khas", "type": "text", "req": false, "extra": {"maxlen": 60}}, {"id": "D.08", "sec": "D", "label": "Riwayat penyakit yang pernah / sedang diderita", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 3, "ph": "Cukup yang berpengaruh pada kehidupan rumah tangga. Tulis 'tidak ada' kalau memang tidak ada"}, "grp": "Kesehatan"}, {"id": "D.09", "sec": "D", "label": "Cacat fisik / disabilitas", "type": "text", "req": true, "extra": {"maxlen": 100, "ph": "Tulis 'tidak ada' kalau memang tidak ada"}}, {"id": "D.12", "sec": "D", "label": "Kebiasaan merokok / alkohol / narkoba", "type": "selectText", "req": true, "extra": {"opts": ["Tidak pernah", "Sudah berhenti", "Merokok", "Vape", "Konsumsi lain (jelaskan)"], "ph": "Opsional, detail (misalnya jumlah per hari, target berhenti)", "txtMax": 80}, "grp": "Kebiasaan"}, {"id": "D.13", "sec": "D", "label": "Pola makan / diet (kepatuhan halal)", "type": "text", "req": false, "extra": {"maxlen": 80}}, {"id": "D.14", "sec": "D", "label": "Pola tidur", "type": "text", "req": false, "extra": {"maxlen": 80, "ph": "Contoh: tidur 22.00, bangun 03.30"}}, {"id": "E.01", "sec": "E", "label": "Riwayat pendidikan formal", "type": "table", "req": true, "extra": {"cols": [{"key": "jenjang", "label": "Jenjang", "type": "select", "opts": ["SD/MI", "SMP/MTs", "SMA/SMK/MA", "D1-D4", "S1", "S2", "S3"]}, {"key": "institusi", "label": "Nama institusi", "type": "text"}, {"key": "jurusan", "label": "Jurusan", "type": "text"}, {"key": "masuk", "label": "Tahun masuk", "type": "text", "w": 70}, {"key": "lulus", "label": "Tahun lulus", "type": "text", "w": 70}], "minRows": 1, "maxRows": 8}}, {"id": "E.02", "sec": "E", "label": "Pendidikan agama / non-formal", "type": "table", "req": false, "extra": {"cols": [{"key": "program", "label": "Program", "type": "text"}, {"key": "lembaga", "label": "Lembaga", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6, "ph": "Contoh: pesantren, halaqah, program hifz"}}, {"id": "E.03", "sec": "E", "label": "Pelatihan / sertifikasi", "type": "table", "req": false, "extra": {"cols": [{"key": "nama", "label": "Nama pelatihan", "type": "text"}, {"key": "penyelenggara", "label": "Penyelenggara", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6}}, {"id": "F.01", "sec": "F", "label": "Pekerjaan / profesi saat ini", "type": "text", "req": true, "extra": {"maxlen": 80, "ph": "Jabatan dan bidang"}, "grp": "Pekerjaan saat ini"}, {"id": "F.02", "sec": "F", "label": "Deskripsi pekerjaan (tugas, hari dan jam kerja)", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "F.03", "sec": "F", "label": "Riwayat pekerjaan sebelumnya", "type": "table", "req": false, "extra": {"cols": [{"key": "instansi", "label": "Instansi / usaha", "type": "text"}, {"key": "jabatan", "label": "Jabatan", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6}, "grp": "Pengalaman"}, {"id": "F.04", "sec": "F", "label": "Pengalaman organisasi", "type": "table", "req": false, "extra": {"cols": [{"key": "organisasi", "label": "Nama organisasi", "type": "text"}, {"key": "jabatan", "label": "Jabatan", "type": "text"}, {"key": "tahun", "label": "Tahun", "type": "text", "w": 70}], "minRows": 0, "maxRows": 6}}, {"id": "F.05", "sec": "F", "label": "Pengalaman kepanitiaan", "type": "table", "req": false, "extra": {"cols": [{"key": "kegiatan", "label": "Nama kegiatan", "type": "text"}, {"key": "penyelenggara", "label": "Penyelenggara", "type": "text"}, {"key": "jabatan", "label": "Jabatan", "type": "text"}], "minRows": 0, "maxRows": 6}}, {"id": "F.06", "sec": "F", "label": "Prestasi dan penghargaan", "type": "table", "req": false, "extra": {"cols": [{"key": "kegiatan", "label": "Nama kegiatan", "type": "text"}, {"key": "penyelenggara", "label": "Penyelenggara", "type": "text"}, {"key": "ket", "label": "Keterangan", "type": "text"}], "minRows": 0, "maxRows": 6}}, {"id": "F.07", "sec": "F", "label": "Keahlian khusus", "type": "text", "req": false, "extra": {"maxlen": 100}, "grp": "Keahlian, penghasilan, dan hobi"}, {"id": "F.08", "sec": "F", "label": "Penghasilan (kisaran per bulan)", "type": "selectText", "req": false, "extra": {"opts": ["Belum berpenghasilan tetap", "Di bawah 3 juta", "3 sampai 5 juta", "5 sampai 10 juta", "10 sampai 20 juta", "Di atas 20 juta", "Tidak disebutkan"], "ph": "Catatan opsional", "txtMax": 60}}, {"id": "F.09", "sec": "F", "label": "Hobi", "type": "text", "req": true, "extra": {"maxlen": 100}}, {"id": "G.01", "sec": "G", "label": "Siapa Anda? (deskripsi diri)", "type": "textarea", "req": true, "extra": {"maxlen": 1400, "rows": 5, "minWords": 100, "maxWords": 200, "ph": "Narasi bebas, 100 sampai 200 kata"}, "grp": "Tentang diri"}, {"id": "G.02", "sec": "G", "label": "Motto hidup", "type": "text", "req": false, "extra": {"maxlen": 80}}, {"id": "G.03", "sec": "G", "label": "Kelebihan saya", "type": "list", "req": true, "extra": {"min": 1, "max": 5, "itemMax": 60, "ph": "Contoh: Sabar"}, "grp": "Kelebihan dan kekurangan"}, {"id": "G.04", "sec": "G", "label": "Kekurangan saya", "type": "list", "req": true, "extra": {"min": 1, "max": 5, "itemMax": 60}}, {"id": "G.05", "sec": "G", "label": "Hal yang disukai dan tidak disukai", "type": "text", "req": false, "extra": {"maxlen": 150}, "grp": "Minat dan pandangan"}, {"id": "G.06", "sec": "G", "label": "Bacaan favorit", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.07", "sec": "G", "label": "Tontonan / media favorit", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.08", "sec": "G", "label": "Tokoh idola (dalam / luar negeri)", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Sertakan alasan singkat"}}, {"id": "G.09", "sec": "G", "label": "Kegiatan waktu luang", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.10", "sec": "G", "label": "Pergaulan dengan tetangga / lingkungan", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.11", "sec": "G", "label": "Keterlibatan dakwah / kegiatan sosial", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "G.12", "sec": "G", "label": "Pandangan tentang poligami", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "H.02", "sec": "H", "label": "Gambaran orang tua", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 3, "ph": "Pekerjaan atau aktivitas, kota, dan karakter singkat ayah dan ibu. Tanpa nama."}, "grp": "Orang tua"}, {"id": "H.05", "sec": "H", "label": "Status hidup / wafat orang tua", "type": "select", "req": true, "extra": {"opts": ["Keduanya masih hidup", "Hanya ayah yang masih hidup", "Hanya ibu yang masih hidup", "Keduanya sudah wafat"]}}, {"id": "H.14", "sec": "H", "label": "Wali nikah", "type": "select", "req": true, "extra": {"opts": ["Kakek (ayah dari ayah)", "Saudara laki-laki kandung", "Paman (saudara laki-laki ayah)", "Wali hakim", "Belum ditentukan"], "showIf": {"all": [{"id": "B.03", "isIn": ["Akhwat"]}, {"id": "H.05", "isIn": ["Hanya ibu yang masih hidup", "Keduanya sudah wafat"]}]}}}, {"id": "H.12", "sec": "H", "label": "Urutan anak", "type": "sibling", "req": true, "extra": {}, "grp": "Saudara kandung"}, {"id": "H.13", "sec": "H", "label": "Gambaran saudara kandung", "type": "text", "req": false, "extra": {"maxlen": 150, "ph": "Satu kalimat tanpa nama. Contoh: 1 kakak laki-laki sudah menikah, 1 adik perempuan kuliah"}}, {"id": "H.11", "sec": "H", "label": "Status anak dari pernikahan sebelumnya", "type": "select", "req": true, "extra": {"opts": ["Belum punya anak", "Punya anak, tinggal bersama saya", "Punya anak, tidak tinggal bersama saya"], "showIf": {"id": "B.08", "notIn": ["Perjaka", "Gadis"]}}, "grp": "Anak"}, {"id": "H.09", "sec": "H", "label": "Data anak (dari pernikahan sebelumnya)", "type": "table", "req": false, "extra": {"cols": [{"key": "usia", "label": "Usia", "type": "text", "w": 60}, {"key": "lp", "label": "L/P", "type": "select", "opts": ["L", "P"], "w": 60}], "minRows": 0, "maxRows": 8, "showIf": {"id": "H.11", "isIn": ["Punya anak, tinggal bersama saya", "Punya anak, tidak tinggal bersama saya"]}}}, {"id": "H.10", "sec": "H", "label": "Kondisi keagamaan keluarga", "type": "text", "req": false, "extra": {"maxlen": 120, "ph": "Contoh: aktif di masjid; moderat"}, "grp": "Kondisi keagamaan keluarga"}, {"id": "I.01", "sec": "I", "label": "Sholat wajib", "type": "selectText", "req": true, "extra": {"opts": ["Selalu tepat waktu", "Sering tepat waktu", "Kadang terlewat", "Masih belajar konsisten"], "ph": "Opsional, detail (berjamaah atau tidak)", "txtMax": 80}, "grp": "Sholat dan puasa"}, {"id": "I.02", "sec": "I", "label": "Sholat sunnah", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Contoh: rawatib, dhuha, tahajud, dan frekuensinya"}}, {"id": "I.03", "sec": "I", "label": "Puasa Ramadhan", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "I.04", "sec": "I", "label": "Puasa sunnah", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Contoh: Senin-Kamis, Ayyamul Bidh"}}, {"id": "I.05", "sec": "I", "label": "Zakat / infaq / sedekah", "type": "text", "req": false, "extra": {"maxlen": 100}, "grp": "Al-Qur'an, dzikir, dan kajian"}, {"id": "I.06", "sec": "I", "label": "Tilawah dan hafalan Al-Qur'an", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Frekuensi tilawah dan jumlah hafalan"}}, {"id": "I.07", "sec": "I", "label": "Dzikir harian", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "I.08", "sec": "I", "label": "Pengajian rutin yang diikuti", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Jenis kajian dan frekuensi, tanpa nama majelis"}}, {"id": "I.09", "sec": "I", "label": "Haji / umrah", "type": "selectText", "req": false, "extra": {"opts": ["Sudah", "Ada rencana", "Belum ada rencana"], "ph": "Opsional, detail", "txtMax": 60}, "grp": "Lainnya"}, {"id": "I.10", "sec": "I", "label": "Sholat Jumat / berjamaah di masjid", "type": "text", "req": false, "extra": {"maxlen": 100}}, {"id": "I.11", "sec": "I", "label": "Busana syar'i", "type": "selectText", "req": false, "extra": {"optsByGender": {"A": ["Bercadar", "Berhijab lebar (syar'i)", "Berhijab", "Belum berhijab"], "I": ["Berjenggot", "Tidak berjenggot"]}, "ph": "Detail tambahan (opsional)", "txtMax": 60}}, {"id": "J.01", "sec": "J", "label": "Kesiapan ilmu pranikah", "type": "text", "req": true, "extra": {"maxlen": 150}, "grp": "Kesiapan"}, {"id": "J.02", "sec": "J", "label": "Kesiapan mental / psikis", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "J.03", "sec": "J", "label": "Kesiapan fisik / kesehatan", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "J.04", "sec": "J", "label": "Kesiapan finansial", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Jelaskan tanpa angka pasti"}}, {"id": "J.09", "sec": "J", "label": "Tanggungan nafkah keluarga", "type": "text", "req": false, "extra": {"maxlen": 120, "ph": "Contoh: membantu biaya kuliah satu adik setiap bulan. Kosongkan kalau tidak ada"}}, {"id": "J.05", "sec": "J", "label": "Kesiapan orang tua / wali", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "J.06", "sec": "J", "label": "Tanggungan utang / cicilan", "type": "text", "req": false, "extra": {"maxlen": 100, "ph": "Sebutkan jenis, bukan nomor rekening"}, "grp": "Rencana dan komitmen"}, {"id": "J.07", "sec": "J", "label": "Rencana waktu menikah", "type": "text", "req": true, "extra": {"maxlen": 120, "ph": "Tulis perkiraan waktunya, contoh: 3-6 bulan setelah bertemu calon yang cocok"}}, {"id": "J.08", "sec": "J", "label": "Komitmen pribadi untuk mencapai harapan pernikahan", "type": "list", "req": true, "extra": {"min": 1, "max": 3, "itemMax": 100}}, {"id": "K.01", "sec": "K", "label": "Tujuan menikah", "type": "list", "req": true, "extra": {"min": 1, "max": 6, "itemMax": 100}, "grp": "Tujuan"}, {"id": "K.02", "sec": "K", "label": "Visi pernikahan", "type": "textarea", "req": true, "extra": {"maxlen": 400, "rows": 3}, "grp": "Visi, misi, dan nilai"}, {"id": "K.03", "sec": "K", "label": "Misi pernikahan", "type": "textarea", "req": true, "extra": {"maxlen": 400, "rows": 3}}, {"id": "K.04", "sec": "K", "label": "Nilai yang diusung setelah menikah", "type": "list", "req": true, "extra": {"min": 1, "max": 5, "itemMax": 100}}, {"id": "K.05", "sec": "K", "label": "Matriks rencana hidup", "type": "matrix", "req": true, "extra": {"rowLabels": ["Sebagai pribadi", "Sebagai anggota masyarakat", "Sebagai bagian keluarga", "Dalam profesi"], "colLabels": ["Sekarang", "Setelah menikah"], "cellMax": 120}, "grp": "Rencana hidup"}, {"id": "L.01", "sec": "L", "label": "Gambaran acara pernikahan", "type": "text", "req": false, "extra": {"maxlen": 150}, "grp": "Acara pernikahan"}, {"id": "L.02", "sec": "L", "label": "Sumber dana acara pernikahan", "type": "select", "req": false, "extra": {"opts": ["Pihak laki-laki", "Pihak perempuan", "Patungan / berbagi", "Belum dibahas"]}}, {"id": "L.03", "sec": "L", "label": "Mahar", "type": "text", "req": false, "extra": {"maxlen": 80, "ph": "Tulis secara umum saja, misalnya 'sesuai kesepakatan'"}}, {"id": "L.04", "sec": "L", "label": "Tempat tinggal setelah menikah", "type": "text", "req": true, "extra": {"maxlen": 100, "ph": "Kota dan bentuk hunian yang diharapkan"}, "grp": "Setelah menikah"}, {"id": "L.05", "sec": "L", "label": "Kehidupan rumah tangga (pembagian peran)", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.06", "sec": "L", "label": "Pekerjaan dan karier ke depan", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.07", "sec": "L", "label": "Pandangan tentang kebolehan istri bekerja", "type": "selectText", "req": false, "extra": {"opts": ["Mendukung penuh", "Mendukung dengan syarat", "Lebih memilih fokus di rumah", "Dibicarakan bersama"], "ph": "Catatan opsional", "txtMax": 80}}, {"id": "L.08", "sec": "L", "label": "Jumlah anak dan pendidikan anak", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.09", "sec": "L", "label": "Pengelolaan keuangan keluarga", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "L.10", "sec": "L", "label": "Peningkatan ilmu keislaman", "type": "text", "req": true, "extra": {"maxlen": 150, "ph": "Rencana belajar bersama"}, "grp": "Target bersama"}, {"id": "L.11", "sec": "L", "label": "Target bersama jangka pendek (1-3 tahun)", "type": "text", "req": true, "extra": {"maxlen": 150}}, {"id": "L.12", "sec": "L", "label": "Target bersama jangka panjang (di atas 5 tahun)", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "M.01", "sec": "M", "label": "Kriteria mutlak (tidak bisa ditawar)", "type": "textarea", "req": false, "extra": {"maxlen": 300, "rows": 2, "ph": "Kosongkan kalau tidak ada. Contoh: usia, domisili, pendidikan, status pernikahan"}, "grp": "Kriteria utama"}, {"id": "M.02", "sec": "M", "label": "Kriteria non-fisik yang diinginkan (tidak mutlak)", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 2}}, {"id": "M.03", "sec": "M", "label": "Kriteria keagamaan calon", "type": "textarea", "req": true, "extra": {"maxlen": 300, "rows": 2, "ph": "Ibadah wajib dan sunnah, kemampuan baca Al-Qur'an, busana"}}, {"id": "M.04", "sec": "M", "label": "Mazhab / manhaj calon yang diinginkan", "type": "selectText", "req": false, "extra": {"opts": ["Sunni", "Syiah", "Sufi", "Lainnya / campuran"], "ph": "Opsional, detail", "txtMax": 40}, "grp": "Kriteria lain"}, {"id": "M.05", "sec": "M", "label": "Kriteria fisik", "type": "text", "req": false, "extra": {"maxlen": 150}}, {"id": "M.06", "sec": "M", "label": "Kriteria dari orang tua / wali", "type": "text", "req": false, "extra": {"maxlen": 150, "ph": "Kalau ada, bicarakan dengan orang tua/wali"}}, {"id": "N.01", "sec": "N", "label": "Informasi penting lain", "type": "textarea", "req": false, "extra": {"maxlen": 300, "rows": 2}, "grp": "Informasi tambahan"}, {"id": "N.02", "sec": "N", "label": "Pernyataan: semua informasi di atas benar", "type": "check", "req": true, "extra": {}, "grp": "Pernyataan dan tanda tangan"}, {"id": "N.03", "sec": "N", "label": "Pernyataan: sudah siap menikah dan siap berikhtiar taaruf secara syar'i", "type": "check", "req": true, "extra": {}}, {"id": "N.04", "sec": "N", "label": "Nama lengkap (sebagai tanda tangan)", "type": "text", "req": true, "extra": {"maxlen": 60, "ph": "Ketik nama lengkap"}}], "sections": [{"id": "B", "title": "B. Data Diri", "short": "Data Diri"}, {"id": "C", "title": "C. Domisili & Kontak", "short": "Domisili & Kontak"}, {"id": "D", "title": "D. Fisik & Kesehatan", "short": "Fisik & Kesehatan"}, {"id": "E", "title": "E. Pendidikan", "short": "Pendidikan"}, {"id": "F", "title": "F. Pekerjaan & Aktivitas", "short": "Pekerjaan"}, {"id": "G", "title": "G. Profil Diri & Karakter", "short": "Profil Diri"}, {"id": "H", "title": "H. Keluarga", "short": "Keluarga"}, {"id": "I", "title": "I. Ibadah & Kebiasaan", "short": "Ibadah"}, {"id": "J", "title": "J. Kesiapan Menikah", "short": "Kesiapan Menikah"}, {"id": "K", "title": "K. Visi & Nilai Pernikahan", "short": "Visi & Nilai"}, {"id": "L", "title": "L. Rencana Pernikahan & Pasca-Nikah", "short": "Rencana Nikah"}, {"id": "M", "title": "M. Kriteria Calon Pasangan", "short": "Kriteria Calon"}, {"id": "N", "title": "N. Penutup", "short": "Penutup"}], "attach": ["Foto wajah tampak depan (wajib) - terbaru maksimal 1 bulan, kondisi natural", "Foto tampak samping (opsional)", "Foto KTP (kalau diminta) - kirim hanya di tahap lanjut dan beri watermark, misalnya 'Hanya untuk taaruf, [tanggal]'", "Akta cerai - khusus duda/janda cerai; cukup ditunjukkan saat proses administrasi nikah"]};
 const F = SCHEMA.fields, SECTIONS = SCHEMA.sections, ATTACH = SCHEMA.attach;
 const byId = Object.fromEntries(F.map(f=>[f.id,f]));
 const bySec = {}; SECTIONS.forEach(s=>{ bySec[s.id]=F.filter(f=>f.sec===s.id); });
@@ -263,6 +275,7 @@ const PRODUCT_NAME='Bikin CV Taaruf';
 // Alamat situs publik (tanpa https://); dicetak sebagai tautan di footer PDF. Kosong = tidak dicetak.
 const SITE_DOMAIN='reconciler.github.io/bikin-cv-taaruf';
 const DRAFT_KEY='ctgv1_draft_v1';
+const DL_FAIL='Unduhan gagal. Coba buka halaman ini di Chrome atau browser lain.';
 const SEC_INTRO={
   B:'Identitas dasar Anda.', C:'Kota domisili, kota asal, dan kontak (opsional).',
   D:'Kondisi fisik dan kesehatan.', E:'Riwayat pendidikan formal dan non-formal.',
@@ -274,7 +287,7 @@ const SEC_INTRO={
 };
 
 const S={d:{},stage:'landing',sec:null,pdf:false};
-let tried=false, storageOK=true, saveT=0, dirty=false, lastBackupTs=0, lastSaveTs=0, resumeOffer=null;
+let tried=false, landTried=false, storageOK=true, saveT=0, dirty=false, lastBackupTs=0, lastSaveTs=0, resumeOffer=null;
 const VIEW={};
 const ICON_BACK='<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const ICON_DL='<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-4-4 4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -315,13 +328,18 @@ function saveDraftSoon(){ clearTimeout(saveT); saveT=setTimeout(saveDraft,250); 
 function loadDraft(){ try{ const r=localStorage.getItem(DRAFT_KEY); return r?JSON.parse(r):null; }catch(e){ storageOK=false; return null; } }
 function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
 function draftHasData(dr){ return !!dr && dr.d && Object.keys(dr.d).length>0; }
+/* "pintu masuk": jenis kelamin dipilih dan kedua pernyataan dicentang. Isian yang belum lewat sini tidak boleh langsung masuk ke formulir. */
+function gateOK(d){ return !!d && d['A.01']===true && d['A.02']===true && (byId['B.03'].extra.opts||[]).includes(d['B.03']); }
 function applyDraft(dr){
-  S.d=dr.d||{}; S.sec=dr.sec||'B'; S.pdf=!!dr.pdf; S.stage='form'; lastBackupTs=dr.backupTs||0;
-  resumeOffer=null; saveDraft(); toast('Draf dimuat.'); render();
+  S.d=dr.d||{}; S.pdf=!!dr.pdf; lastBackupTs=dr.backupTs||0; resumeOffer=null;
+  if(gateOK(S.d)){ S.sec=dr.sec||'B'; S.stage='form'; toast('Isian dimuat.'); }
+  else { S.sec=null; S.stage='landing'; toast('Isian dimuat. Lengkapi pilihan awal dulu untuk lanjut.',4500); }
+  saveDraft(); render(); window.scrollTo(0,0);
 }
 function hhmm(ts){ return new Date(ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}); }
-function saveStatusText(){ if(!storageOK) return 'Draf tidak dapat disimpan di sini'; return lastSaveTs?('Tersimpan otomatis '+hhmm(lastSaveTs)):'Tersimpan otomatis'; }
-function updateTopStorageTag(){ const el=document.getElementById('storagetag'); if(el) el.textContent=storageOK?'Draf lokal tersimpan':'Draf lokal tidak dapat disimpan di perangkat ini'; }
+function storageTagText(){ return storageOK?'Isian tersimpan di HP atau laptop ini':'Isian tidak bisa disimpan di browser ini'; }
+function saveStatusText(){ if(!storageOK) return 'Isian tidak bisa disimpan di browser ini'; return lastSaveTs?('Tersimpan otomatis '+hhmm(lastSaveTs)):'Tersimpan otomatis'; }
+function updateTopStorageTag(){ const el=document.getElementById('storagetag'); if(el) el.textContent=storageTagText(); }
 
 /* ---------- value helpers ---------- */
 function isFilled(f){
@@ -575,7 +593,7 @@ async function manualBackup(payload){
   const res=await saveFile('cadangan-bikin-cv-taaruf.json',blob);
   if(res==='saved'){ lastBackupTs=Date.now(); dirty=false; toast('Cadangan diunduh.'); }
   else if(res==='declined') toast('Penyimpanan dibatalkan.');
-  else toast('Unduhan tidak berjalan di sini.',4500);
+  else toast(DL_FAIL,4500);
   saveDraft(); updateBackupStat();
 }
 const BACKUP_MIN_MS=180000;
@@ -595,15 +613,15 @@ function fileLoadButton(label,cls){
         const obj=JSON.parse(reader.result);
         if(!obj||typeof obj.d!=='object') throw new Error('format tidak dikenali');
         const doApply=()=>applyDraft(obj);
-        if(S.stage==='form'&&Object.keys(S.d).length){
-          if(confirm('Memuat berkas ini akan menimpa isian yang sedang berjalan di sesi ini. Lanjutkan?')) doApply();
+        if(hasWork()){
+          if(confirm('Membuka file ini akan menimpa isian Anda yang sekarang tersimpan. Lanjutkan?')) doApply();
         } else doApply();
-      }catch(err){ toast('Berkas tidak dapat dibaca. Gunakan berkas cadangan (.json) dari formulir ini.',5000); }
+      }catch(err){ toast('File tidak bisa dibaca. Pilih file cadangan yang namanya "cadangan-bikin-cv-taaruf.json".',5000); }
       inp.value='';
     };
     reader.readAsText(file);
   }});
-  const btn=h('button',{type:'button',class:cls||'btn',onclick:()=>inp.click()},label||'Muat draf dari berkas cadangan (.json)');
+  const btn=h('button',{type:'button',class:cls||'btn',onclick:()=>inp.click()},label||'Buka file cadangan');
   return h('span',null,btn,inp);
 }
 
@@ -629,13 +647,13 @@ function buildPdf(){
   const gWord=GV()==='A'?'Akhwat':'Ikhwan';
   let curSec=''; const pageSec={};
   const newPage=()=>{ doc.addPage(); y=PM; pageSec[doc.getNumberOfPages()]=curSec; };
-  doc.setProperties({title:"CV Ta'aruf - "+(trimStr(S.d['B.01'])||'-'),subject:"CV Ta'aruf "+gWord,author:trimStr(S.d['B.01']),keywords:"ta'aruf, CV",creator:PRODUCT_NAME});
+  doc.setProperties({title:"CV Taaruf - "+(trimStr(S.d['B.01'])||'-'),subject:"CV Taaruf "+gWord,author:trimStr(S.d['B.01']),keywords:"taaruf, CV",creator:PRODUCT_NAME});
   const need=hh=>{ if(y+hh>BOT) newPage(); };
   const font=(w,sz,col)=>{ doc.setFont('helvetica',w); doc.setFontSize(sz); doc.setTextColor(...col); };
   const nm=trimStr(S.d['B.01'])||'-'; const pang=trimStr(S.d['B.02']);
 
   /* ---- header ---- */
-  font('bold',8.5,acc); doc.text("CV TA'ARUF",PM,y+3,{charSpace:0.6});
+  font('bold',8.5,acc); doc.text("CV TAARUF",PM,y+3,{charSpace:0.6});
   { const gl=gWord.toUpperCase(); font('bold',8,[255,255,255]); const bw=doc.getTextWidth(gl)+0.6*(gl.length-1)+6;
     doc.setFillColor(...acc); doc.roundedRect(PM+CW-bw,y-0.9,bw,5.8,1,1,'F'); doc.text(gl,PM+CW-bw+3,y+3,{charSpace:0.6}); }
   font('bold',24,ink); const nl=doc.splitTextToSize(nm,CW); doc.text(nl,PM,y+14); y+=14+(nl.length-1)*9;
@@ -815,9 +833,9 @@ async function genPdf(){
   const missAll=F.filter(f=>f.req&&visible(f)&&!reqOK(f));
   if(missAll.length){
     tried=true;
-    const secsWithMiss=[...new Set(missAll.map(f=>f.sec==='A'?'gerbang awal':f.sec))];
+    const secsWithMiss=[...new Set(missAll.map(f=>f.sec==='A'?'halaman depan':secName(f.sec)))];
     if(S.sec==='N'){
-      const al=$('#alert'); if(al){ al.hidden=false; al.innerHTML=''; al.append(h('b',null,'PDF belum bisa dibuat. Ada '+missAll.length+' isian wajib yang belum lengkap di bagian: '),secsWithMiss.join(', ')+'.'); al.scrollIntoView({block:'center'}); }
+      const al=$('#alert'); if(al){ al.hidden=false; al.innerHTML=''; al.append(h('b',null,'PDF belum bisa dibuat. Masih ada '+missAll.length+' isian wajib yang kosong di bagian: '),secsWithMiss.join(', ')+'.'); al.scrollIntoView({block:'center'}); }
       markInvalid(S.sec);
     } else {
       const target=missAll.find(f=>f.sec!=='A')?.sec || 'B';
@@ -826,13 +844,13 @@ async function genPdf(){
     }
     return;
   }
-  if(!window.jspdf){ toast('Pustaka PDF belum termuat. Periksa koneksi internet lalu coba lagi.',5000); return; }
+  if(!window.jspdf){ toast('Fitur PDF belum siap. Muat ulang halaman ini, lalu coba lagi.',5000); return; }
   try{
     const doc=buildPdf(); const blob=doc.output('blob');
     const res=await saveFile(pdfName(),blob);
     if(res==='saved'){ S.pdf=true; saveDraft(); toast('PDF dibuat.'); render(); }
     else if(res==='declined') toast('Penyimpanan dibatalkan.');
-    else toast('Unduhan tidak berjalan di sini.',4500);
+    else toast(DL_FAIL,4500);
   }catch(e){ toast('PDF gagal dibuat: '+(e&&e.message||e),5000); }
 }
 
@@ -842,21 +860,21 @@ function renderTop(){
   const t=$('#topr'); t.innerHTML='';
   const g=S.d['B.03'];
   const panel=h('div',{class:'menupanel'},
-    h('div',{class:'mstat',id:'storagetag'},storageOK?'Draf lokal tersimpan':'Draf lokal tidak dapat disimpan di perangkat ini'),
+    h('div',{class:'mstat',id:'storagetag'},storageTagText()),
     S.stage==='form'?h('div',{class:'mstat',id:'backupstat'},backupStatusText()):null,
     S.stage==='form'?h('button',{type:'button',class:'btn',onclick:manualBackup},'Unduh cadangan sekarang'):null,
-    fileLoadButton('Muat draf dari berkas cadangan','btn'),
+    fileLoadButton('Buka file cadangan','btn'),
     S.stage==='form'?h('button',{type:'button',class:'btn',onclick:()=>{ S.stage='landing'; render(); window.scrollTo(0,0); }},'Ubah jenis kelamin ('+(g||'-')+')'):null,
-    h('p',{class:'mnote'},'Cadangan (.json) terunduh otomatis berkala. Bila ada beberapa berkas, pakai yang terbaru.'),
-    hasAnyDraft()?h('button',{type:'button',class:'linkbtn',style:'justify-self:start',onclick:confirmReset},'Mulai dari awal (hapus draf)'):null);
+    h('p',{class:'mnote'},'File cadangan ikut terunduh otomatis saat Anda mengisi. Kalau ada banyak, pakai yang paling baru.'),
+    hasAnyDraft()?h('button',{type:'button',class:'linkbtn',style:'justify-self:start',onclick:confirmReset},'Mulai dari awal (hapus isian)'):null);
   const gc=S.stage==='form'?GV():null;
   if(gc) t.append(h('span',{class:'gbadge',id:'gbadge'},gc==='A'?'AKHWAT':'IKHWAN'));
-  t.append(h('details',{class:'menu'},h('summary',{class:'tag'},'Draf dan cadangan'),panel));
+  t.append(h('details',{class:'menu'},h('summary',{class:'tag'},'Data & cadangan'),panel));
 }
 function renderNav(){
   const wrap=$('#secnavwrap'); wrap.hidden=false; wrap.innerHTML='';
   const i=SEC_ORDER.indexOf(S.sec); const sec=SECTIONS[i];
-  const nav=h('nav',{class:'secnav'+(navOpen?' open':''),id:'secnav','aria-label':'Bagian formulir'});
+  const nav=h('nav',{class:'secnav'+(navOpen?' open':''),id:'secnav','aria-label':'Daftar bagian'});
   SECTIONS.forEach(s=>{
     const st=sectionStatus(s.id);
     nav.append(h('button',{type:'button',class:'secbtn'+(S.sec===s.id?' cur':'')+(st.done?' done':''),'data-sec':s.id,'aria-current':S.sec===s.id?'step':null,onclick:()=>go(s.id)},
@@ -866,50 +884,90 @@ function renderNav(){
   const tg=h('button',{type:'button',class:'navcur',id:'navtoggle','aria-expanded':String(navOpen),'aria-controls':'secnav',onclick:()=>{ navOpen=!navOpen; nav.classList.toggle('open',navOpen); tg.setAttribute('aria-expanded',String(navOpen)); chev.textContent=navOpen?'Tutup daftar':'Semua bagian'; }},
     h('span',null,h('span',{class:'nc1'},'Bagian '+(i+1)+' dari '+SECTIONS.length),h('span',{class:'nc2'},sec.title.replace(/^[A-Z]\.\s*/,''))));
   const chev=h('span',{class:'chev'},navOpen?'Tutup daftar':'Semua bagian'); tg.append(chev);
-  wrap.append(h('div',{class:'navbar'},tg,h('p',{class:'sidehead'},'Bagian formulir'),nav));
+  wrap.append(h('div',{class:'navbar'},tg,h('p',{class:'sidehead'},'Daftar bagian'),nav));
 }
+/* ---------- halaman depan ---------- */
+const KEY_POINTS=[
+  ['Tidak dikirim ke server mana pun.','Isian Anda hanya tersimpan di HP atau laptop ini.'],
+  ['Boleh berhenti kapan saja.','Isian tersimpan otomatis, jadi bisa dilanjutkan nanti.'],
+  ['Hasilnya satu file PDF.','Kirim sendiri ke orang yang Anda tuju, jangan disebar ke publik.']
+];
+const MORE_POINTS=[
+  'Tidak ada pertanyaan tentang nama anggota keluarga, alamat lengkap, atau tanggal lahir lengkap.',
+  'Tidak ada fitur unggah dokumen.',
+  'Mau lanjut di HP atau laptop lain? Unduh file cadangan, lalu buka di sana lewat menu "Data & cadangan". File cadangan juga terunduh otomatis saat Anda mengisi.'
+];
+const GATE_IDS=['B.03','A.01','A.02'];
+function hasWork(){ return !!resumeOffer || Object.keys(S.d).some(k=>!GATE_IDS.includes(k)); } /* ada isian di luar pilihan awal yang bisa tertimpa */
+function secName(id){ const s=SECTIONS.find(x=>x.id===id); return s?s.short:''; }
+function whenText(ts){ try{ return new Date(ts).toLocaleString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
+function inSession(){ return !!S.sec&&Object.keys(S.d).length>0; }
+function startHintText(){
+  const g=!reqOK(byId['B.03']), c=['A.01','A.02'].filter(id=>!reqOK(byId[id])).length;
+  if(g&&c) return 'Pilih jenis kelamin dan centang '+c+' pernyataan.';
+  if(g) return 'Tinggal pilih jenis kelamin.';
+  if(c) return 'Tinggal centang '+c+' pernyataan.';
+  return inSession()?'':'Sudah lengkap. Silakan mulai.';
+}
+function markGate(){
+  GATE_IDS.forEach(id=>{
+    const el=document.getElementById('f-'+id); if(!el) return; const bad=!reqOK(byId[id]);
+    el.classList.toggle('invalid',bad); const er=document.getElementById('er-'+id); if(er) er.hidden=!bad;
+  });
+}
+function refreshStart(){
+  const hint=document.getElementById('starthint'); if(hint) hint.textContent=startHintText();
+  if(landTried) markGate();
+}
+function startForm(){
+  const miss=GATE_IDS.filter(id=>!reqOK(byId[id]));
+  if(miss.length){
+    landTried=true; refreshStart();
+    const el=document.getElementById('f-'+miss[0]);
+    if(el){
+      el.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+      const c=el.querySelector('button.pill,input'); if(c) c.focus({preventScroll:true});
+    }
+    return;
+  }
+  landTried=false; if(!S.sec) S.sec='B'; S.stage='form'; saveDraft(); render(); window.scrollTo(0,0);
+}
+function setErr(fld,txt){ const e=fld.querySelector('.err'); if(e) e.textContent=txt; }
 function renderLanding(main){
   main.append(h('section',{class:'hero'},
-    h('h1',null,PRODUCT_NAME),
-    h('p',{class:'lead'},"CV ta'aruf lengkap dalam 13 bagian, bisa dicicil kapan saja. Isian tersimpan otomatis di perangkat ini, dan berkas cadangan terunduh otomatis secara berkala agar dapat dipindah ke perangkat lain.")));
-  const inSession=S.sec&&Object.keys(S.d).length>0;
-  if(inSession){
-    const sec=SECTIONS.find(x=>x.id===S.sec);
-    main.append(h('div',{class:'draftbox'},h('div',null,h('b',null,'Isian Anda masih tersimpan. '),'Terakhir di bagian '+(sec?sec.title:S.sec)+'.'),
+    h('h1',null,'CV taaruf lengkap, hasilnya satu file PDF siap kirim'),
+    h('p',{class:'lead'},'Isi '+SECTIONS.length+' bagian, dari data diri sampai kriteria calon pasangan.')));
+  const offer=resumeOffer, going=inSession();
+  if(offer){
+    main.append(h('div',{class:'draftbox'},
+      h('div',null,h('b',null,'Isian Anda sebelumnya masih ada.'),h('div',{class:'small'},'Terakhir di bagian '+secName(offer.sec||'B')+', disimpan '+whenText(offer.ts)+'.')),
       h('div',{class:'genrow',style:'margin:0;align-items:center'},
-        h('button',{type:'button',class:'btn primary',id:'contbtn',onclick:()=>{ S.stage='form'; saveDraft(); render(); window.scrollTo(0,0); }},'Lanjutkan mengisi'),
+        h('button',{type:'button',class:'btn primary',id:'contbtn',onclick:()=>applyDraft(offer)},'Lanjutkan isian'),
         h('button',{type:'button',class:'linkbtn',onclick:confirmReset},'Mulai dari awal'))));
+  } else if(going){
+    main.append(h('div',{class:'draftbox'},
+      h('div',null,h('b',null,'Isian Anda masih tersimpan.'),h('div',{class:'small'},'Terakhir di bagian '+secName(S.sec)+'.')),
+      h('button',{type:'button',class:'linkbtn',onclick:confirmReset},'Mulai dari awal')));
   }
-  if(resumeOffer){
-    const dr=resumeOffer;
-    main.append(h('div',{class:'draftbox'},h('div',null,h('b',null,'Draf ditemukan. '),'Tersimpan '+new Date(dr.ts).toLocaleString('id-ID')+'.'),
-      h('div',{class:'genrow',style:'margin:0'},
-        h('button',{type:'button',class:'btn primary',onclick:()=>applyDraft(dr)},'Lanjutkan draf'),
-        h('button',{type:'button',class:'linkbtn',onclick:confirmReset},'Mulai dari awal'))));
+  main.append(h('ul',{class:'points'},KEY_POINTS.map(([b,t])=>
+    h('li',null,h('span',{class:'ck',html:ICON_OK}),h('span',null,h('b',null,b),' ',t)))));
+  if(!offer){
+    const gFld=buildField(byId['B.03']), a1=buildField(byId['A.01']), a2=buildField(byId['A.02']);
+    const lbl=gFld.querySelector('.lbl'); if(lbl) lbl.after(h('div',{class:'hint',style:'margin-top:-4px'},'Menentukan pertanyaan yang muncul.'));
+    setErr(gFld,'Pilih Ikhwan atau Akhwat dulu.'); setErr(a1,'Centang dulu untuk lanjut.'); setErr(a2,'Centang dulu untuk lanjut.');
+    const card=h('div',{class:'card',id:'startcard'},gFld,a1,a2);
+    card.addEventListener('click',refreshStart);   /* pilihan jenis kelamin: status sudah berubah saat klik sampai ke sini */
+    card.addEventListener('change',refreshStart);  /* kotak centang: status berubah pada event change */
+    main.append(h('h2',{class:'stephead'},'Sebelum mulai'),card);
   }
-  const closure=h('section',{class:'panel closure',style:'margin-bottom:14px'},
-    h('h2',{style:'font-size:1.1rem'},'Sebelum mulai'),
-    h('ul',null,
-      h('li',null,'Isian diproses di perangkat ini dan tidak dikirim ke server mana pun.'),
-      h('li',null,'Anda dapat berpindah bagian secara bebas; tidak perlu selesai sekaligus.'),
-      h('li',null,'Draf tersimpan otomatis di peramban ini. Berkas cadangan (.json) terunduh otomatis secara berkala; simpan berkas ini bila berpindah perangkat.'),
-      h('li',null,'Hasil akhir berupa satu PDF untuk Anda kirimkan sendiri kepada pihak yang dituju, bukan untuk dibagikan ke publik. Tidak ada fitur unggah dokumen.'),
-      h('li',null,'Formulir ini tidak meminta nama anggota keluarga, alamat lengkap, maupun tanggal lahir lengkap.')),
-    h('div',{class:'card',style:'margin-top:14px'},buildField(byId['A.01']), buildField(byId['A.02']), buildField(byId['B.03'])));
-  main.append(closure);
-  main.append(h('div',{class:'panel',style:'margin-bottom:14px'},
-    h('b',null,'Punya berkas cadangan dari perangkat lain?'),
-    h('p',{class:'small muted',style:'margin:4px 0 10px'},'Pilih berkas cadangan (.json) untuk melanjutkan di sini.'),
-    fileLoadButton()));
-  main.append(h('div',{class:'actions',style:'margin:14px -16px 0'},h('div',{class:'arow'},h('span',{class:'spacer'}),
-    h('button',{type:'button',class:'btn primary',id:'go',onclick:()=>{
-      if(!(isFilled(byId['A.01'])&&isFilled(byId['A.02'])&&reqOK(byId['B.03']))) return;
-      if(!S.sec) S.sec='B'; S.stage='form'; saveDraft(); render(); window.scrollTo(0,0);
-    }},S.sec&&Object.keys(S.d).length?'Lanjutkan mengisi':'Mulai isi form'))));
-  main.addEventListener('click',()=>setTimeout(updGo,0));
-  main.addEventListener('change',()=>setTimeout(updGo,0));
-  function updGo(){ const btn=$('#go'); if(btn) btn.disabled=!(isFilled(byId['A.01'])&&isFilled(byId['A.02'])&&reqOK(byId['B.03'])); }
-  updGo();
+  main.append(h('details',{class:'more'},h('summary',null,'Selengkapnya'),h('ul',null,MORE_POINTS.map(t=>h('li',null,t)))));
+  main.append(h('p',{class:'restore'},fileLoadButton('Sudah punya file cadangan? Buka di sini','linkbtn')));
+  if(!offer){
+    main.append(h('div',{class:'actions',style:'margin:14px -16px 0'},h('div',{class:'arow'},
+      h('p',{class:'starthint',id:'starthint','aria-live':'polite'}),
+      h('button',{type:'button',class:'btn primary',id:'go','aria-describedby':'starthint',onclick:startForm},going?'Lanjutkan mengisi':'Mulai isi CV'))));
+    refreshStart();
+  }
 }
 const SEC_ORDER=SECTIONS.map(s=>s.id);
 function prevSec(id){ const i=SEC_ORDER.indexOf(id); return SEC_ORDER[Math.max(0,i-1)]; }
@@ -949,7 +1007,7 @@ function actionBar(secId){
   const reqFs=F.filter(f=>f.req&&visible(f)); const done=reqFs.filter(reqOK).length; const pct=reqFs.length?Math.round(100*done/reqFs.length):0;
   const back=h('button',{type:'button',class:'btn ic',disabled:prev?null:true,'aria-label':prev?('Kembali ke bagian '+prev.title):'Kembali',title:prev?('Kembali ke '+prev.title):null,onclick:()=>{ if(prev) go(prev.id); }},
     h('span',{class:'icn',html:ICON_BACK}),h('span',{class:'lw'},'Kembali'));
-  const bk=h('button',{type:'button',class:'btn ic',id:'bkbtn','aria-label':'Cadangkan: unduh berkas cadangan (.json)',title:'Unduh berkas cadangan (.json)',onclick:manualBackup},
+  const bk=h('button',{type:'button',class:'btn ic',id:'bkbtn','aria-label':'Cadangkan: unduh file cadangan',title:'Unduh file cadangan',onclick:manualBackup},
     h('span',{class:'icn',html:ICON_DL}),h('span',{class:'lw'},'Cadangkan'));
   const nx=next
     ? h('button',{type:'button',class:'btn primary nx','aria-label':'Lanjut ke bagian '+next.title,onclick:()=>go(next.id)},h('small',null,'Lanjut ke bagian '+next.id),h('b',null,next.short))
@@ -983,12 +1041,12 @@ function renderSectionBody(main,secId){
     main.append(h('div',{class:'panel',style:'margin-bottom:14px'},
       h('b',null,'Sebelum mengirim PDF'),
       h('ul',{style:'margin-top:8px;padding-left:20px;display:grid;gap:4px'},
-        h('li',null,'Kirim lewat pesan pribadi kepada pihak yang dituju, atau kepada walinya.'),
-        h('li',null,'Jangan unggah ke grup, media sosial, atau tautan publik. Setiap halaman PDF memuat catatan "Mohon tidak disebarluaskan".'),
-        h('li',null,'Untuk dibagikan ke publik, gunakan kartu dari generator versi mini yang tidak memuat data pribadi.'))));
+        h('li',null,'Kirim lewat chat pribadi ke orang yang Anda tuju, atau ke walinya.'),
+        h('li',null,'Jangan taruh di grup, media sosial, atau link yang bisa dibuka siapa saja. Di setiap halaman PDF sudah ada tulisan "Mohon tidak disebarluaskan".'),
+        h('li',null,'Kalau ingin membagikan ke umum, pakai kartu dari generator versi mini. Kartu itu tidak memuat data pribadi.'))));
     main.append(h('div',{class:'panel',style:'margin-bottom:14px'},
       h('b',null,'Lampiran yang perlu disiapkan terpisah'),
-      h('p',{class:'small muted',style:'margin-top:4px'},'Berkas ini tidak diunggah di sini. Daftar berikut hanya pengingat dan dicantumkan sebagai daftar centang pada PDF.'),
+      h('p',{class:'small muted',style:'margin-top:4px'},'File-file ini tidak diunggah di sini. Daftar ini hanya pengingat, dan ikut dicetak di PDF sebagai daftar centang.'),
       h('ul',{style:'margin-top:8px;padding-left:20px'},ATTACH.map(a=>h('li',null,a)))));
   }
   main.append(actionBar(secId));
@@ -996,9 +1054,9 @@ function renderSectionBody(main,secId){
 }
 function hasAnyDraft(){ return Object.keys(S.d).length>0 || !!resumeOffer; }
 function resetAll(){
-  clearDraft(); S.d={}; S.stage='landing'; S.sec=null; S.pdf=false; tried=false;
+  clearDraft(); S.d={}; S.stage='landing'; S.sec=null; S.pdf=false; tried=false; landTried=false;
   Object.keys(VIEW).forEach(k=>delete VIEW[k]); lastBackupTs=0; dirty=false; resumeOffer=null;
-  render(); window.scrollTo(0,0); toast('Draf dihapus. Silakan mulai dari awal.');
+  render(); window.scrollTo(0,0); toast('Isian dihapus. Silakan mulai dari awal.');
 }
 function confirmReset(){
   const dm=document.querySelector('details.menu[open]'); if(dm) dm.open=false;
@@ -1027,7 +1085,8 @@ function go(id,mode){ maybeAutoBackup(90000); saveDraft(); S.sec=id; tried=false
 function renderLab(){}
 
 /* ---------- boot ---------- */
-const dr0=loadDraft(); if(draftHasData(dr0)) resumeOffer=dr0;
+const dr0=loadDraft();
+if(draftHasData(dr0)){ if(gateOK(dr0.d)) resumeOffer=dr0; else S.d=dr0.d; } /* isian yang belum lewat "pintu masuk" cukup diisikan kembali ke halaman depan */
 render();
 setInterval(()=>maybeAutoBackup(BACKUP_MIN_MS),30000);
 $('#homebtn').addEventListener('click',goHome);
