@@ -105,6 +105,20 @@ ulang di `jadwalkajian` dan `catatankajian`.
 - Tautan langsung di header dua proyek lain (pil dan spanduk) boleh tetap,
   tetapi sebaiknya distandarkan ke satu bentuk.
 
+## Uji sebelum push
+
+Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
+`index.html`, uji di Chromium headless (mis. Playwright) dan pastikan:
+
+- Halaman depan: pengunjung baru, pengunjung kembali, sedang mengisi, pesan
+  kesalahan tombol "Mulai isi CV", file cadangan, dan mulai dari awal.
+- Menu: isi dan tautan benar; klik di luar dan Esc menutup menu.
+- PDF terbentuk; header "CV TAARUF"; tautan footer benar.
+- axe-core: 0 pelanggaran di halaman depan (terang dan gelap) dan di 13 bagian
+  formulir (mode isian dan ringkasan).
+- Tinggi header tetap 44 px di lebar 320 sampai 430 px (pakai font asli),
+  tanpa geser horizontal.
+
 ## Lapor ke sesi "Auditor Project"
 
 Amal menugaskan satu sesi Claude terpisah sebagai auditor lintas-project

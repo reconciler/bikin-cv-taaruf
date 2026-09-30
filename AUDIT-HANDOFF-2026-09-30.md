@@ -131,3 +131,21 @@ lain dan dijaga Auditor)
 - Jadwal Kajian: https://reconciler.github.io/jadwalkajian/
 - Catatan Kajian: https://reconciler.github.io/catatankajian/
 - Bikin CV Taaruf: https://reconciler.github.io/bikin-cv-taaruf/
+
+## 6. Temuan aksesibilitas formulir (sudah diperbaiki)
+
+- **Koreksi cakupan.** Klaim "0 pelanggaran aksesibilitas" di bagian 3 hanya
+  mencakup halaman depan (terang, gelap, pengunjung kembali). Formulir belum
+  diperiksa saat itu.
+- **Temuan** (axe-core, 13 bagian formulir; sudah ada sebelum perubahan hari
+  ini):
+  - 61 kolom isian tanpa nama yang terbaca pembaca layar (kategori critical).
+  - 1 pilihan (Jenjang di riwayat pendidikan) tanpa nama (critical).
+  - Halaman formulir tanpa `h1` (moderate).
+- **Perbaikan.** Hanya menambah atribut, tanpa mengubah tampilan atau logika:
+  `aria-labelledby` dan `aria-required` pada kolom isian, `aria-label` pada
+  daftar dan tabel, dan `h1` yang disembunyikan secara visual.
+- **Hasil.** 0 pelanggaran di 39 pemindaian (13 bagian × kosong, terisi, dan
+  ringkasan). 94 pengecekan otomatis lulus.
+- Tidak menyentuh janji privasi. Dua PIC lain sebaiknya menjalankan
+  pemeriksaan serupa di situs masing-masing.
