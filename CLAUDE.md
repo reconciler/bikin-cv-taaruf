@@ -29,6 +29,11 @@ Tidak ada isu biaya/kredit (GitHub Pages gratis).
 - **Berkas situs baru harus didaftarkan** di langkah "Salin berkas situs" pada
   `deploy.yml` (daftar eksplisit, bukan "semua kecuali"). Kalau lupa, berkas
   itu tidak tayang dan situs memberi 404.
+- **Uji otomatis setelah deploy:** langkah terakhir `deploy.yml` memakai `curl`
+  di runner: beranda 200 dengan penanda, setiap berkas di `_site/` 200, dan
+  `CLAUDE.md`, `README.md`, `AUDIT-HANDOFF-*.md` 404 (mengulang sampai sekitar
+  2 menit). Jangan dilonggarkan supaya hijau; kalau gagal, selidiki
+  penyebabnya. Uji ini tidak menilai tampilan.
 - **Jika situs rusak:** Amal mengembalikan Settings → Pages → Source ke
   "Deploy from a branch" (`main`, root). Situs pulih seketika.
 
@@ -90,29 +95,32 @@ ke bentuk lama tanpa alasan kuat:
   (`gateOK()`). Isian dari draf atau file cadangan yang belum lolos pintu ini
   dikembalikan ke halaman depan, tidak langsung masuk formulir.
 
-## Menu "Tentang" dan tautan antarproyek (catatan desain)
+## Tombol "Tentang" dan tautan antarproyek (catatan desain)
 
-Ditambahkan 30 Sep 2026 atas permintaan Amal. Polanya dimaksudkan bisa dipakai
-ulang di `jadwalkajian` dan `catatankajian`.
+Ditambahkan 30 Sep 2026, direvisi 1 Okt 2026 atas permintaan Amal. Polanya
+dimaksudkan bisa dipakai ulang di `jadwalkajian` dan `catatankajian`.
 
-- **Satu akordeon "Menu" di header**, bukan pil tambahan. Diukur dengan font
-  asli di lebar 320 sampai 1280 px: dua pil membuat header pecah dua baris di
-  ponsel, satu pil tidak. Tinggi header harus tetap 44 px.
-- **Isi berurutan:** Data & cadangan (khusus proyek ini), Tentang (Dibuat oleh
-  dengan tautan Instagram, kode sumber di GitHub), Proyek lain (semua proyek
-  saudara). **Tanpa deskripsi singkat** (permintaan Amal).
+- **Satu tombol "Tentang" di header** (akordeon), bukan pil tambahan. Diukur
+  dengan font asli di lebar 320 sampai 1280 px: dua pil membuat header pecah
+  dua baris di ponsel, satu pil tidak. Tinggi header harus tetap 44 px.
+- **Isi panel:** hanya kredit pembuat ("Dibuat oleh @amalwoodworking", tautan
+  Instagram) dan Proyek lain (semua proyek saudara). **Tanpa deskripsi singkat
+  dan tanpa tautan kode sumber/GitHub** (permintaan Amal).
+- **"Data & cadangan" tidak di panel.** Blok tertutup di halaman depan (muncul
+  bila ada isian tersimpan) dan di bawah daftar bagian formulir (ponsel:
+  muncul saat daftar bagian dibuka; desktop: selalu terlihat). Tombol ikon
+  "Cadangkan" di bilah bawah formulir tetap. Jangan menambah kontrol di header.
 - **Aturan:** hanya tautan biasa. Tanpa skrip, penyimpanan, `fetch`, iframe,
   atau parameter pelacak yang dibagi antarproyek (ketiga situs satu origin;
-  lihat `AUDIT-HANDOFF-2026-09-30.md` bagian 4). Tautan ke luar (Instagram,
-  GitHub) dibuka di tab baru dengan `rel="noopener noreferrer"` supaya asal
-  kunjungan tidak terkirim. Proyek saudara dibuka di tab yang sama. Menu
-  menutup dengan klik di luar dan tombol Esc.
+  lihat `AUDIT-HANDOFF-2026-09-30.md` bagian 4). Tautan ke luar (Instagram)
+  dibuka di tab baru dengan `rel="noopener noreferrer"` supaya asal kunjungan
+  tidak terkirim. Proyek saudara dibuka di tab yang sama. Panel menutup dengan
+  klik di luar dan tombol Esc.
 - **Daftar resmi** ada di konstanta `ABOUT` di `index.html` dan harus sama
   dengan daftar ini:
   - Pembuat: `@amalwoodworking`, https://www.instagram.com/amalwoodworking/
   - Jadwal Kajian: https://reconciler.github.io/jadwalkajian/
   - Catatan Kajian: https://reconciler.github.io/catatankajian/
-  - Kode sumber proyek ini: https://github.com/reconciler/bikin-cv-taaruf
 - Tautan langsung di header dua proyek lain (pil dan spanduk) boleh tetap,
   tetapi sebaiknya distandarkan ke satu bentuk.
 
@@ -123,7 +131,10 @@ Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
 
 - Halaman depan: pengunjung baru, pengunjung kembali, sedang mengisi, pesan
   kesalahan tombol "Mulai isi CV", file cadangan, dan mulai dari awal.
-- Menu: isi dan tautan benar; klik di luar dan Esc menutup menu.
+- Tombol "Tentang": isi dan tautan benar; klik di luar dan Esc menutup panel.
+- "Data & cadangan": semua fungsinya terjangkau di halaman depan dan di
+  formulir (ponsel dan desktop): status penyimpanan, status cadangan, unduh
+  cadangan, buka file cadangan, ubah jenis kelamin, mulai dari awal.
 - PDF terbentuk; header "CV TAARUF"; tautan footer benar.
 - axe-core: 0 pelanggaran di halaman depan (terang dan gelap) dan di 13 bagian
   formulir (mode isian dan ringkasan).

@@ -98,6 +98,12 @@ button.tag{cursor:pointer}
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:600px){.menupanel{position:fixed;left:16px;right:16px;top:60px;width:auto}}
 .menupanel .mnote{font-size:.75rem;color:var(--muted);line-height:1.4}
+.databox .mstat{font-size:.8125rem;color:var(--muted)}
+.databox .btn{width:100%;min-height:42px;text-align:left}
+.databox .mnote{margin:0;font-size:.75rem;color:var(--muted);line-height:1.4}
+.databox>.mgroup{padding:0 0 8px}
+.navdata{margin-top:6px;border-top:1px solid var(--line)}
+@media (max-width:959px){.secnav:not(.open)~.navdata{display:none}}
 .menupanel{max-height:calc(100vh - 76px);max-height:calc(100dvh - 76px);overflow:auto;overscroll-behavior:contain}
 .mgroup{display:grid;gap:8px}
 .mgroup+.mgroup{border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
@@ -285,7 +291,6 @@ const SITE_DOMAIN='reconciler.github.io/bikin-cv-taaruf';
 // Tautan di menu "Tentang". Daftar proyek saudara harus sama dengan CLAUDE.md (dijaga Auditor).
 const ABOUT={
   owner:{name:'@amalwoodworking',url:'https://www.instagram.com/amalwoodworking/'},
-  source:{name:'Kode sumber di GitHub',url:'https://github.com/reconciler/bikin-cv-taaruf'},
   others:[
     {name:'Jadwal Kajian',url:'https://reconciler.github.io/jadwalkajian/'},
     {name:'Catatan Kajian',url:'https://reconciler.github.io/catatankajian/'}
@@ -889,31 +894,31 @@ function extLink(a,text,cls,hidden){ return h('a',{class:cls||null,href:a.url,ta
 function aboutGroups(){
   return [
     h('div',{class:'mgroup links'},
-      h('p',{class:'mhead'},'Tentang'),
-      h('p',{class:'mline'},'Dibuat oleh',extLink(ABOUT.owner,ABOUT.owner.name,null,' di Instagram (buka di tab baru)')),
-      extLink(ABOUT.source,ABOUT.source.name,'mlink',' (buka di tab baru)')),
+      h('p',{class:'mline'},'Dibuat oleh',extLink(ABOUT.owner,ABOUT.owner.name,null,' di Instagram (buka di tab baru)'))),
     h('div',{class:'mgroup links'},
       h('p',{class:'mhead'},'Proyek lain'),
       ABOUT.others.map(o=>h('a',{class:'mlink',href:o.url},o.name)))
   ];
 }
+/* blok "Data & cadangan": dulu di menu header, sekarang di halaman depan dan di bawah daftar bagian formulir */
+function dataBlock(){
+  const form=S.stage==='form'; const g=S.d['B.03'];
+  return h('details',{class:'more databox'},h('summary',null,'Data & cadangan'),
+    h('div',{class:'mgroup'},
+      h('div',{class:'mstat',id:'storagetag'},storageTagText()),
+      form?h('div',{class:'mstat',id:'backupstat'},backupStatusText()):null,
+      form?h('button',{type:'button',class:'btn',onclick:manualBackup},'Unduh cadangan sekarang'):null,
+      form?fileLoadButton('Buka file cadangan','btn'):null,
+      form?h('button',{type:'button',class:'btn',onclick:()=>{ S.stage='landing'; render(); window.scrollTo(0,0); }},'Ubah jenis kelamin ('+(g||'-')+')'):null,
+      h('p',{class:'mnote'},'File cadangan ikut terunduh otomatis saat Anda mengisi. Kalau ada banyak, pakai yang paling baru.'),
+      hasAnyDraft()?h('button',{type:'button',class:'linkbtn',style:'justify-self:start',onclick:confirmReset},'Mulai dari awal (hapus isian)'):null));
+}
 function renderTop(){
   const t=$('#topr'); t.innerHTML='';
-  const g=S.d['B.03'];
-  const panel=h('div',{class:'menupanel'},
-    h('div',{class:'mgroup'},
-      h('p',{class:'mhead'},'Data & cadangan'),
-      h('div',{class:'mstat',id:'storagetag'},storageTagText()),
-      S.stage==='form'?h('div',{class:'mstat',id:'backupstat'},backupStatusText()):null,
-      S.stage==='form'?h('button',{type:'button',class:'btn',onclick:manualBackup},'Unduh cadangan sekarang'):null,
-      fileLoadButton('Buka file cadangan','btn'),
-      S.stage==='form'?h('button',{type:'button',class:'btn',onclick:()=>{ S.stage='landing'; render(); window.scrollTo(0,0); }},'Ubah jenis kelamin ('+(g||'-')+')'):null,
-      h('p',{class:'mnote'},'File cadangan ikut terunduh otomatis saat Anda mengisi. Kalau ada banyak, pakai yang paling baru.'),
-      hasAnyDraft()?h('button',{type:'button',class:'linkbtn',style:'justify-self:start',onclick:confirmReset},'Mulai dari awal (hapus isian)'):null),
-    aboutGroups());
+  const panel=h('div',{class:'menupanel'},aboutGroups());
   const gc=S.stage==='form'?GV():null;
   if(gc) t.append(h('span',{class:'gbadge',id:'gbadge'},gc==='A'?'AKHWAT':'IKHWAN'));
-  t.append(h('details',{class:'menu'},h('summary',{class:'tag'},'Menu'),panel));
+  t.append(h('details',{class:'menu'},h('summary',{class:'tag'},'Tentang'),panel));
 }
 function renderNav(){
   const wrap=$('#secnavwrap'); wrap.hidden=false; wrap.innerHTML='';
@@ -928,7 +933,7 @@ function renderNav(){
   const tg=h('button',{type:'button',class:'navcur',id:'navtoggle','aria-expanded':String(navOpen),'aria-controls':'secnav',onclick:()=>{ navOpen=!navOpen; nav.classList.toggle('open',navOpen); tg.setAttribute('aria-expanded',String(navOpen)); chev.textContent=navOpen?'Tutup daftar':'Semua bagian'; }},
     h('span',null,h('span',{class:'nc1'},'Bagian '+(i+1)+' dari '+SECTIONS.length),h('span',{class:'nc2'},sec.title.replace(/^[A-Z]\.\s*/,''))));
   const chev=h('span',{class:'chev'},navOpen?'Tutup daftar':'Semua bagian'); tg.append(chev);
-  wrap.append(h('div',{class:'navbar'},tg,h('p',{class:'sidehead'},'Daftar bagian'),nav));
+  wrap.append(h('div',{class:'navbar'},tg,h('p',{class:'sidehead'},'Daftar bagian'),nav,h('div',{class:'navdata'},dataBlock())));
 }
 /* ---------- halaman depan ---------- */
 const KEY_POINTS=[
@@ -939,7 +944,7 @@ const KEY_POINTS=[
 const MORE_POINTS=[
   'Tidak ada pertanyaan tentang nama anggota keluarga, alamat lengkap, atau tanggal lahir lengkap.',
   'Tidak ada fitur unggah dokumen.',
-  'Mau lanjut di HP atau laptop lain? Unduh file cadangan lewat "Menu" saat mengisi, lalu buka file itu di sana. File cadangan juga terunduh otomatis.'
+  'Mau lanjut di HP atau laptop lain? Unduh file cadangan lewat tombol "Cadangkan" di bawah formulir, lalu buka file itu di sana lewat halaman depan. File cadangan juga terunduh otomatis.'
 ];
 const GATE_IDS=['B.03','A.01','A.02'];
 function hasWork(){ return !!resumeOffer || Object.keys(S.d).some(k=>!GATE_IDS.includes(k)); } /* ada isian di luar pilihan awal yang bisa tertimpa */
@@ -1005,6 +1010,7 @@ function renderLanding(main){
     main.append(h('h2',{class:'stephead'},'Sebelum mulai'),card);
   }
   main.append(h('details',{class:'more'},h('summary',null,'Selengkapnya'),h('ul',null,MORE_POINTS.map(t=>h('li',null,t)))));
+  if(hasAnyDraft()||!storageOK) main.append(dataBlock());
   main.append(h('p',{class:'restore'},fileLoadButton('Sudah punya file cadangan? Buka di sini','linkbtn')));
   if(!offer){
     main.append(h('div',{class:'actions',style:'margin:14px -16px 0'},h('div',{class:'arow'},

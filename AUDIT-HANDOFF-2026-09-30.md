@@ -174,3 +174,49 @@ mengganti Settings → Pages → Source sendiri.
   `deploy.yml` mohon ditambahkan ke daftar berkas inti di aturan akses.
 - Tidak ada perubahan janji privasi: origin dan URL sama, tidak ada data yang
   dikirim atau disimpan baru.
+
+## 8. Batch Amal 1 Okt 2026: tombol "Tentang" (menjalankan bagian 7 handoff Auditor)
+
+Amal mengonfirmasi "lanjut" langsung di chat PIC. Satu push, satu deploy.
+
+- **Tombol header "Tentang"** menggantikan "Menu". Panel hanya berisi
+  "Dibuat oleh @amalwoodworking" dan Proyek lain (Jadwal Kajian, Catatan
+  Kajian). Tautan kode sumber/GitHub dihapus (`ABOUT.source` dan render-nya).
+- **Penempatan baru "Data & cadangan"** (keputusan PIC, sesuai bagian 7):
+  - Halaman depan: blok tertutup di bawah "Selengkapnya", muncul bila ada
+    isian tersimpan atau penyimpanan bermasalah. Tautan "Sudah punya file
+    cadangan? Buka di sini" dan tombol "Cadangkan" di formulir tetap.
+  - Formulir: blok yang sama di bawah daftar bagian (ponsel: muncul saat
+    daftar bagian dibuka; desktop: selalu terlihat). Isinya status
+    penyimpanan, status cadangan, unduh cadangan, buka file cadangan, ubah
+    jenis kelamin, dan mulai dari awal.
+  - Alasan: tidak menambah kontrol di header, jadi tinggi 44 px aman, dan
+    fungsi tetap dekat dengan konteksnya.
+- **Tidak ada fungsi yang hilang.** Uji otomatis membuktikan tiap fungsi di
+  tempat barunya (unduhan menghasilkan `cadangan-bikin-cv-taaruf.json`, buka
+  file memuat isi dengan konfirmasi menimpa, ubah jenis kelamin kembali ke
+  halaman depan, mulai dari awal membuka konfirmasi).
+- **Ukuran header** (font asli, lebar 320 sampai 1280 px, halaman depan dan
+  formulir): tetap 44 px, tidak pecah baris, tidak ada geser horizontal.
+  Label "Tentang" lebih panjang daripada "Menu", tetapi tetap muat.
+- **Hasil uji:** 108 pengecekan Chromium lulus; axe 0 pelanggaran di 39
+  pemindaian formulir dan di halaman depan; `_site/` hanya dua berkas, PDF 10
+  halaman terbentuk.
+- Tidak menyentuh janji privasi dan tidak menghapus data.
+
+## 9. Uji otomatis pasca-deploy (bagian 8 handoff Auditor; pipeline terbit)
+
+Amal mengonfirmasi "lanjut" di chat PIC karena ini perubahan pipeline.
+
+- Satu langkah baru di akhir `deploy.yml`, hanya `curl` dan shell runner:
+  beranda 200 dengan teks penanda (`<title>Bikin CV Taaruf</title>`), setiap
+  berkas di `_site/` 200 (daftar diambil dari isi `_site/`), dan `CLAUDE.md`,
+  `README.md`, serta semua `AUDIT-HANDOFF-*.md` 404. Mengulang 12 kali dengan
+  jeda 10 detik, memakai `?v=<sha>` agar tidak terkena cache.
+- **Diuji lokal** dengan server tiruan: kasus normal lolos; berkas internal
+  ikut tayang gagal (`CLAUDE.md=200 harus-404`); berkas situs hilang gagal
+  (`lib/...=404 harus-200`); situs tidak terjangkau gagal.
+- Tambahan kecil di atas permintaan: semua `AUDIT-HANDOFF-*.md` diperiksa (404),
+  bukan hanya berkas bertanggal 2026-09-30, supaya handoff berikutnya ikut
+  terjaga otomatis.
+- Hasil run deploy dan langkah ini dicatat setelah push (lihat pesan chat).

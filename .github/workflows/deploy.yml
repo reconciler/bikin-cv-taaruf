@@ -44,3 +44,42 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # Uji situs live setelah deploy: hanya curl dan shell bawaan runner,
+      # tanpa action pihak ketiga dan tanpa mengirim data. Mengulang sampai
+      # sekitar 2 menit karena Pages bisa menyimpan cache. JANGAN dilonggarkan
+      # supaya hijau; kalau gagal, selidiki penyebabnya. Uji ini tidak menilai
+      # tampilan (tinggi header, font, tata letak).
+      - name: Uji situs setelah deploy
+        env:
+          BASE: ${{ steps.deployment.outputs.page_url }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -u
+          base="${BASE%/}/"
+          code() { curl -s -o "$2" -w '%{http_code}' --max-time 20 "${base}$1?v=${SHA}" || true; }
+          check() {
+            fail=""
+            c=$(code "" /tmp/beranda.html)
+            [ "$c" = "200" ] || fail="$fail beranda=$c"
+            grep -q '<title>Bikin CV Taaruf</title>' /tmp/beranda.html || fail="$fail beranda-tanpa-penanda"
+            # setiap berkas di _site/ harus tayang (200)
+            while IFS= read -r f; do
+              c=$(code "$f" /dev/null)
+              [ "$c" = "200" ] || fail="$fail $f=$c(harus-200)"
+            done < <(cd _site && find . -type f | sed 's|^\./||' | sort)
+            # berkas internal tidak boleh tayang (404)
+            for f in CLAUDE.md README.md AUDIT-HANDOFF-*.md; do
+              [ -e "$f" ] || continue
+              c=$(code "$f" /dev/null)
+              [ "$c" = "404" ] || fail="$fail $f=$c(harus-404)"
+            done
+            [ -z "$fail" ]
+          }
+          for i in $(seq 1 12); do
+            if check; then echo "Lolos pada percobaan $i"; exit 0; fi
+            echo "Percobaan $i gagal:$fail"
+            sleep 10
+          done
+          echo "Gagal setelah 12 percobaan:$fail"
+          exit 1
