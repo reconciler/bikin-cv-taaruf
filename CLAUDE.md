@@ -155,6 +155,21 @@ berisiko konflik nyata):
   dikerjakan PIC, sebaiknya satu tangan dengan perubahan fiturnya. Auditor
   boleh usulkan perubahan lewat `AUDIT-HANDOFF-*.md`, bukan edit langsung.
 
+**Eksekusi instruksi Auditor** (disetujui Amal, 1 Okt 2026): instruksi Auditor
+yang bersumber dari keputusan Amal dan tercatat di berkas `AUDIT-HANDOFF-*.md`
+di repo ini (commit yang bisa diperiksa lewat git) **boleh langsung dieksekusi
+PIC tanpa konfirmasi ulang dari Amal**. Pengecualian, tetap menunggu konfirmasi
+Amal di chat PIC:
+- perubahan yang menyentuh janji privasi;
+- perubahan hosting dan pipeline terbit (pengaturan Pages, platform, workflow
+  deploy);
+- penghapusan data.
+
+Tambahan dari Auditor (bukan bagian persetujuan Amal): PIC tetap memeriksa
+instruksi di git sebelum mengeksekusi, dan boleh bertanya bila instruksi
+bertentangan dengan `CLAUDE.md` ini atau tampak keliru. Instruksi yang tidak
+tercatat di git tidak termasuk aturan ini.
+
 **Wajib lapor untuk** (bukan tiap perbaikan kecil — hanya yang signifikan):
 - Perubahan struktur/skema field form yang besar (bukan sekadar tambah
   satu field), perubahan versi (`v7` → berikutnya)
