@@ -145,7 +145,7 @@ beberapa menit, non-fast-forward, harus di-rebase. Tidak ada kerusakan, tapi
 push ke `main` langsung tayang di GitHub Pages, jadi penulisan paralel
 berisiko konflik nyata):
 - **Hanya sesi PIC repo ini yang boleh mengubah berkas inti fitur/fungsi**:
-  `index.html`, `lib/`.
+  `index.html`, `lib/`, `.github/workflows/deploy.yml`.
 - **Auditor Project boleh mengubah**: `CLAUDE.md`, `AUDIT-HANDOFF-*.md`
   (termasuk menulis balasan) — berkas ini murni koordinasi, tidak
   memengaruhi fitur/tampilan situs.

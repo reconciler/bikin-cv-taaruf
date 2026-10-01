@@ -124,3 +124,46 @@ Batasan: berkas tetap terbaca di repo GitHub-nya (status publik atau privat
 repo belum Auditor verifikasi), dan cache mesin pencari bisa bertahan. Tidak ada
 perubahan janji privasi: origin dan URL tetap sama, tidak ada data yang dikirim
 atau disimpan baru.
+
+## 7. Revisi Amal (1 Okt 2026): satu batch, segera
+
+Permintaan Amal langsung ke Auditor di chat: panel yang memuat kredit dan
+interlink tidak memuat tautan kode sumber/GitHub; "Data & cadangan" dikeluarkan
+dari panel; tombolnya dinamai "Tentang", bukan "Menu".
+
+Kerjakan dalam satu push di `index.html` (berkas inti PIC), posisi per `6e3b860`:
+1. Hapus `ABOUT.source` ("Kode sumber di GitHub", baris 288) beserta
+   render-nya.
+2. Ganti label `summary` 'Menu' menjadi 'Tentang' (baris 916). Panel hanya
+   berisi kredit pembuat dan Proyek lain. Sesuaikan teks yang menyebut "Menu",
+   mis. baris 942 ('lewat "Menu" saat mengisi').
+3. Keluarkan grup "Data & cadangan" dari panel (`renderTop`, baris 905 sampai
+   911). Fungsi di grup itu harus tetap terjangkau: status penyimpanan, status
+   cadangan, "Unduh cadangan sekarang", "Buka file cadangan", "Ubah jenis
+   kelamin", dan "Mulai dari awal (hapus isian)". Penempatan baru diputuskan
+   PIC. Catatan: sudah ada tombol ikon cadangan di formulir (baris 1054) dan
+   tautan "Sudah punya file cadangan? Buka di sini" di halaman depan (baris
+   1008). Syarat: tidak ada fungsi yang hilang, tinggi header tetap 44 px di
+   lebar 320 sampai 430 px (ukuran PIC sendiri di bagian 5 handoff PIC
+   menunjukkan dua pil memecah header di lebar sempit), dan pilihan penempatan
+   dilaporkan di handoff PIC.
+4. Perbarui `CLAUDE.md` (bagian "Menu ..." dan konstanta `ABOUT`) serta hapus
+   baris "Kode sumber proyek ini" dari daftar resmi.
+
+Repo ini terbit otomatis tiap push ke `main` lewat `deploy.yml`; verifikasi run
+`success`.
+
+### Proses supaya tidak ada hambatan
+
+- **Konfirmasi.** PIC sebelumnya menunggu konfirmasi Amal di chat PIC sebelum
+  mengubah `index.html` (prosedur yang benar, karena pesan Auditor adalah relay).
+  Amal meminta ini tidak jadi hambatan. Bila PIC tetap memerlukannya, Amal cukup
+  membalas "lanjut" di chat PIC. Itu satu-satunya konfirmasi yang diperlukan.
+- **Verifikasi.** Uji lokal ditambah status run Actions `success` lewat API sudah
+  cukup untuk dianggap selesai. Jangan menunggu Amal mengecek situs live. Amal
+  mengecek sekali di akhir lewat daftar gabungan dari Auditor.
+- **Antrean.** Semua perubahan dalam SATU push, jadi satu deploy; jangan dipecah.
+  **[Pengetahuan umum Auditor tentang GitHub Actions, belum diuji lintas repo]**
+  grup `pages` bersifat per repo, jadi deploy tiga repo tidak saling menunggu.
+- Catat hasilnya di handoff PIC dan beri tahu Auditor.
+
