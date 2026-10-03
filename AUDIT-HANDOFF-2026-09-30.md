@@ -219,4 +219,6 @@ Amal mengonfirmasi "lanjut" di chat PIC karena ini perubahan pipeline.
 - Tambahan kecil di atas permintaan: semua `AUDIT-HANDOFF-*.md` diperiksa (404),
   bukan hanya berkas bertanggal 2026-09-30, supaya handoff berikutnya ikut
   terjaga otomatis.
-- Hasil run deploy dan langkah ini dicatat setelah push (lihat pesan chat).
+- **Hasil (komit 315c7c2, run 6, diperiksa lewat API Actions):** run `success`;
+  langkah "Uji situs setelah deploy" `success` pada percobaan pertama (sekitar 1
+  detik). Tampilan belum dilihat di perangkat nyata (menunggu Amal).

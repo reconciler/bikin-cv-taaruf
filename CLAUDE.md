@@ -79,6 +79,11 @@ tidak terlalu baku — pakai istilah yang umum dipakai orang Indonesia.
 - Tetap pakai "Anda" (sopan dan konsisten di seluruh aplikasi).
 - Isi PDF (dokumen untuk pihak lain) sengaja tetap formal. Ubah hanya bila
   diminta.
+- Footer PDF memuat alamat situs (`SITE_DOMAIN` di `index.html`) sebagai
+  kredit tanda tangan; permintaan Amal. Jangan dihapus tanpa diminta.
+- Pernyataan persetujuan A.02 memakai frasa "data pribadi yang sensitif",
+  bukan istilah UU 27/2022 "bersifat spesifik" (disetujui Amal di chat PIC;
+  bukan nasihat hukum). Kembalikan hanya bila Amal meminta.
 
 ## Halaman depan (catatan desain)
 
@@ -139,7 +144,14 @@ Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
   cadangan, buka file cadangan, ubah jenis kelamin, mulai dari awal.
 - PDF terbentuk; header "CV TAARUF"; tautan footer benar.
 - axe-core: 0 pelanggaran di halaman depan (terang dan gelap) dan di 13 bagian
-  formulir (mode isian dan ringkasan).
+  formulir (mode isian dan ringkasan). Cara yang berhasil di sesi kerja: di
+  folder sementara jalankan `npm i axe-core playwright-core`; luncurkan
+  Chromium dengan `executablePath: '/opt/pw-browsers/chromium'`; buka
+  `file://.../index.html` (blokir semua permintaan non-`file://` lewat
+  `context.route`); `page.addScriptTag({path:'node_modules/axe-core/axe.min.js'})`;
+  lalu `await axe.run(document,{resultTypes:['violations']})`. Untuk 13 bagian
+  formulir, isi state aplikasi lewat pengait uji yang disuntikkan skrip uji
+  (tidak ada di `index.html`) lalu pindai tiap bagian.
 - Tinggi header tetap 44 px di lebar 320 sampai 430 px (pakai font asli),
   tanpa geser horizontal.
 
