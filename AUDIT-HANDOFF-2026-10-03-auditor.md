@@ -46,3 +46,13 @@ atau belum) | usulan teks (maksimal dua baris).
 - **Jangan menyalin data pribadi atau sensitif** (isi CV, kontak, kredensial, token); kutip seperlunya.
 
 **Lapor:** commit ke repo (jalur utama). Beri tahu Auditor lewat pesan hanya sebagai tambahan.
+
+## 3. Info 5 Okt 2026: aturan bersama baru
+
+Dasar: **[Keputusan Amal]** 5 Okt 2026 (chat Auditor):
+- Butir lintas-repo N1-N7 dan butir baru "bahasa campur ID+English, concise" **masuk** `CLAUDE.md`; N8 dan N9 tidak.
+- Temuan visual axe-core: **langsung dieksekusi** (tampilan berubah; konfirmasi Amal sudah ada, tidak perlu tanya lagi).
+- Bagian bersama baru di ketiga `CLAUDE.md` (diff identik): `Aturan lintas-repo` butir 14-19 + `Preferensi melapor`.
+  Baca dan patuhi. Mulai sekarang tulis handoff/laporan dengan gaya itu (concise, simpel, spesifik, campur English).
+- `CLAUDE.md` bikin-cv-taaruf: bagian `Preferensi melapor` ditambahkan.
+- **Tidak ada tugas lain untuk repo ini.** (Tidak ada temuan axe; tidak ada perubahan visual.)
