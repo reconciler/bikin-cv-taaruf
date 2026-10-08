@@ -97,10 +97,8 @@ button.tag{cursor:pointer}
 .menupanel .btn{width:100%;min-height:42px;text-align:left}
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:600px){.menupanel{position:fixed;left:16px;right:16px;top:60px;width:auto}}
-.menupanel .mnote{font-size:.75rem;color:var(--muted);line-height:1.4}
 .databox .mstat{font-size:.8125rem;color:var(--muted)}
 .databox .btn{width:100%;min-height:42px;text-align:left}
-.databox .mnote{margin:0;font-size:.75rem;color:var(--muted);line-height:1.4}
 .databox>.mgroup{padding:0 0 8px}
 .navdata{margin-top:6px;border-top:1px solid var(--line)}
 @media (max-width:959px){.secnav:not(.open)~.navdata{display:none}}
@@ -309,7 +307,7 @@ const SEC_INTRO={
 };
 
 const S={d:{},stage:'landing',sec:null,pdf:false};
-let tried=false, landTried=false, storageOK=true, saveT=0, dirty=false, lastBackupTs=0, lastSaveTs=0, resumeOffer=null;
+let tried=false, landTried=false, storageOK=true, saveT=0, lastBackupTs=0, lastSaveTs=0, resumeOffer=null;
 const VIEW={};
 const ICON_BACK='<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const ICON_DL='<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-4-4 4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -403,7 +401,7 @@ function matrixCell(f,r,c){ const x=S.d[f.id]||{}; return trimStr(x[r+'_'+c]); }
 
 /* ---------- control builders ---------- */
 function changed(id){
-  dirty=true; saveDraftSoon(); if(tried) markInvalid(S.sec); refreshLiveIndicators(); if(id&&byId[id]) refreshFieldState(byId[id]);
+  saveDraftSoon(); if(tried) markInvalid(S.sec); refreshLiveIndicators(); if(id&&byId[id]) refreshFieldState(byId[id]);
 }
 function refreshFieldState(f){
   const el=document.getElementById('f-'+f.id); if(!el) return;
@@ -612,30 +610,15 @@ async function saveFile(name,blob){
     setTimeout(()=>URL.revokeObjectURL(url),5000); return 'saved';
   }catch(e){ return 'error'; }
 }
-function downloadBackupSilently(){
-  try{
-    const blob=new Blob([JSON.stringify(draftPayload())],{type:'application/json'});
-    const url=URL.createObjectURL(blob); const a=document.createElement('a');
-    a.href=url; a.download='cadangan-bikin-cv-taaruf.json'; document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),5000);
-    lastBackupTs=Date.now(); dirty=false; return true;
-  }catch(e){ return false; }
-}
 async function manualBackup(payload){
   const blob=new Blob([JSON.stringify(payload&&payload.d?payload:draftPayload())],{type:'application/json'});
   const res=await saveFile('cadangan-bikin-cv-taaruf.json',blob);
-  if(res==='saved'){ lastBackupTs=Date.now(); dirty=false; toast('Cadangan diunduh.'); }
+  if(res==='saved'){ lastBackupTs=Date.now(); toast('Cadangan diunduh.'); }
   else if(res==='declined') toast('Penyimpanan dibatalkan.');
   else toast(DL_FAIL,4500);
   saveDraft(); updateBackupStat();
 }
-const BACKUP_MIN_MS=180000;
-function maybeAutoBackup(minGap){
-  if(!dirty) return;
-  if(Date.now()-lastBackupTs < (minGap!=null?minGap:BACKUP_MIN_MS)) return;
-  if(downloadBackupSilently()){ saveDraft(); updateBackupStat(); }
-}
-function backupStatusText(){ return lastBackupTs? ('Cadangan otomatis terakhir '+new Date(lastBackupTs).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})) : 'Cadangan otomatis: belum ada'; }
+function backupStatusText(){ return lastBackupTs? ('Cadangan terakhir diunduh '+new Date(lastBackupTs).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})) : 'Cadangan: belum pernah diunduh'; }
 function updateBackupStat(){ const el=document.getElementById('backupstat'); if(el) el.textContent=backupStatusText(); }
 function fileLoadButton(label,cls){
   const inp=h('input',{type:'file',accept:'.json,application/json',style:'display:none',onchange:e=>{
@@ -910,7 +893,6 @@ function dataBlock(){
       form?h('button',{type:'button',class:'btn',onclick:manualBackup},'Unduh cadangan sekarang'):null,
       form?fileLoadButton('Buka file cadangan','btn'):null,
       form?h('button',{type:'button',class:'btn',onclick:()=>{ S.stage='landing'; render(); window.scrollTo(0,0); }},'Ubah jenis kelamin ('+(g||'-')+')'):null,
-      h('p',{class:'mnote'},'File cadangan ikut terunduh otomatis saat Anda mengisi. Kalau ada banyak, pakai yang paling baru.'),
       hasAnyDraft()?h('button',{type:'button',class:'linkbtn',style:'justify-self:start',onclick:confirmReset},'Mulai dari awal (hapus isian)'):null));
 }
 function renderTop(){
@@ -944,7 +926,7 @@ const KEY_POINTS=[
 const MORE_POINTS=[
   'Tidak ada pertanyaan tentang nama anggota keluarga, alamat lengkap, atau tanggal lahir lengkap.',
   'Tidak ada fitur unggah dokumen.',
-  'Mau lanjut di HP atau laptop lain? Unduh file cadangan lewat tombol "Cadangkan" di bawah formulir, lalu buka file itu di sana lewat halaman depan. File cadangan juga terunduh otomatis.'
+  'Mau lanjut di HP atau laptop lain? Unduh file cadangan lewat tombol "Cadangkan" di bawah formulir, lalu buka file itu di sana lewat halaman depan.'
 ];
 const GATE_IDS=['B.03','A.01','A.02'];
 function hasWork(){ return !!resumeOffer || Object.keys(S.d).some(k=>!GATE_IDS.includes(k)); } /* ada isian di luar pilihan awal yang bisa tertimpa */
@@ -1106,7 +1088,7 @@ function renderSectionBody(main,secId){
 function hasAnyDraft(){ return Object.keys(S.d).length>0 || !!resumeOffer; }
 function resetAll(){
   clearDraft(); S.d={}; S.stage='landing'; S.sec=null; S.pdf=false; tried=false; landTried=false;
-  Object.keys(VIEW).forEach(k=>delete VIEW[k]); lastBackupTs=0; dirty=false; resumeOffer=null;
+  Object.keys(VIEW).forEach(k=>delete VIEW[k]); lastBackupTs=0; resumeOffer=null;
   render(); window.scrollTo(0,0); toast('Isian dihapus. Silakan mulai dari awal.');
 }
 function confirmReset(){
@@ -1131,7 +1113,7 @@ function render(){
   markAllVals(main);
   renderLab();
 }
-function go(id,mode){ maybeAutoBackup(90000); saveDraft(); S.sec=id; tried=false; if(mode) VIEW[id]=mode; else delete VIEW[id]; render(); window.scrollTo(0,0); }
+function go(id,mode){ saveDraft(); S.sec=id; tried=false; if(mode) VIEW[id]=mode; else delete VIEW[id]; render(); window.scrollTo(0,0); }
 
 function renderLab(){}
 
@@ -1139,7 +1121,6 @@ function renderLab(){}
 const dr0=loadDraft();
 if(draftHasData(dr0)){ if(gateOK(dr0.d)) resumeOffer=dr0; else S.d=dr0.d; } /* isian yang belum lewat "pintu masuk" cukup diisikan kembali ke halaman depan */
 render();
-setInterval(()=>maybeAutoBackup(BACKUP_MIN_MS),30000);
 $('#homebtn').addEventListener('click',goHome);
 $('#dlgreset-no').addEventListener('click',closeReset);
 $('#dlgreset-yes').addEventListener('click',()=>{ closeReset(); resetAll(); });

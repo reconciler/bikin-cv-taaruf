@@ -45,7 +45,10 @@ Draf disimpan otomatis di `localStorage` peramban pengguna (key sesuai
 `DRAFT_KEY` di `index.html`) — **tidak ada backend, isian tidak pernah
 terkirim ke server mana pun**. Satu-satunya permintaan ke pihak ketiga adalah
 Google Fonts (alamat IP pengunjung terlihat oleh Google). Pengguna bisa mengunduh cadangan draf manual sebagai
-`cadangan-bikin-cv-taaruf.json`. Perlakukan ini sebagai batasan desain yang
+`cadangan-bikin-cv-taaruf.json`. **Tidak ada unduhan cadangan otomatis**
+(dihapus 8 Okt 2026 atas keputusan Amal: browser seluler meminta izin dan
+terlihat mencurigakan, file bertumpuk di folder Unduhan). Jangan dikembalikan
+tanpa diminta Amal. Perlakukan ini sebagai batasan desain yang
 sengaja — jangan tambahkan pengiriman data ke server tanpa diminta eksplisit
 oleh Amal, karena itu mengubah janji privasi aplikasi ini.
 
