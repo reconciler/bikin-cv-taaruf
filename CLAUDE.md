@@ -43,14 +43,41 @@ Tidak ada isu biaya/kredit (GitHub Pages gratis).
 
 Draf disimpan otomatis di `localStorage` peramban pengguna (key sesuai
 `DRAFT_KEY` di `index.html`) — **tidak ada backend, isian tidak pernah
-terkirim ke server mana pun**. Satu-satunya permintaan ke pihak ketiga adalah
-Google Fonts (alamat IP pengunjung terlihat oleh Google). Pengguna bisa mengunduh cadangan draf manual sebagai
-`cadangan-bikin-cv-taaruf.json`. **Tidak ada unduhan cadangan otomatis**
-(dihapus 8 Okt 2026 atas keputusan Amal: browser seluler meminta izin dan
-terlihat mencurigakan, file bertumpuk di folder Unduhan). Jangan dikembalikan
-tanpa diminta Amal. Perlakukan ini sebagai batasan desain yang
-sengaja — jangan tambahkan pengiriman data ke server tanpa diminta eksplisit
-oleh Amal, karena itu mengubah janji privasi aplikasi ini.
+terkirim ke server mana pun**. Permintaan ke pihak ketiga hanya Google Fonts
+(alamat IP pengunjung terlihat oleh Google) dan, kalau `REPORT_URL` terisi
+dan pengguna setuju, laporan error (di bawah). Pengguna bisa mengunduh
+cadangan draf manual sebagai `cadangan-bikin-cv-taaruf.json`. Perlakukan ini
+sebagai batasan desain yang sengaja — jangan tambahkan pengiriman data ke
+server tanpa diminta eksplisit oleh Amal, karena itu mengubah janji privasi
+aplikasi ini.
+
+- **Tidak ada unduhan cadangan otomatis** (dihapus 8 Okt 2026 atas keputusan
+  Amal: browser seluler meminta izin dan terlihat mencurigakan, file bertumpuk
+  di folder Unduhan). Jangan dikembalikan tanpa diminta Amal.
+- **Laporan error (diminta dan dikonfirmasi Amal di chat PIC, 10 Okt 2026).**
+  Satu-satunya pengiriman data yang diizinkan, dan hanya begini:
+  - Aplikasi menangkap galat (`error`, `unhandledrejection`, PDF gagal, unduhan
+    gagal), lalu **menanyakan dulu** lewat bilah di bawah layar: "Kirim laporan"
+    / "Jangan kirim" / "Jangan tanya lagi". Tanpa ketukan "Kirim laporan" tidak
+    ada yang dikirim. Pratinjau menampilkan isi persis yang akan dikirim.
+  - Isi laporan: waktu, versi (`APP_VER`), jenis, bagian formulir yang dibuka,
+    pesan error (kutipan `"..."`, email, dan angka panjang disamarkan), 3 baris
+    stack tanpa path, user agent, ukuran layar. **Tidak ada isian CV** dan tidak
+    ada jenis kelamin. Jangan menambah kolom tanpa persetujuan Amal.
+  - Penerima: Google Apps Script milik Amal yang mengisi Google Sheet
+    (`docs/laporan-error.gs`, cara pasang ada di komentar berkas itu).
+    Alamat web app diisi ke konstanta `REPORT_URL` di `index.html`.
+  - **`REPORT_URL` kosong = fitur mati total**: tidak ada pertanyaan, tidak ada
+    kiriman, teks privasi tetap versi lama. Saat terisi, teks halaman depan
+    otomatis berubah ("Isian tidak dikirim..." plus satu poin di Selengkapnya
+    yang menyebut Google Sheet). Jangan mengubah teks privasi tanpa mengubah
+    keduanya sekaligus.
+  - Maksimal 3 pertanyaan per kunjungan, galat yang sama tidak ditanyakan dua
+    kali, galat dari ekstensi browser diabaikan. "Jangan tanya lagi" menyimpan
+    `ctgv1_noreport` di `localStorage`.
+  - Batasan: kiriman memakai `no-cors`, jadi aplikasi tidak bisa memastikan
+    laporan sampai. Galat yang bukan exception (mis. izin unduhan ditolak
+    browser) tidak tertangkap.
 
 ## Dependensi
 
@@ -146,6 +173,7 @@ Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
   formulir (ponsel dan desktop): status penyimpanan, status cadangan, unduh
   cadangan, buka file cadangan, ubah jenis kelamin, mulai dari awal.
 - PDF terbentuk; header "CV TAARUF"; tautan footer benar.
+- Laporan error (uji dengan `REPORT_URL` diisi alamat palsu yang dicegat `context.route`): tidak ada kiriman sebelum "Kirim laporan"; isi kiriman sama dengan pratinjau dan tidak memuat isian CV (pakai teks canary di isian dan di pesan error); fitur mati saat `REPORT_URL` kosong.
 - axe-core: 0 pelanggaran di halaman depan (terang dan gelap) dan di 13 bagian
   formulir (mode isian dan ringkasan). Cara yang berhasil di sesi kerja: di
   folder sementara jalankan `npm i axe-core playwright-core`; luncurkan

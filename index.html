@@ -47,6 +47,12 @@ dialog.confirm h2{font-size:1.15rem;margin-bottom:8px}
 dialog.confirm p{color:var(--muted);font-size:.9375rem}
 dialog.confirm .drow{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;justify-content:flex-end}
 .btn.danger{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.rptbar{position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto;z-index:60;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 8px 28px rgba(0,0,0,.28)}
+.rptbar p{font-size:.9375rem;margin:0 0 8px}
+.rptdet{font-size:.8125rem;color:var(--muted);margin-bottom:10px}
+.rptdet summary{cursor:pointer;min-height:32px;display:flex;align-items:center}
+.rptdet pre{white-space:pre-wrap;word-break:break-word;max-height:30vh;overflow:auto;margin:6px 0 0;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:.75rem}
+.rptrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .linkbtn{border:0;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:44px;padding:0 6px;font-size:.875rem;font-weight:500}
 body{background:var(--bg);color:var(--ink);font-family:var(--font-ui);font-size:16px;line-height:1.5;padding-inline:16px}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -296,6 +302,12 @@ const ABOUT={
 };
 const DRAFT_KEY='ctgv1_draft_v1';
 const DL_FAIL='Unduhan gagal. Coba buka halaman ini di Chrome atau browser lain.';
+// Laporan error (opsional). Kosong = fitur mati: tidak ada pertanyaan dan tidak ada yang dikirim.
+// Kalau diisi (alamat web app Google Apps Script, lihat docs/laporan-error.gs), teks privasi di halaman depan ikut berubah.
+// Laporan HANYA dikirim kalau pengguna menekan "Kirim laporan". Isian CV tidak pernah ikut.
+const REPORT_URL='';
+const APP_VER='v7';
+const NOREPORT_KEY='ctgv1_noreport';
 const SEC_INTRO={
   B:'Identitas dasar Anda.', C:'Kota domisili, kota asal, dan kontak (opsional).',
   D:'Kondisi fisik dan kesehatan.', E:'Riwayat pendidikan formal dan non-formal.',
@@ -331,6 +343,53 @@ function toast(msg,ms){
   toast._t=setTimeout(()=>{t.hidden=true},ms||3200);
 }
 function trimStr(x){ return (x==null?'':String(x)).trim(); }
+/* ---------- laporan masalah: hanya dikirim kalau pengguna setuju ---------- */
+const REPORT={shown:0,seen:new Set(),bar:null};
+/* Pesan error bisa memuat kutipan isian (mis. galat membaca file cadangan). Kutipan "..." dan angka panjang disamarkan. */
+function maskQuotes(s){
+  return String(s).replace(/"[^"\n]*"/g,'"…"').replace(/'([^'\n]*)'/g,(m,a)=>/^[A-Za-z_$][\w$.]{0,30}$/.test(a)?m:"'…'");
+}
+function scrubMsg(s){ return maskQuotes(s==null?'':s).replace(/\S+@\S+/g,'(email)').replace(/\d{4,}/g,'#').slice(0,160); }
+function reportPayload(kind,err){
+  const raw=err&&err.message!=null?err.message:err;
+  const stack=(err&&err.stack?String(err.stack):'').split('\n').map(l=>l.trim()).filter(l=>/^at /.test(l)||/^[^\s@]*@\S/.test(l)).slice(0,3)
+    .map(l=>maskQuotes(l).replace(/\(?(?:https?|file):\/\/[^\s)]*\/([^\/\s):]*)/g,'$1')).join(' | ').slice(0,400);
+  return {t:new Date().toISOString(),v:APP_VER,kind:kind,sec:S.sec||'-',stage:S.stage||'-',msg:scrubMsg(raw),stack:stack,
+    ua:String(navigator.userAgent||'').slice(0,200),vw:window.innerWidth,vh:window.innerHeight};
+}
+function reportProblem(kind,err){
+  if(!REPORT_URL) return;
+  try{
+    try{ if(localStorage.getItem(NOREPORT_KEY)) return; }catch(e){}
+    const p=reportPayload(kind,err), key=kind+'|'+p.msg;
+    if(REPORT.seen.has(key)||REPORT.shown>=3||REPORT.bar) return;
+    REPORT.seen.add(key); REPORT.shown++; showReportBar(p);
+  }catch(e){}
+}
+function closeReportBar(){ if(REPORT.bar){ REPORT.bar.remove(); REPORT.bar=null; } }
+function sendReport(p){
+  closeReportBar();
+  try{
+    fetch(REPORT_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(p)})
+      .then(()=>toast('Laporan dikirim. Terima kasih.'),()=>toast('Laporan tidak terkirim. Coba lagi nanti.',4500));
+  }catch(e){ toast('Laporan tidak terkirim. Coba lagi nanti.',4500); }
+}
+function showReportBar(p){
+  const bar=h('div',{class:'rptbar',id:'rptbar',role:'region','aria-label':'Laporan masalah',onkeydown:ev=>{ if(ev.key==='Escape') closeReportBar(); }},
+    h('p',{role:'alert'},'Aplikasi mengalami masalah. Kirim laporan teknis ke pembuat? Isian CV Anda tidak ikut.'),
+    h('details',{class:'rptdet'},h('summary',null,'Lihat isi laporan'),h('pre',{tabindex:'0','aria-label':'Isi laporan (bisa digulir)'},JSON.stringify(p,null,2))),
+    h('div',{class:'rptrow'},
+      h('button',{type:'button',class:'btn',onclick:()=>sendReport(p)},'Kirim laporan'),
+      h('button',{type:'button',class:'btn',onclick:closeReportBar},'Jangan kirim'),
+      h('button',{type:'button',class:'linkbtn',onclick:()=>{ try{ localStorage.setItem(NOREPORT_KEY,'1'); }catch(e){} closeReportBar(); }},'Jangan tanya lagi')));
+  REPORT.bar=bar; document.body.append(bar);
+}
+window.addEventListener('error',ev=>{
+  if(!ev.error&&/^Script error/i.test(ev.message||'')) return;
+  if(ev.filename&&!/^(file:|data:)/.test(ev.filename)&&ev.filename.indexOf(location.origin)!==0) return;
+  reportProblem('error',ev.error||ev.message);
+});
+window.addEventListener('unhandledrejection',ev=>reportProblem('promise',ev.reason));
 function GV(){ const g=S.d['B.03']; return g==='Akhwat'?'A':(g==='Ikhwan'?'I':null); }
 function condOK(c){ const v=S.d[c.id]; if(c.notIn) return !!v&&!c.notIn.includes(v); if(c.isIn) return c.isIn.includes(v); return true; }
 function visible(f){ const c=f.extra&&f.extra.showIf; if(!c) return true; return c.all?c.all.every(condOK):condOK(c); }
@@ -615,7 +674,7 @@ async function manualBackup(payload){
   const res=await saveFile('cadangan-bikin-cv-taaruf.json',blob);
   if(res==='saved'){ lastBackupTs=Date.now(); toast('Cadangan diunduh.'); }
   else if(res==='declined') toast('Penyimpanan dibatalkan.');
-  else toast(DL_FAIL,4500);
+  else{ toast(DL_FAIL,4500); reportProblem('download','cadangan gagal diunduh'); }
   saveDraft(); updateBackupStat();
 }
 function backupStatusText(){ return lastBackupTs? ('Cadangan terakhir diunduh '+new Date(lastBackupTs).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})) : 'Cadangan: belum pernah diunduh'; }
@@ -866,8 +925,8 @@ async function genPdf(){
     const res=await saveFile(pdfName(),blob);
     if(res==='saved'){ S.pdf=true; saveDraft(); toast('PDF dibuat.'); render(); }
     else if(res==='declined') toast('Penyimpanan dibatalkan.');
-    else toast(DL_FAIL,4500);
-  }catch(e){ toast('PDF gagal dibuat: '+(e&&e.message||e),5000); }
+    else{ toast(DL_FAIL,4500); reportProblem('download','download gagal'); }
+  }catch(e){ toast('PDF gagal dibuat: '+(e&&e.message||e),5000); reportProblem('pdf',e); }
 }
 
 /* ---------- screens ---------- */
@@ -919,7 +978,7 @@ function renderNav(){
 }
 /* ---------- halaman depan ---------- */
 const KEY_POINTS=[
-  ['Tidak dikirim ke server mana pun.','Isian Anda hanya tersimpan di HP atau laptop ini.'],
+  [REPORT_URL?'Isian tidak dikirim ke server mana pun.':'Tidak dikirim ke server mana pun.','Isian Anda hanya tersimpan di HP atau laptop ini.'],
   ['Boleh berhenti kapan saja.','Isian tersimpan otomatis, jadi bisa dilanjutkan nanti.'],
   ['Hasilnya satu file PDF.','Kirim sendiri ke orang yang Anda tuju, jangan disebar ke publik.']
 ];
@@ -927,7 +986,7 @@ const MORE_POINTS=[
   'Tidak ada pertanyaan tentang nama anggota keluarga, alamat lengkap, atau tanggal lahir lengkap.',
   'Tidak ada fitur unggah dokumen.',
   'Mau lanjut di HP atau laptop lain? Unduh file cadangan lewat tombol "Cadangkan" di bawah formulir, lalu buka file itu di sana lewat halaman depan.'
-];
+].concat(REPORT_URL?['Kalau aplikasi error, Anda ditanya dulu: mau kirim laporan teknis atau tidak. Isinya pesan error, bagian formulir yang dibuka, versi aplikasi, dan jenis browser. Isian CV tidak ikut. Laporan masuk ke Google Sheet milik pembuat.']:[]);
 const GATE_IDS=['B.03','A.01','A.02'];
 function hasWork(){ return !!resumeOffer || Object.keys(S.d).some(k=>!GATE_IDS.includes(k)); } /* ada isian di luar pilihan awal yang bisa tertimpa */
 function secName(id){ const s=SECTIONS.find(x=>x.id===id); return s?s.short:''; }

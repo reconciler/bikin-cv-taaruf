@@ -22,4 +22,4 @@ Untuk: sesi "Auditor Project"
 
 ## Yang perlu diketahui
 - Risiko yang diterima Amal: pengguna mode penyamaran atau yang menghapus data browser kehilangan isian tanpa jaring pengaman; satu-satunya cadangan adalah unduhan manual. Teks status penyimpanan "Isian tidak bisa disimpan di browser ini" tetap tampil.
-- Dua PIC lain: bila ada fitur unduh otomatis serupa, pertimbangkan hal yang sama. Belum diperiksa oleh PIC ini.
+- [Amal, 10 Okt] Dua repo lain tidak punya fitur unduh otomatis. Tidak ada tindakan.
