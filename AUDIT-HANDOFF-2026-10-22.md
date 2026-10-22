@@ -75,3 +75,15 @@ Skrip uji pasca-deploy dari `deploy.yml` dijalankan lokal terhadap server tiruan
 - Skrip asli (tanpa pengecilan pengulangan) diuji: kasus A lolos seketika; kasus B gagal setelah 121 detik dengan exit 1.
 - Simulasi memakai salinan dengan pengulangan 2 x 1 detik untuk kasus A sampai H; selisihnya hanya angka pengulangan.
 - **Run dan hasil di Actions:** dicatat di bagian 8 setelah push.
+
+## 8. Hasil run gelombang 3 [Terverifikasi: API Actions dan log langkah]
+
+- **Run 16** (`af9bffb`, push yang membawa langkah baru, jadi memakai versi baru alur): `success`. Semua langkah hijau, termasuk "Uji situs setelah deploy" dan "Uji aset yang dirujuk beranda".
+- Log langkah baru pada situs yang tayang: `Aset yang diperiksa: lib/jspdf-2.5.1.umd.min.js`, `Lolos pada percobaan 1`. Jadi langkah itu benar-benar memeriksa aset (bukan lolos kosong), sesuai simulasi kasus A.
+- Run 15 adalah push Auditor (`8a61555`), bukan PIC.
+- Catatan: pembacaan status run lewat API sempat usang beberapa menit (pernah tampil "berjalan" padahal sudah selesai); keputusan "success" diambil dari daftar langkah dan log, bukan dari satu pembacaan status.
+
+## 9. Yang masih menunggu
+
+- **Amal:** URL Apps Script `/exec` (laporan error) dan keputusan peringatan karakter Arab/emoji di PDF. Tidak diambil alih siapa pun.
+- Tampilan panel "Tentang" (tautan Kenali Calon) belum dilihat di perangkat nyata (butir 11).
