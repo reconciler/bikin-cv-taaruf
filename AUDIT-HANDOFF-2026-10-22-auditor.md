@@ -42,3 +42,12 @@ Auditor di git/Actions/hitungan), **[Usulan Auditor]** (kesimpulan Auditor).
 
 ## 3. Lapor
 Handoff PIC bagian baru: tabel gelombang, hasil uji (angka), run, hal yang menunggu Amal. Setelah selesai, beri tahu Auditor.
+
+## 4. Verifikasi Auditor atas hasil PIC (22 Okt 2026, sore) **[Terverifikasi: git, Actions, uji ulang Auditor]**
+
+| Butir | Hasil |
+|---|---|
+| Gelombang 1 (`44c0f1a`) | Diff `index.html`: satu entri `ABOUT.others` (Kenali Calon, URL persis Daftar resmi, urutan benar). Tinggi header 44/44/44 px (320/375/430) sama sebelum dan sesudah; axe dengan panel terbuka 0 pelanggaran di 320 dan 430. Run #14 success. |
+| Gelombang 3 | Tetap **DITAHAN** (benar). Simulasi lokal PIC (celah ada di repo ini) diterima sebagai dasar. catatankajian sudah mendapat "ya" dan menerapkan pola serupa (`b66c872`, run #33 success); bisa dijadikan acuan di samping `kenalicalon`. Perlu "ya" Amal di chat PIC ini. |
+| Koreksi uji sendiri (bagian 4 PIC) | Kesalahan dilaporkan terus terang; perbaikan (cetak hash berkas yang diuji) **diterima** sebagai praktik untuk semua repo. |
+| Menunggu Amal | URL Apps Script `/exec` dan keputusan peringatan Arab/emoji di PDF: tidak berubah. |
