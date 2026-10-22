@@ -186,6 +186,8 @@ Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
   (tidak ada di `index.html`) lalu pindai tiap bagian.
 - Tinggi header tetap 44 px di lebar 320 sampai 430 px (pakai font asli),
   tanpa geser horizontal.
+  Pastikan skrip uji memuat `index.html` yang sedang diuji, bukan salinan
+  lama (bandingkan hash); pernah salah mengukur salinan 1 Okt.
 
 ## Aturan lintas-repo (teks identik di jadwalkajian, catatankajian, bikin-cv-taaruf, kenalicalon)
 
