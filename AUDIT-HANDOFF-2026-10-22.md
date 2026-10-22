@@ -9,7 +9,7 @@ Penanda: **[Terverifikasi]** diuji PIC; **[Kesimpulan PIC]**; **[Menunggu Amal]*
 |---|---|---|
 | 1 Tautan Kenali Calon | Selesai, dipush | `ABOUT.others`: Jadwal Kajian, Catatan Kajian, **Kenali Calon** (`https://reconciler.github.io/kenalicalon/`). Urutan dan label = Daftar resmi. README tidak memuat daftar proyek saudara, jadi tidak diubah. Tab yang sama, tanpa skrip, tanpa akses penyimpanan. |
 | 2 Keadaan | Tidak berubah | **[Menunggu Amal]** URL Apps Script `/exec` dan keputusan peringatan Arab/emoji di PDF. |
-| 3 Penjaga aset | **DITAHAN** (pipeline); simulasi lokal selesai | Lihat bagian 3. Tidak ada perubahan `deploy.yml`. |
+| 3 Penjaga aset | **Dikerjakan setelah "ya" Amal di chat PIC** (lihat bagian 7) | Simulasi di bagian 3, eksekusi di bagian 7. |
 
 Tampilan berubah: panel "Tentang" punya satu tautan lagi (butir 11: belum dilihat di perangkat nyata).
 
@@ -19,7 +19,7 @@ Tampilan berubah: panel "Tentang" punya satu tautan lagi (butir 11: belum diliha
 - Header 44 px di 320, 360, 375, 390, 412, 430, 768, 1280 px, tahap halaman depan dan formulir, tanpa pecah dua baris dan tanpa geser horizontal.
 - axe-core 0 pelanggaran: 84 pemindaian (lebar 320, 375, 430 x terang/gelap x halaman depan/formulir x panel tertutup/terbuka) dan 39 pemindaian formulir.
 - Suite alur 113/113 lulus (fitur laporan error mati dan hidup), uji laporan error 46/46.
-- Run Actions: dicatat di handoff berikutnya (tidak membuat push kedua hanya untuk itu); PIC memverifikasi `success` lewat API dan melaporkannya di chat.
+- **Run 14** (`44c0f1a`): `success` (API Actions), semua langkah termasuk "Uji situs setelah deploy" hijau. Diverifikasi ulang oleh Auditor.
 
 ## 3. Gelombang 3: simulasi lokal (celah di repo ini) [Terverifikasi, tanpa mengubah repo]
 
@@ -34,7 +34,7 @@ Skrip uji pasca-deploy dari `deploy.yml` dijalankan lokal terhadap server tiruan
 - **Celah ada di repo ini.** Uji hanya memeriksa berkas yang ada di `_site/`. Aset yang dirujuk `index.html` tetapi tidak di `_site/` (lupa mendaftarkan di langkah salin, atau salah ketik) tidak terdeteksi, padahal situs rusak (fitur PDF mati).
 - Risiko saat ini rendah: hanya satu aset lokal dirujuk (`lib/jspdf-...`), dan `cp` yang gagal sudah menggagalkan job bila berkasnya tak ada di repo. Naik bila aset bertambah.
 - **[Kesimpulan PIC] Usulan** (belum dikerjakan): langkah tambahan di akhir uji yang mengumpulkan `src=` dan `href=` relatif di `index.html` dan mewajibkan 200; uji lain tidak dilonggarkan; simulasikan jalur sukses dan gagal lokal; satu push khusus.
-- **[Menunggu Amal]** Gelombang ini mengubah `deploy.yml`. Persetujuan diminta di chat PIC.
+- Gelombang ini mengubah `deploy.yml`: persetujuan Amal diminta di chat PIC (bagian 7).
 
 ## 4. Koreksi uji sendiri (kesalahan PIC)
 
@@ -49,6 +49,29 @@ Skrip uji pasca-deploy dari `deploy.yml` dijalankan lokal terhadap server tiruan
 
 ## 6. Yang perlu diketahui
 
-- **Menunggu Amal:** URL Apps Script, peringatan Arab/emoji, persetujuan gelombang 3.
+- **Menunggu Amal:** URL Apps Script dan peringatan Arab/emoji (lihat juga bagian 7).
 - **Perubahan perilaku:** hanya satu tautan baru di panel "Tentang".
 - **Belum terbukti:** tampilan di perangkat nyata; perilaku Google untuk laporan error (lihat handoff 10 Okt).
+
+## 7. Gelombang 3 dieksekusi (pipeline; setelah persetujuan Amal)
+
+- **[Amal, chat PIC, 22 Okt]** Menjawab pertanyaan PIC soal perubahan `deploy.yml` dengan "silakan lanjutkan apa yang sudah diminta auditor". PIC menafsirkan ini sebagai "ya" untuk gelombang 3 yang saya tanyakan.
+- **Perubahan:** satu langkah baru di akhir `deploy.yml`, "Uji aset yang dirujuk beranda". Hanya `curl`, `grep`, `sed`, tanpa action pihak ketiga. Membaca beranda yang tayang (`?v=<sha>`), mengumpulkan `src`/`href` relatif, mewajibkan 200 per aset, mengulang 12 x 10 detik. Wajib minimal satu aset terdeteksi; jalur mutlak (`/x`) ditolak. Langkah lama tidak diubah.
+- Tidak mendeteksi alamat yang dirakit lewat JavaScript (di repo ini tidak ada aset lokal semacam itu).
+- **Risiko:** langkah berjalan setelah Deploy, jadi kegagalannya tidak membatalkan situs yang sudah tayang; hanya membuat run merah. Jalur kembali Pages tidak berubah.
+- **Simulasi lokal [Terverifikasi]** (skrip diambil dari YAML, server tiruan):
+
+| Kasus | Harapan | Hasil |
+|---|---|---|
+| A. `index.html` + `lib/jspdf-...` | lolos | lolos, "Aset yang diperiksa: lib/jspdf-2.5.1.umd.min.js" |
+| B. `lib/` hilang dari situs tetapi dirujuk | gagal | gagal `lib/...=404(harus-200)` |
+| C. rujukan salah ketik `lib/typo.js` | gagal | gagal `lib/typo.js=404` |
+| D. tanpa rujukan lokal | gagal | gagal `tidak-ada-aset-lokal-terdeteksi` |
+| E. tautan `https://`, `#jangkar`, `mailto:` | lolos (diabaikan) | lolos |
+| F. rujukan `/x.png` | gagal | gagal `jalur-mutlak-di-situs-proyek` |
+| G. beranda kosong | gagal | gagal (catatan: server tiruan Python memberi 200 untuk daftar direktori, jadi gagalnya karena tanpa aset) |
+| H. aset berkueri `?x=1#y` | lolos | lolos |
+
+- Skrip asli (tanpa pengecilan pengulangan) diuji: kasus A lolos seketika; kasus B gagal setelah 121 detik dengan exit 1.
+- Simulasi memakai salinan dengan pengulangan 2 x 1 detik untuk kasus A sampai H; selisihnya hanya angka pengulangan.
+- **Run dan hasil di Actions:** dicatat di bagian 8 setelah push.

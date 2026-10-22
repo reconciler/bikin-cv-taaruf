@@ -34,6 +34,12 @@ Tidak ada isu biaya/kredit (GitHub Pages gratis).
   `CLAUDE.md`, `README.md`, `AUDIT-HANDOFF-*.md` 404 (mengulang sampai sekitar
   2 menit). Jangan dilonggarkan supaya hijau; kalau gagal, selidiki
   penyebabnya. Uji ini tidak menilai tampilan.
+- **Uji aset yang dirujuk beranda** (22 Okt 2026, disetujui Amal di chat PIC):
+  langkah terakhir `deploy.yml` membaca beranda yang tayang, mengumpulkan
+  `src`/`href` relatif, dan mewajibkan setiap aset 200 (minimal satu aset
+  terdeteksi; jalur mutlak `/x` ditolak). Menutup celah uji di atas yang hanya
+  melihat isi `_site/`. Tidak mendeteksi alamat yang dirakit lewat JavaScript.
+  Jangan dilonggarkan supaya hijau.
 - **Verifikasi situs live:** sesi kerja tidak bisa mengakses `reconciler.github.io` (jaringan diblokir); verifikasi live
   dilakukan oleh uji otomatis di atas (hasilnya di log run Actions). Tampilan tetap perlu dicek Amal di perangkat nyata.
 - **Jika situs rusak:** Amal mengembalikan Settings → Pages → Source ke

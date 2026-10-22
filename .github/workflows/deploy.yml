@@ -83,3 +83,44 @@ jobs:
           done
           echo "Gagal setelah 12 percobaan:$fail"
           exit 1
+
+      # Uji aset yang dirujuk beranda: uji di atas hanya memeriksa berkas yang ada di _site/,
+      # jadi aset yang dirujuk index.html tetapi tidak ikut terbit (lupa didaftarkan di langkah
+      # salin, atau salah ketik) tidak ketahuan. Langkah ini membaca beranda yang tayang,
+      # mengumpulkan src/href relatif, dan mewajibkan setiap aset 200. Uji lain tidak dilonggarkan.
+      # Tidak mendeteksi alamat yang dirakit lewat JavaScript. Kalau aplikasi memang tidak lagi
+      # punya aset lokal, ubah langkah ini dengan sadar; jangan dilonggarkan supaya hijau.
+      - name: Uji aset yang dirujuk beranda
+        env:
+          BASE: ${{ steps.deployment.outputs.page_url }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -u
+          base="${BASE%/}/"
+          fetch() { curl -s -o "$2" -w '%{http_code}' --max-time 20 "${base}$1?v=${SHA}" || true; }
+          assets() {
+            grep -oE '(src|href)="[^"]*"' "$1" | sed -E 's/^(src|href)="//; s/"$//' \
+              | grep -vE '^(https?:|//|#|mailto:|tel:|data:|javascript:|$)' | sed -E 's/[?#].*$//' | sort -u
+          }
+          check() {
+            fail=""
+            c=$(fetch "" /tmp/beranda-aset.html)
+            [ "$c" = "200" ] || fail="$fail beranda=$c"
+            list=$(assets /tmp/beranda-aset.html)
+            [ -n "$list" ] || fail="$fail tidak-ada-aset-lokal-terdeteksi"
+            for f in $list; do
+              case "$f" in
+                /*) fail="$fail $f(jalur-mutlak-di-situs-proyek,harus-relatif)"; continue ;;
+              esac
+              c=$(fetch "$f" /dev/null)
+              [ "$c" = "200" ] || fail="$fail $f=$c(harus-200)"
+            done
+            [ -z "$fail" ]
+          }
+          for i in $(seq 1 12); do
+            if check; then echo "Aset yang diperiksa: $(echo $list)"; echo "Lolos pada percobaan $i"; exit 0; fi
+            echo "Percobaan $i gagal:$fail"
+            sleep 10
+          done
+          echo "Gagal setelah 12 percobaan:$fail"
+          exit 1
