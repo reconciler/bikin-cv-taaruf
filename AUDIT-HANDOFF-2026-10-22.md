@@ -98,3 +98,13 @@ Skrip uji pasca-deploy dari `deploy.yml` dijalankan lokal terhadap server tiruan
 - **Batasan:** kolom yang hanya berisi pilihan tetap atau angka tidak diperiksa (tidak bisa memuat teks bebas). Karakter yang diketik pengguna tetap tersimpan apa adanya. Menyematkan font Arab belum dikerjakan; itu perubahan besar (font di `lib/`, bentuk huruf Arab, arah kanan-ke-kiri) dan tetap menunggu keputusan Amal.
 - Tampilan berubah (butir 11): catatan oranye di bawah kolom dan satu panel di bagian Penutup, belum dilihat di perangkat nyata.
 - **Run Actions:** dicatat di bagian 11 setelah push.
+
+## 11. Hasil run [Terverifikasi: API Actions, daftar langkah]
+
+- **Run 18** (`7fd79f9`, peringatan karakter PDF): `success`; semua langkah hijau, termasuk "Uji situs setelah deploy" dan "Uji aset yang dirujuk beranda".
+- Mulai sekarang run dari komit hanya-dokumen tidak dicatat satu per satu di handoff (menghindari rantai komit pencatat); PIC tetap memeriksanya dan melapor di chat bila merah.
+
+## 12. Yang masih menunggu
+
+- **Amal:** URL Apps Script `/exec` (laporan error, saat ini mati); keputusan apakah font Arab perlu disematkan di PDF (opsi besar; peringatan sudah ada); cek tampilan di perangkat nyata (panel Tentang, catatan peringatan karakter, bilah laporan).
+- **Auditor:** tidak ada instruksi terbuka untuk repo ini; gelombang 1 dan 3 selesai.
