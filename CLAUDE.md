@@ -73,6 +73,10 @@ aplikasi ini.
   - Penerima: Google Apps Script milik Amal yang mengisi Google Sheet
     (`docs/laporan-error.gs`, cara pasang ada di komentar berkas itu).
     Alamat web app diisi ke konstanta `REPORT_URL` di `index.html`.
+    **Aktif sejak 22 Okt 2026** (alamat diberikan Amal di chat PIC). Untuk
+    mematikan: kosongkan `REPORT_URL` (satu push) atau arsipkan deployment di
+    Apps Script. Uji nyata ke Google belum pernah dilakukan dari sesi kerja
+    (jaringan sesi memblokir `script.google.com`); hasil uji Amal dicatat di handoff.
   - **`REPORT_URL` kosong = fitur mati total**: tidak ada pertanyaan, tidak ada
     kiriman, teks privasi tetap versi lama. Saat terisi, teks halaman depan
     otomatis berubah ("Isian tidak dikirim..." plus satu poin di Selengkapnya

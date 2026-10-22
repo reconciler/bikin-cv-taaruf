@@ -309,7 +309,7 @@ const DL_FAIL='Unduhan gagal. Coba buka halaman ini di Chrome atau browser lain.
 // Laporan error (opsional). Kosong = fitur mati: tidak ada pertanyaan dan tidak ada yang dikirim.
 // Kalau diisi (alamat web app Google Apps Script, lihat docs/laporan-error.gs), teks privasi di halaman depan ikut berubah.
 // Laporan HANYA dikirim kalau pengguna menekan "Kirim laporan". Isian CV tidak pernah ikut.
-const REPORT_URL='';
+const REPORT_URL='https://script.google.com/macros/s/AKfycbx2TbZ6opt-_hO2dREqF4OAANmnxcT3_SpqrMQtvESAckvBN81ZtcFNYRL5SK6t9acaeQ/exec';
 const APP_VER='v7';
 const NOREPORT_KEY='ctgv1_noreport';
 const SEC_INTRO={
@@ -374,7 +374,7 @@ function closeReportBar(){ if(REPORT.bar){ REPORT.bar.remove(); REPORT.bar=null;
 function sendReport(p){
   closeReportBar();
   try{
-    fetch(REPORT_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(p)})
+    fetch(REPORT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(p)})
       .then(()=>toast('Laporan dikirim. Terima kasih.'),()=>toast('Laporan tidak terkirim. Coba lagi nanti.',4500));
   }catch(e){ toast('Laporan tidak terkirim. Coba lagi nanti.',4500); }
 }
