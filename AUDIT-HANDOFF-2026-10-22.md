@@ -87,3 +87,14 @@ Skrip uji pasca-deploy dari `deploy.yml` dijalankan lokal terhadap server tiruan
 
 - **Amal:** URL Apps Script `/exec` (laporan error) dan keputusan peringatan karakter Arab/emoji di PDF. Tidak diambil alih siapa pun.
 - Tampilan panel "Tentang" (tautan Kenali Calon) belum dilihat di perangkat nyata (butir 11).
+
+## 10. Peringatan karakter yang tidak bisa dicetak di PDF (temuan 10 Okt, dikerjakan)
+
+- **[Amal, chat PIC, 22 Okt]** "tolong execute apa yang perlu di-execute". Tidak ada instruksi Auditor baru di git. Satu-satunya butir terbuka yang bisa dikerjakan PIC adalah opsi termurah dari temuan 10 Okt (handoff 10 Okt bagian 5). **[Kesimpulan PIC]** PIC menafsirkan kalimat Amal sebagai persetujuan opsi itu saja: **peringatan, bukan perubahan PDF**. Jika tafsiran ini keliru, perubahan mudah dibatalkan (satu fungsi dan satu elemen).
+- **Perubahan (`index.html`):** kolom teks, area teks, teks+pilihan, daftar, tabel, dan matriks yang memuat karakter di luar `PDF_CHAR_OK` menampilkan catatan di bawahnya ("Ada huruf atau simbol yang tidak bisa dicetak di PDF: ... Hasilnya akan rusak. Ganti dengan huruf biasa (A sampai Z)."), dan bagian Penutup memuat daftar kolom bermasalah. **Tidak memblokir** PDF, tidak mengubah isi PDF, tidak menyentuh data atau jaringan.
+- **Verifikasi himpunan karakter [Terverifikasi]:** sapuan 9.443 titik kode (U+0020 sampai U+24FF) terhadap jsPDF + ekstraksi PDF. 214 karakter tercetak benar; **tidak ada** karakter yang diterima regex tetapi tercetak salah (NBSP tercetak sebagai spasi, tanda hubung lunak sebagai "-", keduanya wajar; `[` dan `]` hanyalah pembatas uji); tidak ada peringatan berlebih; Arab dan emoji tidak tercetak benar (sesuai harapan).
+- **Uji [Terverifikasi, Chromium headless]:** 31 pengecekan baru lulus: ketik Arab/emoji lalu hapus; Latin biasa dan tanda baca umum tanpa peringatan; huruf bertanda gabung (NFD) dinormalkan; 6 jenis kolom; kolom tersembunyi tanpa elemen; ringkasan Penutup; PDF tetap terbentuk; axe 0 pelanggaran (320, 390, 1280 px; terang dan gelap). Kontrol negatif: terhadap kode lama uji gagal.
+- **Regresi:** alur 113/113 (fitur laporan mati dan hidup), axe formulir 0 (39 pemindaian), uji laporan error 46/46, panel Tentang 84/84, header 44 px di 320 sampai 1280 px dengan font asli (salinan uji diverifikasi sama dengan berkas repo lewat hash), 4 kasus PDF utuh, `_site` hanya dua berkas.
+- **Batasan:** kolom yang hanya berisi pilihan tetap atau angka tidak diperiksa (tidak bisa memuat teks bebas). Karakter yang diketik pengguna tetap tersimpan apa adanya. Menyematkan font Arab belum dikerjakan; itu perubahan besar (font di `lib/`, bentuk huruf Arab, arah kanan-ke-kiri) dan tetap menunggu keputusan Amal.
+- Tampilan berubah (butir 11): catatan oranye di bawah kolom dan satu panel di bagian Penutup, belum dilihat di perangkat nyata.
+- **Run Actions:** dicatat di bagian 11 setelah push.

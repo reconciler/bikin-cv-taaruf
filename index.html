@@ -136,6 +136,8 @@ fieldset.grp>legend,.gt{padding:0;margin:0 0 8px;font-family:var(--font-ui);font
 .okbadge{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:700;color:var(--ok);white-space:nowrap}
 .hint{font-size:.8125rem;color:var(--muted);margin:-2px 0 8px}
 .err{font-size:.8125rem;color:var(--bad);margin-top:6px;font-weight:600}
+.cwarn{font-size:.8125rem;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:6px 10px;margin-top:6px;font-weight:600}
+.cwpanel{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
 .fld.need{box-shadow:inset 3px 0 0 var(--accent)}
 .fld.invalid{box-shadow:inset 4px 0 0 var(--bad)}
 input[type=text],input[type=number],select,textarea{width:100%;min-height:46px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font-size:1.03rem;line-height:1.5}
@@ -463,10 +465,43 @@ function matrixCell(f,r,c){ const x=S.d[f.id]||{}; return trimStr(x[r+'_'+c]); }
 function changed(id){
   saveDraftSoon(); if(tried) markInvalid(S.sec); refreshLiveIndicators(); if(id&&byId[id]) refreshFieldState(byId[id]);
 }
+/* ---------- karakter yang tidak bisa dicetak di PDF ---------- */
+/* Font bawaan PDF hanya memuat huruf Latin (set WinAnsi). Huruf Arab, emoji, dan simbol lain tampil rusak. Hanya peringatan, tidak memblokir. */
+const PDF_CHAR_OK=/^[\n\r\t\x20-\x7E\u00A0-\u00FF\u20AC\u201A\u0192\u201E\u2026\u2020\u2021\u02C6\u2030\u0160\u2039\u0152\u017D\u2018\u2019\u201C\u201D\u2022\u2013\u2014\u02DC\u2122\u0161\u203A\u0153\u017E\u0178]$/;
+const TEXTY=new Set(['text','textarea','selectText','list','table','matrix']);
+function fieldStrings(f){
+  const x=S.d[f.id]; if(x==null) return [];
+  switch(f.type){
+    case 'text': case 'textarea': return [String(x)];
+    case 'selectText': return [String(x&&x.txt||'')];
+    case 'list': return (x||[]).map(String);
+    case 'table': return (x||[]).flatMap(r=>r?Object.values(r).map(String):[]);
+    case 'matrix': return Object.values(x||{}).map(String);
+    default: return [];
+  }
+}
+function badChars(f){
+  if(!TEXTY.has(f.type)) return [];
+  const seen=new Set();
+  for(const str of fieldStrings(f)) for(const ch of str.normalize('NFC')) if(!PDF_CHAR_OK.test(ch)) seen.add(ch);
+  return [...seen];
+}
+function badCharList(chars){
+  const shown=chars.slice(0,5).map(c=>h('bdi',null,c)); const out=[];
+  shown.forEach((e,i)=>{ if(i) out.push(' '); out.push(e); });
+  if(chars.length>5) out.push(' dan lainnya');
+  return out;
+}
+function refreshCharWarn(f){
+  const el=document.getElementById('cw-'+f.id); if(!el) return;
+  const bad=visible(f)?badChars(f):[]; el.replaceChildren(); el.hidden=!bad.length;
+  if(bad.length) el.append('Ada huruf atau simbol yang tidak bisa dicetak di PDF: ',...badCharList(bad),'. Hasilnya akan rusak. Ganti dengan huruf biasa (A sampai Z).');
+}
 function refreshFieldState(f){
   const el=document.getElementById('f-'+f.id); if(!el) return;
   const need=f.req&&visible(f)&&!reqOK(f); el.classList.toggle('need',need);
   const st=el.querySelector('.fstat'); if(st){ st.innerHTML=need?'<span class="req">Wajib</span>':'<span class="okbadge">'+ICON_OK+'Terisi</span>'; }
+  refreshCharWarn(f);
 }
 function markVal(el){ if(el&&el.matches&&el.matches('input[type=text],input[type=number],textarea,select')) el.classList.toggle('hasval',trimStr(el.value)!==''); }
 function markAllVals(root){ (root||document).querySelectorAll('input[type=text],input[type=number],textarea,select').forEach(markVal); }
@@ -631,6 +666,7 @@ function buildField(f){
   el.append(buildControl(f));
   nameControls(el,f);
   el.append(h('div',{class:'err',hidden:true,id:'er-'+f.id},'Lengkapi isian ini.'));
+  if(TEXTY.has(f.type)) el.append(h('div',{class:'cwarn',hidden:true,id:'cw-'+f.id,role:'status'}));
   setTimeout(()=>refreshFieldState(f),0);
   return el;
 }
@@ -1131,6 +1167,11 @@ function renderSectionBody(main,secId){
     }
   });
   if(secId==='N'){
+    const cw=F.filter(f=>visible(f)&&badChars(f).length);
+    if(cw.length) main.append(h('div',{class:'panel cwpanel',role:'status',style:'margin-bottom:14px'},
+      h('b',null,'Ada isian yang akan rusak di PDF'),
+      h('p',{class:'small',style:'margin-top:4px'},'Huruf Arab, emoji, dan simbol tertentu tidak bisa dicetak di PDF. Ganti dengan huruf biasa di isian berikut:'),
+      h('ul',{style:'margin-top:8px;padding-left:20px;display:grid;gap:4px'},cw.map(f=>h('li',null,f.label+' (bagian '+secName(f.sec)+')')))));
     main.append(h('div',{class:'panel',style:'margin-bottom:14px'},
       h('b',null,'Sebelum mengirim PDF'),
       h('ul',{style:'margin-top:8px;padding-left:20px;display:grid;gap:4px'},

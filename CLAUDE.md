@@ -90,7 +90,12 @@ aplikasi ini.
 - jsPDF 2.5.1 — pembuatan PDF di sisi klien. Disimpan di repo
   (`lib/jspdf-2.5.1.umd.min.js`), bukan dari CDN, supaya kode yang berjalan
   selalu sama dengan yang ada di repo dan PDF tetap bisa dibuat meski CDN
-  bermasalah.
+  bermasalah. Font bawaan PDF hanya memuat huruf Latin (set WinAnsi): huruf
+  Arab, emoji, dan simbol lain tercetak rusak. Karena itu formulir
+  **memperingatkan** (tidak memblokir PDF) di bawah kolom teks yang memuat
+  karakter di luar set `PDF_CHAR_OK` dan di bagian Penutup (22 Okt 2026).
+  Set itu diverifikasi dengan sapuan U+0020 sampai U+24FF terhadap jsPDF;
+  jangan diperlebar tanpa mengulang sapuan. Menyematkan font Arab belum dikerjakan.
 - Google Fonts: Bricolage Grotesque, Public Sans — dimuat dari server Google.
 
 Tidak ada `package.json` atau proses build.
@@ -181,6 +186,7 @@ Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
   cadangan, buka file cadangan, ubah jenis kelamin, mulai dari awal.
 - PDF terbentuk; header "CV TAARUF"; tautan footer benar.
 - Laporan error (uji dengan `REPORT_URL` diisi alamat palsu yang dicegat `context.route`): tidak ada kiriman sebelum "Kirim laporan"; isi kiriman sama dengan pratinjau dan tidak memuat isian CV (pakai teks canary di isian dan di pesan error); fitur mati saat `REPORT_URL` kosong.
+- Peringatan karakter PDF: Arab/emoji di tiap jenis kolom (teks, area teks, teks+pilihan, daftar, tabel, matriks) memunculkan peringatan; teks Latin biasa tidak; PDF tetap terbentuk.
 - axe-core: 0 pelanggaran di halaman depan (terang dan gelap) dan di 13 bagian
   formulir (mode isian dan ringkasan). Cara yang berhasil di sesi kerja: di
   folder sementara jalankan `npm i axe-core playwright-core`; luncurkan
