@@ -93,9 +93,12 @@ aplikasi ini.
   bermasalah. Font bawaan PDF hanya memuat huruf Latin (set WinAnsi): huruf
   Arab, emoji, dan simbol lain tercetak rusak. Karena itu formulir
   **memperingatkan** (tidak memblokir PDF) di bawah kolom teks yang memuat
-  karakter di luar set `PDF_CHAR_OK` dan di bagian Penutup (22 Okt 2026).
+  karakter di luar set `PDF_CHAR_OK` dan di bagian Penutup (22 Okt 2026). Ada
+  juga pemberitahuan di awal, sebelum pengguna mengetik: catatan di bagian B
+  (`#cwnote`) dan satu poin di "Selengkapnya" halaman depan. Keputusan Amal
+  22 Okt: **tidak perlu menyematkan font Arab**, cukup peringatan.
   Set itu diverifikasi dengan sapuan U+0020 sampai U+24FF terhadap jsPDF;
-  jangan diperlebar tanpa mengulang sapuan. Menyematkan font Arab belum dikerjakan.
+  jangan diperlebar tanpa mengulang sapuan.
 - Google Fonts: Bricolage Grotesque, Public Sans — dimuat dari server Google.
 
 Tidak ada `package.json` atau proses build.
@@ -186,7 +189,7 @@ Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
   cadangan, buka file cadangan, ubah jenis kelamin, mulai dari awal.
 - PDF terbentuk; header "CV TAARUF"; tautan footer benar.
 - Laporan error (uji dengan `REPORT_URL` diisi alamat palsu yang dicegat `context.route`): tidak ada kiriman sebelum "Kirim laporan"; isi kiriman sama dengan pratinjau dan tidak memuat isian CV (pakai teks canary di isian dan di pesan error); fitur mati saat `REPORT_URL` kosong.
-- Peringatan karakter PDF: Arab/emoji di tiap jenis kolom (teks, area teks, teks+pilihan, daftar, tabel, matriks) memunculkan peringatan; teks Latin biasa tidak; PDF tetap terbentuk.
+- Peringatan karakter PDF: Arab/emoji di tiap jenis kolom (teks, area teks, teks+pilihan, daftar, tabel, matriks) memunculkan peringatan; teks Latin biasa tidak; PDF tetap terbentuk; pemberitahuan awal ada di bagian B (mode isian) dan di Selengkapnya, tidak di bagian lain.
 - axe-core: 0 pelanggaran di halaman depan (terang dan gelap) dan di 13 bagian
   formulir (mode isian dan ringkasan). Cara yang berhasil di sesi kerja: di
   folder sementara jalankan `npm i axe-core playwright-core`; luncurkan

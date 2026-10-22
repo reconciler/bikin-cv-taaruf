@@ -108,3 +108,11 @@ Skrip uji pasca-deploy dari `deploy.yml` dijalankan lokal terhadap server tiruan
 
 - **Amal:** URL Apps Script `/exec` (laporan error, saat ini mati); keputusan apakah font Arab perlu disematkan di PDF (opsi besar; peringatan sudah ada); cek tampilan di perangkat nyata (panel Tentang, catatan peringatan karakter, bilah laporan).
 - **Auditor:** tidak ada instruksi terbuka untuk repo ini; gelombang 1 dan 3 selesai.
+
+## 13. Pemberitahuan di awal untuk karakter non-Latin (keputusan Amal)
+
+- **[Amal, chat PIC, 22 Okt]** "no need to embed arabic font, just setup a warning upfront to the user". Keputusan: font Arab **tidak** disematkan; cukup peringatan. Butir "font Arab" di bagian 12 ditutup.
+- **Perubahan (`index.html`):** (1) catatan di atas kolom pertama bagian B (mode isian): "Tulis dengan huruf Latin (A sampai Z). PDF tidak bisa mencetak huruf Arab, emoji, dan simbol lain; hasilnya akan rusak."; (2) satu poin di "Selengkapnya" halaman depan: "Tulis isian dengan huruf Latin (A sampai Z). Huruf Arab dan emoji tidak bisa dicetak di PDF." Tiga poin utama halaman depan tidak ditambah (catatan desain halaman depan). Peringatan per kolom dan daftar di Penutup (bagian 10) tetap.
+- **[Terverifikasi, Chromium headless]** 36 pengecekan karakter lulus (5 baru: poin di Selengkapnya, catatan di B di atas kolom pertama, tidak ada di bagian lain dan mode ringkasan); alur 113/113 (laporan error mati dan hidup); axe formulir 0 (39 pemindaian) dan 0 pada catatan terbuka di 320/390/1280 px terang dan gelap; header 44 px di 16 kombinasi lebar dan tahap dengan font asli (salinan uji diverifikasi sama dengan repo lewat hash); laporan error 46/46; panel Tentang 84/84; 4 kasus PDF utuh. Kontrol: build sebelum perubahan tidak memuat `cwnote`.
+- Tampilan berubah (butir 11): kotak oranye di bagian Data Diri dan satu baris di Selengkapnya; belum dilihat di perangkat nyata.
+- **Menunggu Amal:** URL Apps Script `/exec` (laporan error, mati) dan cek perangkat nyata.

@@ -137,6 +137,7 @@ fieldset.grp>legend,.gt{padding:0;margin:0 0 8px;font-family:var(--font-ui);font
 .hint{font-size:.8125rem;color:var(--muted);margin:-2px 0 8px}
 .err{font-size:.8125rem;color:var(--bad);margin-top:6px;font-weight:600}
 .cwarn{font-size:.8125rem;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:6px 10px;margin-top:6px;font-weight:600}
+.cwnote{font-size:.875rem;color:var(--warn);background:var(--warn-soft);border-radius:10px;padding:10px 12px;margin:0 0 14px;font-weight:600}
 .cwpanel{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
 .fld.need{box-shadow:inset 3px 0 0 var(--accent)}
 .fld.invalid{box-shadow:inset 4px 0 0 var(--bad)}
@@ -1022,7 +1023,8 @@ const KEY_POINTS=[
 const MORE_POINTS=[
   'Tidak ada pertanyaan tentang nama anggota keluarga, alamat lengkap, atau tanggal lahir lengkap.',
   'Tidak ada fitur unggah dokumen.',
-  'Mau lanjut di HP atau laptop lain? Unduh file cadangan lewat tombol "Cadangkan" di bawah formulir, lalu buka file itu di sana lewat halaman depan.'
+  'Mau lanjut di HP atau laptop lain? Unduh file cadangan lewat tombol "Cadangkan" di bawah formulir, lalu buka file itu di sana lewat halaman depan.',
+  'Tulis isian dengan huruf Latin (A sampai Z). Huruf Arab dan emoji tidak bisa dicetak di PDF.'
 ].concat(REPORT_URL?['Kalau aplikasi error, Anda ditanya dulu: mau kirim laporan teknis atau tidak. Isinya pesan error, bagian formulir yang dibuka, versi aplikasi, dan jenis browser. Isian CV tidak ikut. Laporan masuk ke Google Sheet milik pembuat.']:[]);
 const GATE_IDS=['B.03','A.01','A.02'];
 function hasWork(){ return !!resumeOffer || Object.keys(S.d).some(k=>!GATE_IDS.includes(k)); } /* ada isian di luar pilihan awal yang bisa tertimpa */
@@ -1156,6 +1158,7 @@ function renderSectionBody(main,secId){
   if(mode==='review') main.append(h('div',{class:'modebar'},h('button',{type:'button',class:'btn sm',id:'modebtn',onclick:()=>setView(secId,'edit')},'Ubah isian bagian ini')));
   else if(anyFilled) main.append(h('div',{class:'modebar'},h('button',{type:'button',class:'btn sm',id:'modebtn',onclick:()=>setView(secId,'review')},'Lihat ringkasan')));
   main.append(h('div',{class:'alert',id:'alert',role:'alert',hidden:true}));
+  if(secId==='B'&&mode==='edit') main.append(h('p',{class:'cwnote',id:'cwnote'},'Tulis dengan huruf Latin (A sampai Z). PDF tidak bisa mencetak huruf Arab, emoji, dan simbol lain; hasilnya akan rusak.'));
   groupsOf(secId).forEach(g=>{
     const single=g.fs.length===1&&g.fs[0].label===g.t;
     if(mode==='review'){
