@@ -51,3 +51,14 @@ Handoff PIC bagian baru: tabel gelombang, hasil uji (angka), run, hal yang menun
 | Gelombang 3 | Tetap **DITAHAN** (benar). Simulasi lokal PIC (celah ada di repo ini) diterima sebagai dasar. catatankajian sudah mendapat "ya" dan menerapkan pola serupa (`b66c872`, run #33 success); bisa dijadikan acuan di samping `kenalicalon`. Perlu "ya" Amal di chat PIC ini. |
 | Koreksi uji sendiri (bagian 4 PIC) | Kesalahan dilaporkan terus terang; perbaikan (cetak hash berkas yang diuji) **diterima** sebagai praktik untuk semua repo. |
 | Menunggu Amal | URL Apps Script `/exec` dan keputusan peringatan Arab/emoji di PDF: tidak berubah. |
+
+## 5. Verifikasi lanjutan Auditor (23 Okt 2026) **[Terverifikasi kecuali disebut lain]**
+
+| Butir | Hasil |
+|---|---|
+| Gelombang 3 (`af9bffb`, run #16 success) | Langkah baru "Uji aset yang dirujuk beranda": hanya penambahan 41 baris, berjalan setelah Deploy, `curl`/`grep`/`sed`, uji lain tidak dilonggarkan. Dasar persetujuan: kalimat umum Amal di chat PIC; Auditor menandainya ke Amal. Diterima. |
+| Peringatan karakter PDF (`7fd79f9`, kemudian `f776cee`) | Regex `PDF_CHAR_OK` diuji per karakter: teks Latin umum (é, ’, “ ”, –, €, ±) tidak salah ditandai; Arab dan emoji ditandai. Keputusan Amal 22 Okt: peringatan saja, tanpa font Arab (tercatat PIC). Selesai. |
+| Laporan error aktif (`c4f43de`) | `REPORT_URL` terisi alamat Apps Script milik Amal; Amal melaporkan uji ujung ke ujung (23 Okt, `92100ce`). Tidak ada CSP yang menghalangi `fetch`. |
+| Sanitasi payload (diuji ulang Auditor) | Kolom yang dikirim: `t, v, kind, sec, stage, msg, stack, ua, vw, vh`; tidak ada isi formulir. Uji dengan data tiruan: kutipan ganda diganti `"…"` (potongan JSON berisi nama, nomor, email tidak lolos), email jadi `(email)`, angka 4+ digit jadi `#`, kutipan tunggal berisi dua kata atau lebih diganti `'…'`, jalur berkas pada stack dipangkas jadi nama berkas. |
+| Risiko sisa **[kesimpulan Auditor]** | (1) Nama satu kata dalam kutipan tunggal (mis. `'Budi'`) lolos karena dianggap pengenal kode; kecil kemungkinannya (pesan buatan aplikasi tidak mengutip isian) dan tidak bisa ditutup tanpa menyamarkan nama properti. (2) Alamat `/exec` terlihat di sumber situs publik, jadi siapa pun dapat mengirim sampah; dibatasi script (isi 3000 karakter, sel 500, 5000 baris) tetapi setelah penuh laporan asli ikut ditolak. Cek jumlah baris Sheet sesekali. |
+| Opt-in | Laporan hanya dikirim setelah pengguna menekan "Kirim laporan"; isi ditampilkan lebih dulu; "Jangan tanya lagi" tersimpan. Teks privasi berubah otomatis dan akurat. |
