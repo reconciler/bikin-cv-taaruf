@@ -129,3 +129,11 @@ Skrip uji pasca-deploy dari `deploy.yml` dijalankan lokal terhadap server tiruan
   Harapan: tab `Laporan` terbentuk di Sheet dengan satu baris "uji awal" (hapus setelah uji). Keluaran curl mungkin berupa halaman HTML setelah pengalihan; yang menentukan adalah barisnya di Sheet. Bila tidak ada baris: PIC mengosongkan `REPORT_URL` (satu push, jalur kembali) sampai penyebabnya jelas.
 - **Jalur kembali:** kosongkan `REPORT_URL` (teks privasi kembali otomatis) atau arsipkan deployment di Apps Script.
 - Tampilan berubah (butir 11): teks privasi di halaman depan; bilah laporan hanya muncul saat ada error.
+
+## 15. Uji ujung ke ujung laporan error [dilaporkan Amal; tidak diuji ulang oleh PIC]
+
+- **[Amal, chat PIC, 23 Okt]** Menjalankan "metode 1" dari panduan PIC di situs yang tayang: melempar galat dari konsol browser desktop, bilah laporan muncul, menekan "Kirim laporan", dan melaporkan "it works". PIC tidak melihat Sheet; ini laporan Amal, bukan pengamatan PIC.
+- **Yang kini terbukti (berdasarkan laporan Amal):** versi baru tayang; bilah muncul; POST `text/plain` `no-cors` ke Apps Script diterima dan diproses; baris masuk ke Sheet. Butir "BELUM terbukti: penerimaan nyata oleh Google" di bagian 14 **gugur** untuk browser desktop Amal.
+- **Masih belum terbukti:** browser seluler (Opera Mobile, Chrome Android), Safari/iOS, dan perilaku pengalihan Google di sana. Isi persis baris di Sheet (kolom, penyamaran) belum diperiksa PIC; Amal diminta memastikan tidak ada isian CV di dalamnya bila sempat.
+- Pembersihan: baris uji dihapus Amal dari Sheet (diminta; tidak dikonfirmasi).
+- Status fitur: **aktif dan berfungsi**. Jalur kembali tetap: kosongkan `REPORT_URL` atau arsipkan deployment.

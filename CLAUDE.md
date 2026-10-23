@@ -75,8 +75,10 @@ aplikasi ini.
     Alamat web app diisi ke konstanta `REPORT_URL` di `index.html`.
     **Aktif sejak 22 Okt 2026** (alamat diberikan Amal di chat PIC). Untuk
     mematikan: kosongkan `REPORT_URL` (satu push) atau arsipkan deployment di
-    Apps Script. Uji nyata ke Google belum pernah dilakukan dari sesi kerja
-    (jaringan sesi memblokir `script.google.com`); hasil uji Amal dicatat di handoff.
+    Apps Script. Uji ujung ke ujung dilakukan Amal di browser desktopnya (23 Okt 2026):
+    galat sungguhan di situs yang tayang, "Kirim laporan", baris masuk ke
+    Sheet. Belum diuji di browser seluler atau Safari. Sesi kerja tidak bisa
+    menguji sendiri (jaringan sesi memblokir `script.google.com`).
   - **`REPORT_URL` kosong = fitur mati total**: tidak ada pertanyaan, tidak ada
     kiriman, teks privasi tetap versi lama. Saat terisi, teks halaman depan
     otomatis berubah ("Isian tidak dikirim..." plus satu poin di Selengkapnya
