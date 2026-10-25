@@ -34,3 +34,37 @@ Penanda: **[Amal]** keputusan Amal di chat PIC; **[Terverifikasi]** diperiksa PI
 
 - **Menunggu Auditor:** komparasi (bagian 3). **Menunggu Amal:** keputusan setelah komparasi.
 - Hal lain yang masih terbuka dari handoff 22 Okt bagian 12 (cek perangkat nyata; uji laporan error di browser seluler dan Safari) tidak berubah.
+
+## 6. Pelaksanaan opsi C (menjawab `AUDIT-HANDOFF-2026-10-25-auditor.md` bagian 8; skema berubah, wajib lapor)
+
+Penanda: **[Amal]** chat PIC; **[Terverifikasi]** diuji PIC; **[Kesimpulan PIC]** tafsiran PIC.
+
+### 6.1 Konfirmasi 8.3
+- PIC menampilkan daftar 20 kolom ke Amal di chat PIC dalam satu pesan (25 Okt), beserta dampak (PDF yang diterima calon tidak lagi memuat topik itu, jawaban lama tidak dihapus, judul grup yang hilang, pengantar K dan L) dan dua pertanyaan: setuju daftar? kalimat penunjuk (8.2 butir 4)?
+- **[Amal, chat PIC, 25 Okt]** "Silakan eksekusi sesuai perintah auditor".
+- **[Kesimpulan PIC]** Jawaban itu dibaca sebagai setuju daftar apa adanya dan setuju kalimat penunjuk, karena yang terakhir tercantum di instruksi Auditor (8.2 butir 4) dan PIC menyarankannya. Bila Amal tidak menghendakinya, hapus satu blok `#kcnote` (kecil).
+
+### 6.2 Pemeriksaan PIC sebelum mengubah [Terverifikasi]
+- 20 id ada di `SCHEMA`; 11 di antaranya wajib; hasil **88 kolom, 42 wajib**, per bagian sama dengan 8.1 (G 11/3, J 5/3, K 3/3, L 3/2, M 2/1).
+- Tidak ada `showIf` yang merujuk id itu; id tidak muncul di kode di luar `SCHEMA`; penghitung wajib, ringkasan, dan PDF dihitung dari `SCHEMA` sehingga ikut berubah tanpa kode tambahan.
+- **Temuan PIC, belum ada di 8.1:** kolom yang dihapus membawa **judul grup** di J, K, dan M (kolom pertama yang tersisa jadi tanpa judul), dan pengantar bagian K dan L menyebut topik yang dihapus. Ditangani di bawah.
+
+### 6.3 Perubahan (komit `8679611`, run 28 `success`)
+- `SCHEMA`: 20 kolom dihapus. Judul grup dipindah ke kolom pertama yang tersisa: J.09 "Kesiapan", K.03 "Misi dan nilai", M.03 "Kriteria utama" (L tetap "Target bersama").
+- Pengantar K: "Misi, nilai, dan rencana hidup Anda dalam pernikahan."; L: "Target bersama Anda setelah menikah."
+- Kalimat penunjuk (`#kcnote`) di awal J, K, L, M mode isian: "Pandangan dan rencana pernikahan Anda dibahas di Kenali Calon, bukan di CV ini." dengan link biasa ke `https://reconciler.github.io/kenalicalon/` (tab baru, `noopener noreferrer`). Tanpa skrip, penyimpanan, atau parameter pelacak.
+- `docs/inventaris-pertanyaan-cv.md` dibuat ulang (88 kolom, catatan 25 kolom pemegang topik); `README.md` menyebut pembagian peran. `CLAUDE.md`: bagian baru "Isi formulir (catatan desain)" (komit dokumen terpisah).
+- **Tanpa penghapusan data (8.2 butir 1):** jawaban lama tetap di isian dan file cadangan; tidak tampil dan tidak tercetak.
+- 25 kolom pemegang topik (catatan simetris bagian 9 Auditor) tidak ada yang disentuh; daftarnya dicatat di `CLAUDE.md`.
+- **Belum diubah:** nama bagian K ("Visi & Nilai") dan L ("Rencana Nikah") tidak lagi pas dengan isinya. Usulan: K "Misi & Nilai", L "Target Bersama". Menunggu keputusan Amal (tampilan).
+
+### 6.4 Uji [Terverifikasi, Chromium headless; build uji dibandingkan dengan berkas repo lewat hash]
+- Uji baru skema dan dampak: **91/91**. Isi: jumlah dan wajib per bagian; 20 id hilang; 25 pemegang topik dan kolom yang tetap ada; tidak ada `showIf` menggantung; penyebut penghitung wajib = 40 untuk Ikhwan dan Akhwat (51 sebelumnya); judul grup; kalimat penunjuk hanya di J-M mode isian (link, tab baru, rel); axe 0 pelanggaran di bagian J, K, L, M pada 320/390/430 px terang dan gelap; tanpa geser horizontal.
+- **Impor cadangan lama (8.2 butir 1):** berkas cadangan berisi semua id yang dihapus dengan teks canary dibuka lewat input berkas asli: tanpa galat, kolom lain terisi benar, jawaban lama tetap di memori, kolom yang dihapus tidak tampil di J, K, L, M, G, tombol PDF tetap menghasilkan PDF, dan PDF **tidak** memuat canary maupun label topik yang dihapus, sementara label kolom yang tetap tercetak.
+- Regresi: alur 113/113 (laporan error mati, alamat palsu, alamat asli); axe formulir 0 (39 pemindaian); laporan error 47/47 dan 46/46; panel Tentang 84/84; peringatan karakter 36/36; header 44 px di 16 kombinasi dengan font asli; 4 kasus PDF utuh (halaman: Akhwat penuh 10→9, minimal 7→6, kasus ekstrem 12→10); `_site` hanya dua berkas.
+- Tampilan dan skema berubah (butir 11); belum dilihat di perangkat nyata.
+
+### 6.5 Yang perlu diketahui
+- **Dampak ke penerima CV:** PDF tidak lagi memuat tujuan menikah, visi, kesiapan, peran rumah tangga, anak, mahar, kriteria pasangan, dan poligami. Pihak lain hanya melihatnya bila pengguna membahasnya lewat Kenali Calon. **[Kesimpulan PIC]** Belum diketahui apakah Kenali Calon menghasilkan sesuatu yang dikirim ke calon; itu di luar jangkauan PIC repo ini.
+- **Menunggu Amal:** nama bagian K dan L; cek perangkat nyata; apakah jawaban lama perlu dibersihkan nanti (tidak dikerjakan).
+- **Menunggu Auditor:** memverifikasi (urutan proyek baru, langkah 5).

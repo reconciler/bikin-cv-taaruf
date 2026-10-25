@@ -152,6 +152,34 @@ ke bentuk lama tanpa alasan kuat:
   (`gateOK()`). Isian dari draf atau file cadangan yang belum lolos pintu ini
   dikembalikan ke halaman depan, tidak langsung masuk formulir.
 
+## Isi formulir (catatan desain)
+
+Dirampingkan 25 Okt 2026 (opsi C, keputusan Amal; instruksi Auditor di
+`AUDIT-HANDOFF-2026-10-25-auditor.md` bagian 8). **88 kolom, 42 wajib**
+(sebelumnya 108 dan 53). Pembagian peran: CV memuat fakta dan pernyataan
+ringkas; pandangan dan rencana pernikahan dibahas di Kenali Calon.
+
+- **20 id dihapus, jangan dipakai ulang:** J.01-J.04, G.12, K.01, K.02,
+  L.01-L.09, M.01, M.02, M.05, M.06.
+- **Jawaban lama pengguna tidak dihapus.** Untuk id yang dihapus, jawaban
+  tetap ada di isian dan file cadangan lama, hanya tidak tampil dan tidak
+  tercetak (`applyDraft` menyimpan isian apa adanya). Membersihkannya otomatis
+  adalah penghapusan data dan hanya boleh atas keputusan Amal di chat PIC.
+- **25 kolom pemegang topik** (satu-satunya tempat topiknya setelah Kenali
+  Calon mengurangi pertanyaan yang sama): B.06, B.08, B.09, D.08, D.12, F.09,
+  G.01, G.03, G.04, G.05, G.06, G.08, G.09, H.02, H.05, H.11, I.01, I.02, I.04,
+  I.06, I.08, J.05, J.06, J.07, J.09. **Jangan dihapus atau diubah artinya
+  tanpa koordinasi dengan Auditor.**
+- Bagian J, K, L, M menyusut (5, 3, 3, 2 kolom). Judul grup dipindah ke kolom
+  pertama yang tersisa (J.09 "Kesiapan", K.03 "Misi dan nilai", M.03 "Kriteria
+  utama"); pengantar bagian K dan L disesuaikan. Nama bagian K ("Visi & Nilai")
+  dan L ("Rencana Nikah") belum diubah.
+- Di awal bagian J-M (mode isian) ada kalimat penunjuk `#kcnote` ke Kenali
+  Calon: link biasa, tab baru, `noopener noreferrer`, tanpa berbagi data.
+- Sebelum menambah atau mengubah pertanyaan: bandingkan dengan komparasi
+  acuan (bagian "Proyek terkait dan sinkronisasi") dan beri tahu Auditor.
+  Daftar lengkap kolom ada di `docs/inventaris-pertanyaan-cv.md`.
+
 ## Tombol "Tentang" dan tautan antarproyek (catatan desain)
 
 Ditambahkan 30 Sep 2026, direvisi 1 Okt 2026 atas permintaan Amal. Polanya
@@ -196,6 +224,7 @@ Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
 - PDF terbentuk; header "CV TAARUF"; tautan footer benar.
 - Laporan error (uji dengan `REPORT_URL` diisi alamat palsu yang dicegat `context.route`): tidak ada kiriman sebelum "Kirim laporan"; isi kiriman sama dengan pratinjau dan tidak memuat isian CV (pakai teks canary di isian dan di pesan error); fitur mati saat `REPORT_URL` kosong.
 - Peringatan karakter PDF: Arab/emoji di tiap jenis kolom (teks, area teks, teks+pilihan, daftar, tabel, matriks) memunculkan peringatan; teks Latin biasa tidak; PDF tetap terbentuk; pemberitahuan awal ada di bagian B (mode isian) dan di Selengkapnya, tidak di bagian lain.
+- Isi formulir: jumlah kolom dan wajib per bagian sesuai `docs/inventaris-pertanyaan-cv.md`; file cadangan lama yang memuat id yang dihapus terbuka tanpa galat, jawabannya tidak dihapus, dan PDF tidak memuat kolom itu (pakai teks canary); kalimat penunjuk Kenali Calon hanya di bagian J-M mode isian.
 - axe-core: 0 pelanggaran di halaman depan (terang dan gelap) dan di 13 bagian
   formulir (mode isian dan ringkasan). Cara yang berhasil di sesi kerja: di
   folder sementara jalankan `npm i axe-core playwright-core`; luncurkan
