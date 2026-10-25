@@ -137,3 +137,42 @@ Penanda: **[Amal]** chat PIC; **[Terverifikasi]** diuji PIC; **[Kesimpulan PIC]*
 - **Menunggu Amal:** butir lanjutan dari review beban pertanyaan ("so far"); cek perangkat nyata.
 - **Belum terbukti:** perilaku migrasi pada draf nyata pengguna di browser seluler dan Safari; hanya diuji di Chromium.
 - **Info beban saat ini [Terverifikasi dari skema]:** 39 wajib terlihat per pengguna Ikhwan atau Akhwat; 10 di antaranya "berat" (area teks, daftar, tabel, matriks), termasuk deskripsi diri minimal 100 kata (G.01), kelebihan dan kekurangan (G.03, G.04), gambaran orang tua (H.02), riwayat penyakit (D.08), misi (K.03), matriks rencana hidup 8 sel (K.05), kriteria keagamaan (M.03), target tahun pertama (J.10). Bahan bagi review lanjutan Amal.
+
+## 10. Contoh jawaban di kolom deskriptif (permintaan Amal, 25 Okt, setelah bagian 9)
+
+### 10.1 Permintaan dan keputusan bentuk
+- **[Keputusan Amal]** "Bisakah di setiap isian yang deskriptif, disertai contoh jawaban sebagai panduan?"
+- **[Kesimpulan PIC]** Bentuk = **placeholder** di dalam kolom (pola yang sudah ada di 37 kolom). Alasan: tidak menambah baris teks di formulir, sejalan dengan tujuan review beban pertanyaan. Alternatif ditolak: blok contoh yang selalu terlihat (menambah sekitar 49 baris bacaan). Bentuk ini tidak ditanyakan ke Amal dan mudah dibalik.
+
+### 10.2 Perubahan (komit `515f239`, run #40)
+| Hal | Isi |
+|---|---|
+| Contoh | 49 kolom: text, textarea, pilihan+teks, butir pertama daftar. Awalan "Contoh:"; "Opsional:" untuk detail opsional pada kolom pilihan+teks |
+| Baris petunjuk baru `extra.hint` | D.08, H.02, H.13, I.08, J.06, J.09 (pembatas yang dulu di placeholder: "tanpa nama", "bukan nomor rekening", dst.) dan E.04 |
+| Daftar | contoh hanya di butir 1; butir lain "Butir N" (dulu contoh yang sama diulang di tiap butir) |
+| CSS | `::placeholder` memakai `--muted` |
+| G.01 | `rows` 5 menjadi 7 supaya contoh muat |
+- Id, label, tipe, wajib, bagian, grup ke-85 kolom **tidak berubah** (dicek dengan membandingkan SCHEMA lama dan baru). 85 kolom, 41 wajib. Pemetaan komparasi tidak terpengaruh.
+- Tidak diberi contoh: kolom tabel (sel 139-202 px, terlalu sempit), B.06 dan M.04 (manhaj; contoh bisa menggiring), kolom identitas atau fakta pendek, kolom pilihan.
+
+### 10.3 Temuan dan kesalahan PIC [Terverifikasi lewat ukur dan uji]
+- **Kesalahan PIC (bagian 9):** petunjuk E.04 "Isi pendidikan formal dulu..." tidak pernah tampil. Kolom tabel tidak membaca `extra.ph`, jadi isinya data mati. Uji bagian 9 tidak memeriksa teks petunjuk. Diperbaiki lewat `extra.hint`.
+- **Kesalahan PIC (bagian 9):** placeholder J.10 terpotong di 320 sampai 430 px. Diperbaiki.
+- **Cacat lama:** 19 dari 36 placeholder terpotong di 320 px (13 di 375, 7 di 430), termasuk pembatas privasi "tanpa nama majelis". Sekarang 0 di ketiga lebar (diukur, font asli).
+- **Cacat lama:** kontras placeholder bawaan browser 3,53:1 di mode gelap dan 4,61:1 di terang (batas WCAG AA 4,5:1). axe tidak memeriksa placeholder, jadi lolos selama ini. Sekarang 7,11:1 dan 5,70:1.
+- **Kesalahan uji PIC:** skrip build uji memakai alamat laporan palsu yang berbeda dari yang dicegat `rpt-test`, sehingga uji itu sempat gagal; bukan regresi aplikasi. Diperbaiki, 46/46.
+
+### 10.4 Uji [Terverifikasi, Chromium headless; build uji = berkas repo + pengait uji, selisih ukuran 57 byte]
+- Uji baru fitur ini **87/87**: semua kolom deskriptif punya contoh; 0 terpotong di 320/375/430; petunjuk tampil dan `aria-describedby` terhubung; contoh butir daftar; contoh tidak masuk draf atau PDF; huruf Latin saja, tanpa kata bergender; kontras terang dan gelap.
+- Regresi: skema 120/120, alur 113/113, axe 0 pelanggaran (39 pemindaian), laporan error 46/46 dan 47/47, panel Tentang 84/84, peringatan karakter 36/36, header 44 px di 320-1280 px, PDF 4 kasus terbentuk dan tanpa teks contoh.
+- Tampilan berubah (butir 11); tangkapan 320 px terang dan gelap dilihat PIC, belum dilihat di perangkat nyata.
+
+### 10.5 Untuk repo lain
+- **Kontras placeholder:** warna bawaan browser tidak lolos AA di mode gelap (3,53:1) dan axe tidak mengeceknya. Bila `jadwalkajian`, `catatankajian`, atau `kenalicalon` memakai placeholder, usul: ukur `getComputedStyle(el,'::placeholder')` dan atur lewat CSS.
+- **Placeholder terpotong:** isian satu baris di 320 px muat sekitar 30 karakter; placeholder yang lebih panjang terpotong tanpa tanda.
+
+### 10.6 Yang perlu diketahui
+- **Belum terbukti:** tampilan di perangkat nyata (contoh di G.01, baris petunjuk di H dan I); apakah sebagian pengguna mengira placeholder adalah isian yang sudah terisi (awalan "Contoh:" dan warna lebih muda dari teks ketikan mengurangi risiko, tidak menghilangkan).
+- **Perubahan perilaku:** contoh hilang begitu pengguna mengetik (sifat placeholder); petunjuk pembatas kini tetap terlihat.
+- **Menunggu Amal:** apakah tabel (E.04, F.03-F.06, H.09) perlu contoh per kolom; butir lanjutan review beban pertanyaan.
+

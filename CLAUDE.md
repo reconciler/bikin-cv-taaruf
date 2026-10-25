@@ -195,6 +195,18 @@ ringkas; pandangan dan rencana pernikahan dibahas di Kenali Calon.
 - Sebelum menambah atau mengubah pertanyaan: bandingkan dengan komparasi
   acuan (bagian "Proyek terkait dan sinkronisasi") dan beri tahu Auditor.
   Daftar lengkap kolom ada di `docs/inventaris-pertanyaan-cv.md`.
+- **Contoh jawaban** (permintaan Amal, 25 Okt 2026): `extra.ph` berisi contoh di
+  placeholder ("Contoh: ..."; "Opsional: ..." untuk detail opsional di kolom
+  pilihan+teks). Dibaca oleh text, textarea, selectText, dan butir pertama list;
+  **kolom tabel tidak membacanya**. Petunjuk yang harus tetap terlihat ("tanpa
+  nama", "bukan nomor rekening") ada di `extra.hint`, bukan placeholder: baris di
+  bawah label, terhubung lewat `aria-describedby` (D.08, E.04, H.02, H.13, I.08,
+  J.06, J.09). Aturan contoh: netral, tanpa data pribadi atau kata bergender,
+  huruf Latin, tidak mengubah arti kolom (terutama 25 kolom pemegang topik).
+  Isian satu baris harus muat di 320 px (isian teks 228 px, daftar 155 px, font
+  asli); area teks harus muat jumlah barisnya. Warna placeholder diatur CSS
+  (`--muted`) karena bawaan browser hanya 3,53:1 di mode gelap. Sengaja tanpa
+  contoh: kolom tabel (sel sempit), B.06 dan M.04 (manhaj, topik sensitif).
 
 ## Tombol "Tentang" dan tautan antarproyek (catatan desain)
 
@@ -241,6 +253,7 @@ Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
 - Laporan error (uji dengan `REPORT_URL` diisi alamat palsu yang dicegat `context.route`): tidak ada kiriman sebelum "Kirim laporan"; isi kiriman sama dengan pratinjau dan tidak memuat isian CV (pakai teks canary di isian dan di pesan error); fitur mati saat `REPORT_URL` kosong.
 - Peringatan karakter PDF: Arab/emoji di tiap jenis kolom (teks, area teks, teks+pilihan, daftar, tabel, matriks) memunculkan peringatan; teks Latin biasa tidak; PDF tetap terbentuk; pemberitahuan awal ada di bagian B (mode isian) dan di Selengkapnya, tidak di bagian lain.
 - Isi formulir: jumlah kolom dan wajib per bagian sesuai `docs/inventaris-pertanyaan-cv.md`; draf lama dengan E.01-E.03 termigrasi ke E.04 lewat tiga jalur (lanjutkan isian, file cadangan, muat awal) tanpa menghapus yang lama; file cadangan lama yang memuat id yang dihapus terbuka tanpa galat, jawabannya tidak dihapus, dan PDF tidak memuat kolom itu (pakai teks canary); kalimat penunjuk Kenali Calon hanya di bagian J-M mode isian.
+- Contoh jawaban: semua kolom deskriptif punya `ph`; tidak ada placeholder terpotong di 320/375/430 px (ukur dengan font asli: lebar teks lawan lebar isian, tinggi teks lawan tinggi area teks); `extra.hint` tampil dan terhubung `aria-describedby`; contoh tidak masuk draf, PDF, atau laporan error; kontras placeholder minimal 4,5:1 di mode terang dan gelap (axe tidak memeriksa placeholder, jadi ukur sendiri).
 - axe-core: 0 pelanggaran di halaman depan (terang dan gelap) dan di 13 bagian
   formulir (mode isian dan ringkasan). Cara yang berhasil di sesi kerja: di
   folder sementara jalankan `npm i axe-core playwright-core`; luncurkan
