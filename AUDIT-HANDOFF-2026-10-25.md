@@ -68,3 +68,25 @@ Penanda: **[Amal]** chat PIC; **[Terverifikasi]** diuji PIC; **[Kesimpulan PIC]*
 - **Dampak ke penerima CV:** PDF tidak lagi memuat tujuan menikah, visi, kesiapan, peran rumah tangga, anak, mahar, kriteria pasangan, dan poligami. Pihak lain hanya melihatnya bila pengguna membahasnya lewat Kenali Calon. **[Kesimpulan PIC]** Belum diketahui apakah Kenali Calon menghasilkan sesuatu yang dikirim ke calon; itu di luar jangkauan PIC repo ini.
 - **Menunggu Amal:** nama bagian K dan L; cek perangkat nyata; apakah jawaban lama perlu dibersihkan nanti (tidak dikerjakan).
 - **Menunggu Auditor:** memverifikasi (urutan proyek baru, langkah 5).
+
+## 7. Insiden CI run #29, koreksi laporan, dan jawaban Auditor (25 Okt, setelah bagian 10 handoff Auditor)
+
+### 7.1 Insiden run #29 (komit hanya-dokumen `bc36a17`) [Terverifikasi: API Actions dan log langkah]
+- **Percobaan 1:** langkah `Deploy` gagal: `Failed to get ID Token ... Request timeout: /idtoken/...` (timeout layanan token OIDC di sisi GitHub; saran "Ensure GITHUB_TOKEN has permission id-token: write" hanya teks bawaan, `deploy.yml` sudah punya `id-token: write` dan run #28 menit sebelumnya sukses). Langkah uji pasca-terbit dilewati. Situs live tidak terpengaruh: `bc36a17` hanya dokumen, situs tetap hasil run #28.
+- **Percobaan 2** (dimulai Auditor lewat `rerun_failed_jobs`; dua panggilan `rerun_failed_jobs` PIC ditolak 403 "already running" dan tidak membuat apa pun) **gagal berbeda:** `Multiple artifacts named "github-pages" were unexpectedly found ... Artifact count is 2`. Penyebab: menjalankan ulang job dalam run yang sama mengunggah artefak `github-pages` kedua, dan `deploy-pages` menolak nama ganda. Bukan lanjutan masalah OIDC.
+- **Perbaikan:** PIC menjalankan **run baru** lewat `workflow_dispatch` pada `main` (run #31, komit `05bc068`, artefak baru): `success`, semua langkah hijau termasuk "Uji situs setelah deploy" dan "Uji aset yang dirujuk beranda".
+- Dua sesi (PIC dan Auditor) sama-sama mencoba menjalankan ulang run yang sama pada saat yang berdekatan. Tidak berbahaya di sini, tetapi sebaiknya hanya satu sesi yang menangani kegagalan CI satu repo.
+
+### 7.2 Untuk repo lain (jadwalkajian, catatankajian, kenalicalon) [Kesimpulan PIC dari kejadian di atas]
+- Pada workflow Pages yang memakai `upload-pages-artifact` lalu `deploy-pages` (pola yang sama di keempat repo), **jangan memakai `rerun_failed_jobs` / "Re-run failed jobs"** bila kegagalan terjadi setelah artefak diunggah: percobaan ulang akan gagal dengan "Multiple artifacts named github-pages". Pakai **run baru** (`workflow_dispatch` atau push), yang membuat artefak baru. Timeout OIDC sendiri bersifat sementara.
+- Auditor bisa menyalurkannya sebagai catatan di `CLAUDE.md` bagian hosting tiap repo bila dianggap perlu.
+
+### 7.3 Koreksi laporan PIC (bagian 6.3)
+- Kalimat "25 kolom pemegang topik ... tidak ada yang disentuh" **kurang tepat**: J.09 menerima judul grup "Kesiapan" (bidang `grp`); artinya tidak berubah. Diperiksa dan dikoreksi oleh Auditor (bagian 10), diterima PIC. Daftar 20 id yang dihapus tidak memuat satu pun dari 25 kolom itu.
+
+### 7.4 Jawaban Auditor atas pertanyaan terbuka (6.5), diterima [Laporan Auditor, tidak diperiksa PIC]
+- Kenali Calon menghasilkan sesuatu untuk dikirim ke calon ("Salin jawaban", ke clipboard); jadi topik yang dipindah tidak hilang dari alur, tetapi dikirim terpisah dari PDF CV. **[Kesimpulan PIC]** Dampak ke penerima CV tetap ada: PDF tidak lagi memuat topik itu, dan calon baru melihatnya bila pengguna mengirim jawaban Kenali Calon. Keputusan produk Amal.
+
+### 7.5 Masih menunggu Amal
+- Menegaskan kalimat penunjuk `#kcnote` (tafsiran PIC atas "Silakan eksekusi sesuai perintah auditor"; mudah dibuang).
+- Nama bagian K ("Misi & Nilai") dan L ("Target Bersama"); cek perangkat nyata.
