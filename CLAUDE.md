@@ -155,12 +155,24 @@ ke bentuk lama tanpa alasan kuat:
 ## Isi formulir (catatan desain)
 
 Dirampingkan 25 Okt 2026 (opsi C, keputusan Amal; instruksi Auditor di
-`AUDIT-HANDOFF-2026-10-25-auditor.md` bagian 8). **88 kolom, 42 wajib**
-(sebelumnya 108 dan 53). Pembagian peran: CV memuat fakta dan pernyataan
+`AUDIT-HANDOFF-2026-10-25-auditor.md` bagian 8). **85 kolom, 41 wajib**
+(sebelumnya 108 dan 53; 88 dan 42 setelah opsi C). Pembagian peran: CV memuat fakta dan pernyataan
 ringkas; pandangan dan rencana pernikahan dibahas di Kenali Calon.
 
 - **20 id dihapus, jangan dipakai ulang:** J.01-J.04, G.12, K.01, K.02,
   L.01-L.09, M.01, M.02, M.05, M.06.
+- **Review beban pertanyaan (keputusan Amal di chat PIC, 25 Okt 2026).**
+  E.01-E.03 digabung jadi satu tabel **E.04** (Jenis, Jenjang atau program,
+  Institusi atau lembaga, Tahun; wajib minimal 1 baris, maksimal 12); J.08
+  diganti **J.10** "Target Anda di tahun pertama pernikahan" (id baru, daftar
+  1-3); K.04 (nilai pernikahan) dihapus karena topiknya sudah di Kenali Calon.
+  **Id yang pensiun, jangan dipakai ulang:** E.01-E.03, J.08, K.04.
+  `migrateData()` memindahkan jawaban E.01-E.03 lama ke E.04 (hanya bila E.04
+  belum ada, tidak menimpa, tidak menghapus yang lama; dipakai di
+  `applyDraft` dan di muat awal). Jawaban J.08 dan K.04 lama tidak dipindah
+  (artinya beda atau dihapus), tetap tersimpan dan tidak tampil. Ringkasan
+  "Pendidikan terakhir" di PDF memakai baris Formal dengan tahun terbesar
+  (`lastEdu()`).
 - **Jawaban lama pengguna tidak dihapus.** Untuk id yang dihapus, jawaban
   tetap ada di isian dan file cadangan lama, hanya tidak tampil dan tidak
   tercetak (`applyDraft` menyimpan isian apa adanya). Membersihkannya otomatis
@@ -170,12 +182,13 @@ ringkas; pandangan dan rencana pernikahan dibahas di Kenali Calon.
   G.01, G.03, G.04, G.05, G.06, G.08, G.09, H.02, H.05, H.11, I.01, I.02, I.04,
   I.06, I.08, J.05, J.06, J.07, J.09. **Jangan dihapus atau diubah artinya
   tanpa koordinasi dengan Auditor.**
-- Bagian J, K, L, M menyusut (5, 3, 3, 2 kolom). Judul grup dipindah ke kolom
+- Bagian J, K, L, M menyusut (5, 2, 3, 2 kolom). Judul grup dipindah ke kolom
   pertama yang tersisa (J.09 "Kesiapan", K.03 "Misi dan nilai", M.03 "Kriteria
   utama"); pengantar bagian K dan L disesuaikan. Nama bagian diganti atas
-  keputusan Amal (25 Okt 2026): K "Misi & Nilai" (judul "K. Misi & Nilai
-  Pernikahan") dan L "Target Bersama" (judul "L. Target Bersama Setelah
-  Menikah"); id bagian tidak berubah.
+  keputusan Amal (25 Okt 2026): L "Target Bersama" (judul "L. Target Bersama
+  Setelah Menikah"); K semula "Misi & Nilai", lalu setelah K.04 dihapus jadi
+  "Misi & Rencana" (judul "K. Misi & Rencana Hidup", grup K.03 "Misi");
+  id bagian tidak berubah.
 - Di awal bagian J-M (mode isian) ada kalimat penunjuk `#kcnote` ke Kenali
   Calon: link biasa, tab baru, `noopener noreferrer`, tanpa berbagi data.
   Dikonfirmasi Amal di chat PIC (25 Okt 2026).
@@ -227,7 +240,7 @@ Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
 - PDF terbentuk; header "CV TAARUF"; tautan footer benar.
 - Laporan error (uji dengan `REPORT_URL` diisi alamat palsu yang dicegat `context.route`): tidak ada kiriman sebelum "Kirim laporan"; isi kiriman sama dengan pratinjau dan tidak memuat isian CV (pakai teks canary di isian dan di pesan error); fitur mati saat `REPORT_URL` kosong.
 - Peringatan karakter PDF: Arab/emoji di tiap jenis kolom (teks, area teks, teks+pilihan, daftar, tabel, matriks) memunculkan peringatan; teks Latin biasa tidak; PDF tetap terbentuk; pemberitahuan awal ada di bagian B (mode isian) dan di Selengkapnya, tidak di bagian lain.
-- Isi formulir: jumlah kolom dan wajib per bagian sesuai `docs/inventaris-pertanyaan-cv.md`; file cadangan lama yang memuat id yang dihapus terbuka tanpa galat, jawabannya tidak dihapus, dan PDF tidak memuat kolom itu (pakai teks canary); kalimat penunjuk Kenali Calon hanya di bagian J-M mode isian.
+- Isi formulir: jumlah kolom dan wajib per bagian sesuai `docs/inventaris-pertanyaan-cv.md`; draf lama dengan E.01-E.03 termigrasi ke E.04 lewat tiga jalur (lanjutkan isian, file cadangan, muat awal) tanpa menghapus yang lama; file cadangan lama yang memuat id yang dihapus terbuka tanpa galat, jawabannya tidak dihapus, dan PDF tidak memuat kolom itu (pakai teks canary); kalimat penunjuk Kenali Calon hanya di bagian J-M mode isian.
 - axe-core: 0 pelanggaran di halaman depan (terang dan gelap) dan di 13 bagian
   formulir (mode isian dan ringkasan). Cara yang berhasil di sesi kerja: di
   folder sementara jalankan `npm i axe-core playwright-core`; luncurkan

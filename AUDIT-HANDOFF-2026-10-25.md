@@ -100,3 +100,40 @@ Penanda: **[Amal]** chat PIC; **[Terverifikasi]** diuji PIC; **[Kesimpulan PIC]*
 - **Run:** #34 (`d144c6b`, kode dan inventaris) `success`, termasuk "Uji situs setelah deploy" dan "Uji aset yang dirujuk beranda". `docs/inventaris-pertanyaan-cv.md` dibuat ulang dengan nama baru.
 - Tampilan berubah (butir 11): judul dua bagian di kartu bagian, daftar bagian, tombol lanjut, dan judul di PDF; belum dilihat di perangkat nyata.
 - **Masih menunggu Amal:** cek perangkat nyata (layar J sampai M, peringatan karakter, bilah laporan error, uji laporan di browser seluler dan Safari). Tidak ada instruksi Auditor yang terbuka untuk repo ini.
+
+## 9. Review beban pertanyaan oleh Amal (25 Okt, setelah bagian 8): tiga butir dikerjakan
+
+Penanda: **[Amal]** chat PIC; **[Terverifikasi]** diuji PIC; **[Kesimpulan PIC]** tafsiran PIC. Menyangkut skema form (wajib lapor; koordinasi dengan pemetaan Auditor).
+
+### 9.1 Permintaan dan keputusan
+- **[Amal]** Tujuan: memastikan pengguna paham dan tidak kewalahan oleh banyaknya pertanyaan. Tiga butir: (1) gabungkan form pendidikan formal dan informal, (2) ganti butir komitmen untuk mencapai harapan nikah dengan target dalam setahun menikah, (3) hapus butir nilai pernikahan karena ekspektasinya akan terlihat saat mengobrol di Kenali Calon. Amal mengatakan "so far" (masih berjalan): butir lain mungkin menyusul.
+- Dua butir bermakna ganda; Amal memilih (opsi yang disarankan PIC): **(1)** satu tabel 4 kolom (Jenis, Jenjang atau program, Institusi atau lembaga, Tahun) yang menggabungkan formal, agama/non-formal, dan pelatihan/sertifikasi; **(2)** "target di setahun pertama setelah menikah", daftar 1-3 butir. Butir 3 jelas.
+
+### 9.2 Perubahan (komit `0c95c6f`, run #38 `success`)
+| Sebelum | Sesudah |
+|---|---|
+| E.01 (wajib), E.02, E.03: tiga tabel | **E.04** "Riwayat pendidikan dan pelatihan": satu tabel, wajib minimal 1 baris, maksimal 12 |
+| J.08 "Komitmen pribadi untuk mencapai harapan pernikahan" (wajib, daftar 1-3) | **J.10** "Target Anda di tahun pertama pernikahan" (wajib, daftar 1-3), id baru |
+| K.04 "Nilai yang diusung setelah menikah" (wajib, daftar 1-5) | dihapus |
+- Total **88 → 85 kolom, wajib 42 → 41**. Per bagian: E 3/1 → 1/1, J 5/3 (sama), K 3/3 → 2/2. Penyebut penghitung Ikhwan dan Akhwat 40 → 39.
+- Bagian K diganti nama lagi karena "Nilai" sudah tidak ada: "Misi & Rencana" (judul "K. Misi & Rencana Hidup"); grup K.03 "Misi". **[Kesimpulan PIC]** Konsekuensi langsung dari butir 3; tidak ditanyakan terpisah. Pengantar bagian E diperbarui.
+- **Migrasi jawaban lama, tanpa penghapusan data:** `migrateData()` menyalin baris E.01-E.03 lama ke E.04 (Formal: jenjang + jurusan, tahun masuk-lulus; Agama dan non-formal: program; Pelatihan dan sertifikasi: nama pelatihan, penyelenggara) hanya bila E.04 belum ada. Kunci lama dibiarkan. Jawaban J.08 dan K.04 lama tidak dipindah (J.08 artinya berbeda, K.04 dihapus) dan tetap tersimpan, tidak tampil, tidak tercetak.
+- Ringkasan "Pendidikan terakhir" di PDF ditulis ulang: baris Formal dengan tahun terbesar (bila tidak ada tahun, baris Formal terakhir).
+- 25 kolom pemegang topik tidak disentuh (tidak ada E.\*, J.08, K.04 di daftar itu). `docs/inventaris-pertanyaan-cv.md` dan `README.md` diperbarui; `CLAUDE.md` bagian "Isi formulir" diperbarui di komit dokumen terpisah.
+
+### 9.3 Untuk Auditor (pemetaan komparasi)
+- **K.04** di pemetaan Auditor "melengkapi d1q13, d4q25": topik nilai tetap ada di Kenali Calon, jadi tidak hilang dari kedua produk (sesuai alasan Amal).
+- **E.01-E.03** "tanpa padanan": tidak ada dampak ke Kenali Calon (E.02 dekat dengan d2q8 tetapi berbeda: riwayat vs yang diikuti kini).
+- **J.08** dulu "melengkapi d3q6"; **J.10** adalah kolom baru tanpa pemetaan. **[Kesimpulan PIC]** J.10 sedikit beririsan secara tema dengan L.11 ("Target bersama jangka pendek 1-3 tahun", melengkapi d3q7) tetapi berbeda: J.10 target pribadi di tahun pertama, L.11 target bersama. Mohon Auditor memperbarui pemetaan dan angka acuan (E.04, J.10; K.04 dan E.01-E.03 pensiun).
+- Dampak ke penerima CV: PDF tidak lagi memuat "Nilai yang diusung"; pendidikan tampil dalam satu tabel dengan kolom Jenis.
+
+### 9.4 Uji [Terverifikasi, Chromium headless; build uji dicocokkan dengan berkas repo lewat hash]
+- Uji skema dan dampak **120/120** (baru: tabel E.04 menampilkan 4 baris dan 4 kolom hasil migrasi pada tiga jalur masuk: lanjutkan isian, file cadangan asli, muat awal sebelum pintu masuk lengkap; kunci lama tidak berubah; E.04 yang sudah ada tidak ditimpa; draf tanpa E.01-E.03 tidak menghasilkan E.04; J.10 ada dan J.08 tidak; K hanya K.03 dan K.05; PDF memuat baris tabel, "Pendidikan terakhir: S1 Teknik - UI", dan target J.10, tanpa label lama, tanpa "Komitmen pribadi" atau "Nilai yang diusung"; axe 0 pada bagian E, J, K, L, M di 320/390/430 px terang dan gelap).
+- Regresi: alur 113/113 (laporan error mati, alamat palsu, alamat asli); axe formulir 0 (39 pemindaian); laporan error 47/47 dan 46/46; panel Tentang 84/84; peringatan karakter 36/36; header 44 px di 16 kombinasi dengan font asli; 4 kasus PDF utuh (6, 8, 10, 6 halaman); `_site` hanya dua berkas.
+- **Kesalahan uji PIC, diperbaiki:** `site-test.js` mengisi form dari `copy.json`, dump skema lama (108 kolom) yang belum memuat E.04 dan J.10, sehingga PDF tertahan validasi dan uji gagal; `copy.json` dibuat ulang dari skema sekarang (85 kolom, 41 wajib). `cw-real.js` juga salinan usang yang masih menyebut E.01; dibuat ulang. Keduanya skrip uji, bukan aplikasi. Hasil uji sebelumnya hari ini tetap sah (kolom wajib yang ada waktu itu masih tercakup isiannya).
+- Tampilan dan skema berubah (butir 11); belum dilihat di perangkat nyata.
+
+### 9.5 Yang perlu diketahui
+- **Menunggu Amal:** butir lanjutan dari review beban pertanyaan ("so far"); cek perangkat nyata.
+- **Belum terbukti:** perilaku migrasi pada draf nyata pengguna di browser seluler dan Safari; hanya diuji di Chromium.
+- **Info beban saat ini [Terverifikasi dari skema]:** 39 wajib terlihat per pengguna Ikhwan atau Akhwat; 10 di antaranya "berat" (area teks, daftar, tabel, matriks), termasuk deskripsi diri minimal 100 kata (G.01), kelebihan dan kekurangan (G.03, G.04), gambaran orang tua (H.02), riwayat penyakit (D.08), misi (K.03), matriks rencana hidup 8 sel (K.05), kriteria keagamaan (M.03), target tahun pertama (J.10). Bahan bagi review lanjutan Amal.
