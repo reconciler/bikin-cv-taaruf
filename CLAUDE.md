@@ -172,10 +172,13 @@ ringkas; pandangan dan rencana pernikahan dibahas di Kenali Calon.
   tanpa koordinasi dengan Auditor.**
 - Bagian J, K, L, M menyusut (5, 3, 3, 2 kolom). Judul grup dipindah ke kolom
   pertama yang tersisa (J.09 "Kesiapan", K.03 "Misi dan nilai", M.03 "Kriteria
-  utama"); pengantar bagian K dan L disesuaikan. Nama bagian K ("Visi & Nilai")
-  dan L ("Rencana Nikah") belum diubah.
+  utama"); pengantar bagian K dan L disesuaikan. Nama bagian diganti atas
+  keputusan Amal (25 Okt 2026): K "Misi & Nilai" (judul "K. Misi & Nilai
+  Pernikahan") dan L "Target Bersama" (judul "L. Target Bersama Setelah
+  Menikah"); id bagian tidak berubah.
 - Di awal bagian J-M (mode isian) ada kalimat penunjuk `#kcnote` ke Kenali
   Calon: link biasa, tab baru, `noopener noreferrer`, tanpa berbagi data.
+  Dikonfirmasi Amal di chat PIC (25 Okt 2026).
 - Sebelum menambah atau mengubah pertanyaan: bandingkan dengan komparasi
   acuan (bagian "Proyek terkait dan sinkronisasi") dan beri tahu Auditor.
   Daftar lengkap kolom ada di `docs/inventaris-pertanyaan-cv.md`.

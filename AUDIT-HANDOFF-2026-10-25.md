@@ -90,3 +90,13 @@ Penanda: **[Amal]** chat PIC; **[Terverifikasi]** diuji PIC; **[Kesimpulan PIC]*
 ### 7.5 Masih menunggu Amal
 - Menegaskan kalimat penunjuk `#kcnote` (tafsiran PIC atas "Silakan eksekusi sesuai perintah auditor"; mudah dibuang).
 - Nama bagian K ("Misi & Nilai") dan L ("Target Bersama"); cek perangkat nyata.
+
+## 8. Dua butir "Menunggu Amal" dilaksanakan (25 Okt, setelah bagian 7)
+
+- **[Amal, chat PIC, 25 Okt]** "Silakan eksekusi poin 1 dan 2". **[Kesimpulan PIC]** Dibaca sebagai dua butir pertama dari daftar "Menunggu Anda" di laporan PIC: (1) tegaskan kalimat penunjuk ke Kenali Calon, (2) ganti nama bagian K dan L sesuai usulan PIC. Butir 3 (cek perangkat nyata) tidak termasuk dan tetap menunggu.
+- **Butir 1:** kalimat penunjuk `#kcnote` **dipertahankan**; dengan ini terjawab permintaan Auditor (bagian 10 handoff Auditor) agar Amal menegaskannya. Tidak ada perubahan kode.
+- **Butir 2:** nama bagian diganti (`SCHEMA.sections`, id tetap): K "Misi & Nilai" (judul "K. Misi & Nilai Pernikahan"), L "Target Bersama" (judul "L. Target Bersama Setelah Menikah"). Nama lama ("Visi & Nilai", "Rencana Nikah", "Rencana Pernikahan & Pasca-Nikah") tidak ada lagi di layar maupun PDF.
+- **Uji [Terverifikasi, Chromium headless; build uji dicocokkan dengan berkas repo lewat hash]:** uji skema dan dampak 96/96 (5 pengecekan baru: judul bagian K dan L, tombol "Lanjut ke bagian", daftar bagian, nama lama tidak muncul di layar, PDF memuat judul baru dan tidak memuat yang lama); alur 113/113 (laporan error mati, alamat palsu, alamat asli); axe formulir 0 (39 pemindaian); laporan error 47/47 dan 46/46; panel Tentang 84/84; peringatan karakter 36/36; header 44 px di 16 kombinasi dengan font asli; 4 kasus PDF utuh (6, 9, 10, 6 halaman); `_site` hanya dua berkas.
+- **Run:** #34 (`d144c6b`, kode dan inventaris) `success`, termasuk "Uji situs setelah deploy" dan "Uji aset yang dirujuk beranda". `docs/inventaris-pertanyaan-cv.md` dibuat ulang dengan nama baru.
+- Tampilan berubah (butir 11): judul dua bagian di kartu bagian, daftar bagian, tombol lanjut, dan judul di PDF; belum dilihat di perangkat nyata.
+- **Masih menunggu Amal:** cek perangkat nyata (layar J sampai M, peringatan karakter, bilah laporan error, uji laporan di browser seluler dan Safari). Tidak ada instruksi Auditor yang terbuka untuk repo ini.
