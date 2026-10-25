@@ -246,3 +246,54 @@ Batas tetap: **tanpa berbagi data antar proyek** (satu origin, tautan biasa saja
 
 - PIC `bikin-cv-taaruf`: **tidak mengubah apa pun di CV** sebelum Amal memutuskan di chat PIC. Berkas ini hanya bahan keputusan.
 - Ringkasan untuk Amal dikirim Auditor di chat. Bagian Kenali Calon (opsi A dan B) disalurkan ke PIC `kenalicalon` lewat berkas terpisah di repo itu, juga tanpa eksekusi sebelum keputusan Amal.
+
+## 8. Keputusan Amal 25 Okt 2026: opsi C dieksekusi (instruksi untuk PIC)
+
+- **[Keputusan Amal]** 25 Okt 2026 (chat Auditor), setelah membaca bagian 5: "Lakukan opsi C" (ramping-kan CV; pandangan dan rencana dipindah ke Kenali Calon).
+- **[Auditor] Tafsir cakupan.** Opsi C di bagian 5 menyebut batas atas "sampai 47 kolom". Auditor mempersempit ke kolom yang **(a)** hubungannya "sama" dengan pertanyaan Kenali Calon, sehingga topiknya tidak hilang, dan **(b)** bersifat pandangan atau rencana, bukan fakta. Kolom "melengkapi" dan kolom fakta **tetap** di CV. Perluasan (mis. K.03-K.05, L.10-L.12, M.03) hanya atas permintaan Amal berikutnya.
+
+### 8.1 Kolom yang dihapus dari CV (20 kolom, 11 wajib) [Terverifikasi dari inventaris dan pemetaan]
+
+| Kolom | W | Pertanyaan CV | Padanan Kenali Calon | Contoh pertanyaan di Kenali Calon |
+|---|---|---|---|---|
+| J.01 | * | Kesiapan ilmu pranikah | d3q12 | Seberapa siap kamu menikah? Bagaimana persiapan fisik, pe… |
+| J.02 | * | Kesiapan mental / psikis | d3q12 | Seberapa siap kamu menikah? Bagaimana persiapan fisik, pe… |
+| J.03 | * | Kesiapan fisik / kesehatan | d3q12 | Seberapa siap kamu menikah? Bagaimana persiapan fisik, pe… |
+| J.04 | * | Kesiapan finansial | d3q12 | Seberapa siap kamu menikah? Bagaimana persiapan fisik, pe… |
+| G.12 |  | Pandangan tentang poligami | d4q24 | Bagaimana pandanganmu soal poligami? |
+| K.01 | * | Tujuan menikah | d3q3 | Apa tujuan dan motivasi utamamu menikah? Kenapa sekarang,… |
+| K.02 | * | Visi pernikahan | d3q6, d3q7 | Seperti apa gambaran keluarga ideal yang ingin kamu bangu… |
+| L.01 |  | Gambaran acara pernikahan | d3q16 | Konsep acara sederhana atau resepsi besar? Siapa yang men… |
+| L.02 |  | Sumber dana acara pernikahan | d3q16 | Konsep acara sederhana atau resepsi besar? Siapa yang men… |
+| L.03 |  | Mahar | d3q15 | Bagaimana pandanganmu soal mahar? |
+| L.04 | * | Tempat tinggal setelah menikah | d6q2, d6q3 | Setelah menikah, ingin tinggal di kota mana? |
+| L.05 | * | Kehidupan rumah tangga (pembagian peran) | d4q16, d6q4 | Apa saja peran dan tugas ideal suami dan istri menurutmu? |
+| L.06 | * | Pekerjaan dan karier ke depan | d3q2, d5q22 | Apa tujuan dan rencana hidupmu, termasuk karier, dalam 5–… |
+| L.07 |  | Pandangan tentang kebolehan istri bekerja | d5q19 | Bagaimana pandanganmu tentang istri bekerja setelah menik… |
+| L.08 | * | Jumlah anak dan pendidikan anak | d7q5, d7q23 | Berapa jumlah anak yang diinginkan, dan berapa jarak usia… |
+| L.09 |  | Pengelolaan keuangan keluarga | d5q9 | Seperti apa gambaran belanja dan alokasi keuangan rumah t… |
+| M.01 |  | Kriteria mutlak (tidak bisa ditawar) | d3q10, d4q23 | Non-starters: hal apa yang membuatmu langsung berhenti di… |
+| M.02 | * | Kriteria non-fisik yang diinginkan (tidak mutlak) | d3q9 | Seperti apa pasangan idealmu (fisik dan non-fisik)? Karak… |
+| M.05 |  | Kriteria fisik | d3q9 | Seperti apa pasangan idealmu (fisik dan non-fisik)? Karak… |
+| M.06 |  | Kriteria dari orang tua / wali | d3q20 | Adakah harapan atau pesan ortu tentang calon menantu yang… |
+
+- **Sesudah:** CV 108 jadi **88 kolom**, wajib 53 jadi **42**. Per bagian (jumlah/wajib): B 11/7, C 4/2, D 12/5, E 3/1, F 9/2, G 11/3, H 8/5, I 11/3, **J 5/3**, **K 3/3**, **L 3/2**, **M 2/1**, N 4/3, A 2/2. Bagian J, K, L, M menyusut, tidak hilang; sesuaikan pengantar dan urutannya.
+- **Kolom yang tetap walau topiknya dekat:** J.05-J.09 (restu ortu, utang, waktu menikah, tanggungan, komitmen), K.03-K.05 (misi, nilai, matriks rencana hidup), L.10-L.12 (target bersama), M.03-M.04 (kriteria keagamaan dan manhaj), serta semua kolom fakta.
+- **[Terverifikasi]** Tidak ada kolom lain di `SCHEMA` yang merujuk id di atas lewat `showIf` (dicek lewat parsing `SCHEMA`), dan id itu tidak muncul di kode di luar `SCHEMA`. PIC memeriksa ulang sebelum mengubah.
+
+### 8.2 Syarat pelaksanaan
+
+1. **Tanpa penghapusan data pengguna.** `applyDraft` menyimpan `dr.d` apa adanya, jadi jawaban lama untuk id yang dihapus tetap ada di draf dan berkas cadangan tetapi tidak tampil dan tidak tercetak. Biarkan begitu. Membersihkannya otomatis adalah penghapusan data (pengecualian butir 2) dan hanya boleh atas keputusan Amal di chat PIC. Uji: buka berkas cadangan lama yang memuat id yang dihapus, tidak ada galat, kolom lain terisi benar, PDF tidak memuat kolom yang dihapus.
+2. **Perbarui semua yang bergantung pada jumlah atau daftar kolom:** `SCHEMA`, penghitung dan pesan "PDF belum bisa dibuat" (42 wajib), ringkasan, PDF, teks halaman depan atau bantuan yang menyebut bagian atau jumlah, `README.md`, `CLAUDE.md` (bagian khusus repo), `docs/inventaris-pertanyaan-cv.md`.
+3. **Uji ulang** (butir 13 dan 19): suite alur, axe formulir (320/375/430, terang/gelap), 4 kasus PDF, header 44 px, laporan error, dan impor cadangan lama (butir 1). Sebut "tampilan dan skema berubah" (butir 11).
+4. **Opsional, tampilan:** satu kalimat penunjuk di halaman depan atau awal bagian J/K/L/M: pandangan dan rencana pernikahan dibahas di Kenali Calon, dengan tautan biasa ke `https://reconciler.github.io/kenalicalon/` (`target="_blank" rel="noopener noreferrer"`). Tanpa berbagi data, tanpa parameter pelacak.
+5. **Urutan:** satu push untuk perubahan skema (kode + inventaris + uji), push dokumen terpisah. Verifikasi run `success` tiap push.
+
+### 8.3 Konfirmasi di chat PIC
+
+- Perubahan skema besar menurut `AUDIT-HANDOFF-2026-10-25.md` bagian 4 butuh keputusan Amal di chat PIC. Keputusan Amal di chat Auditor tercatat di atas, tetapi **daftar 20 kolom adalah tafsiran Auditor**. **[Usulan]** PIC menampilkan daftar 8.1 ke Amal di chat PIC dalam satu pesan dan melanjutkan bila Amal menjawab setuju atau tidak keberatan. Bila Amal ingin lebih sempit atau lebih luas, ikuti jawabannya dan catat.
+
+### 8.4 Dampak ke Kenali Calon [Terverifikasi dari pemetaan]
+
+- Setelah opsi C: CV 88 kolom (sama 27, melengkapi 21, tanpa padanan 40). Pertanyaan Kenali Calon yang masih mengulang CV turun dari 44 jadi **24** (umumnya fakta dan kebiasaan: profil diri, ibadah, kesehatan, status, restu ortu, penghasilan, utang). 20 pertanyaan Kenali Calon tidak lagi mengulang CV dan menjadi **satu-satunya tempat** topiknya.
+- Sisa 24 itu ditangani terpisah (opsi A atau B di bagian 5) bila Amal menghendaki; bukan bagian opsi C.
