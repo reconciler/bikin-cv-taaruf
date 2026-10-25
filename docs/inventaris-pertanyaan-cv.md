@@ -1,9 +1,9 @@
 # Inventaris pertanyaan Bikin CV Taaruf
 
-Dibuat dari `index.html` (komit 078c1a8), konstanta `SCHEMA`. Hanya label pertanyaan, tanpa data pengguna.
+Dibuat dari `index.html` (komit 136451f), konstanta `SCHEMA`. Hanya label pertanyaan, tanpa data pengguna.
 Tanda `*` = wajib. `[jk]` = hanya tampil untuk jenis kelamin tertentu atau kondisi tertentu (`showIf`). Semua bagian B sampai N tercetak di PDF yang dikirim ke pihak lain, jadi menghapus atau memindah kolom mengubah dokumen yang diterima pihak itu.
 
-**Status 25 Okt 2026 (opsi C, keputusan Amal):** 20 kolom dihapus (J.01-J.04, G.12, K.01, K.02, L.01-L.09, M.01, M.02, M.05, M.06); topiknya dibahas di Kenali Calon. Sebelumnya 108 kolom (53 wajib). 25 kolom pemegang topik (B.06, B.08, B.09, D.08, D.12, F.09, G.01, G.03-G.06, G.08, G.09, H.02, H.05, H.11, I.01, I.02, I.04, I.06, I.08, J.05-J.07, J.09) jangan dihapus atau diubah artinya tanpa koordinasi dengan Auditor.
+**Status 25 Okt 2026 (opsi C, keputusan Amal):** 20 kolom dihapus (J.01-J.04, G.12, K.01, K.02, L.01-L.09, M.01, M.02, M.05, M.06); topiknya dibahas di Kenali Calon. Sebelumnya 108 kolom (53 wajib). Bagian K dan L diganti nama ("Misi & Nilai Pernikahan" dan "Target Bersama Setelah Menikah"). 25 kolom pemegang topik (B.06, B.08, B.09, D.08, D.12, F.09, G.01, G.03-G.06, G.08, G.09, H.02, H.05, H.11, I.01, I.02, I.04, I.06, I.08, J.05-J.07, J.09) jangan dihapus atau diubah artinya tanpa koordinasi dengan Auditor.
 
 Total: 88 kolom, 42 wajib.
 
@@ -179,7 +179,7 @@ Total: 88 kolom, 42 wajib.
 - `*` J.07 Rencana waktu menikah (teks)
 - `*` J.08 Komitmen pribadi untuk mencapai harapan pernikahan (daftar)
 
-## K. Visi & Nilai Pernikahan (3 kolom, 3 wajib)
+## K. Misi & Nilai Pernikahan (3 kolom, 3 wajib)
 
 
 **Misi dan nilai**
@@ -191,7 +191,7 @@ Total: 88 kolom, 42 wajib.
 
 - `*` K.05 Matriks rencana hidup (matriks)
 
-## L. Rencana Pernikahan & Pasca-Nikah (3 kolom, 2 wajib)
+## L. Target Bersama Setelah Menikah (3 kolom, 2 wajib)
 
 
 **Target bersama**
