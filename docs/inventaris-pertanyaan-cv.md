@@ -1,9 +1,11 @@
 # Inventaris pertanyaan Bikin CV Taaruf
 
-Dibuat dari `index.html` (komit ee6a7d8), konstanta `SCHEMA`. Hanya label pertanyaan, tanpa data pengguna.
-Tanda `*` = wajib. `[jk]` = hanya tampil untuk jenis kelamin tertentu atau kondisi tertentu (`showIf`). Semua bagian B sampai N tercetak di PDF yang dikirim ke pihak lain (diperiksa pada PDF contoh: label dari tiap bagian ada di PDF), jadi menghapus atau memindah kolom mengubah dokumen yang diterima pihak itu.
+Dibuat dari `index.html` (komit 078c1a8), konstanta `SCHEMA`. Hanya label pertanyaan, tanpa data pengguna.
+Tanda `*` = wajib. `[jk]` = hanya tampil untuk jenis kelamin tertentu atau kondisi tertentu (`showIf`). Semua bagian B sampai N tercetak di PDF yang dikirim ke pihak lain, jadi menghapus atau memindah kolom mengubah dokumen yang diterima pihak itu.
 
-Total: 108 kolom, 53 wajib.
+**Status 25 Okt 2026 (opsi C, keputusan Amal):** 20 kolom dihapus (J.01-J.04, G.12, K.01, K.02, L.01-L.09, M.01, M.02, M.05, M.06); topiknya dibahas di Kenali Calon. Sebelumnya 108 kolom (53 wajib). 25 kolom pemegang topik (B.06, B.08, B.09, D.08, D.12, F.09, G.01, G.03-G.06, G.08, G.09, H.02, H.05, H.11, I.01, I.02, I.04, I.06, I.08, J.05-J.07, J.09) jangan dihapus atau diubah artinya tanpa koordinasi dengan Auditor.
+
+Total: 88 kolom, 42 wajib.
 
 ## A. Persetujuan (halaman depan) (2 kolom, 2 wajib)
 
@@ -94,7 +96,7 @@ Total: 108 kolom, 53 wajib.
 - F.08 Penghasilan (kisaran per bulan) (pilihan + catatan)
 - `*` F.09 Hobi (teks)
 
-## G. Profil Diri & Karakter (12 kolom, 3 wajib)
+## G. Profil Diri & Karakter (11 kolom, 3 wajib)
 
 
 **Tentang diri**
@@ -116,7 +118,6 @@ Total: 108 kolom, 53 wajib.
 - G.09 Kegiatan waktu luang (teks)
 - G.10 Pergaulan dengan tetangga / lingkungan (teks)
 - G.11 Keterlibatan dakwah / kegiatan sosial (teks)
-- G.12 Pandangan tentang poligami (teks)
 
 ## H. Keluarga (8 kolom, 5 wajib)
 
@@ -164,15 +165,11 @@ Total: 108 kolom, 53 wajib.
 - I.10 Sholat Jumat / berjamaah di masjid (teks)
 - I.11 Busana syar'i (pilihan + catatan)
 
-## J. Kesiapan Menikah (9 kolom, 7 wajib)
+## J. Kesiapan Menikah (5 kolom, 3 wajib)
 
 
 **Kesiapan**
 
-- `*` J.01 Kesiapan ilmu pranikah (teks)
-- `*` J.02 Kesiapan mental / psikis (teks)
-- `*` J.03 Kesiapan fisik / kesehatan (teks)
-- `*` J.04 Kesiapan finansial (teks)
 - J.09 Tanggungan nafkah keluarga (teks)
 - `*` J.05 Kesiapan orang tua / wali (teks)
 
@@ -182,16 +179,11 @@ Total: 108 kolom, 53 wajib.
 - `*` J.07 Rencana waktu menikah (teks)
 - `*` J.08 Komitmen pribadi untuk mencapai harapan pernikahan (daftar)
 
-## K. Visi & Nilai Pernikahan (5 kolom, 5 wajib)
+## K. Visi & Nilai Pernikahan (3 kolom, 3 wajib)
 
 
-**Tujuan**
+**Misi dan nilai**
 
-- `*` K.01 Tujuan menikah (daftar)
-
-**Visi, misi, dan nilai**
-
-- `*` K.02 Visi pernikahan (teks panjang)
 - `*` K.03 Misi pernikahan (teks panjang)
 - `*` K.04 Nilai yang diusung setelah menikah (daftar)
 
@@ -199,23 +191,8 @@ Total: 108 kolom, 53 wajib.
 
 - `*` K.05 Matriks rencana hidup (matriks)
 
-## L. Rencana Pernikahan & Pasca-Nikah (12 kolom, 6 wajib)
+## L. Rencana Pernikahan & Pasca-Nikah (3 kolom, 2 wajib)
 
-
-**Acara pernikahan**
-
-- L.01 Gambaran acara pernikahan (teks)
-- L.02 Sumber dana acara pernikahan (pilihan)
-- L.03 Mahar (teks)
-
-**Setelah menikah**
-
-- `*` L.04 Tempat tinggal setelah menikah (teks)
-- `*` L.05 Kehidupan rumah tangga (pembagian peran) (teks)
-- `*` L.06 Pekerjaan dan karier ke depan (teks)
-- L.07 Pandangan tentang kebolehan istri bekerja (pilihan + catatan)
-- `*` L.08 Jumlah anak dan pendidikan anak (teks)
-- L.09 Pengelolaan keuangan keluarga (teks)
 
 **Target bersama**
 
@@ -223,20 +200,16 @@ Total: 108 kolom, 53 wajib.
 - `*` L.11 Target bersama jangka pendek (1-3 tahun) (teks)
 - L.12 Target bersama jangka panjang (di atas 5 tahun) (teks)
 
-## M. Kriteria Calon Pasangan (6 kolom, 2 wajib)
+## M. Kriteria Calon Pasangan (2 kolom, 1 wajib)
 
 
 **Kriteria utama**
 
-- M.01 Kriteria mutlak (tidak bisa ditawar) (teks panjang)
-- `*` M.02 Kriteria non-fisik yang diinginkan (tidak mutlak) (teks panjang)
 - `*` M.03 Kriteria keagamaan calon (teks panjang)
 
 **Kriteria lain**
 
 - M.04 Mazhab / manhaj calon yang diinginkan (pilihan + catatan)
-- M.05 Kriteria fisik (teks)
-- M.06 Kriteria dari orang tua / wali (teks)
 
 ## N. Penutup (4 kolom, 3 wajib)
 
