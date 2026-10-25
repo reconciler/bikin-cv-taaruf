@@ -318,3 +318,22 @@ Penanda: **[Diperiksa Auditor]** dijalankan Auditor sendiri dari git/API; **[Lap
 - **Penyimpangan kecil dari 8.2 butir 4 (opsional):** `#kcnote` ditambahkan atas penafsiran PIC terhadap "Silakan eksekusi sesuai perintah auditor". Itu perubahan tampilan yang tidak dijawab Amal secara eksplisit. PIC sudah menandainya dan menyebut cara membuangnya (satu blok). Diterima sementara; **Amal diminta menegaskan**.
 - **Jawaban atas pertanyaan terbuka PIC (6.5):** Kenali Calon memang menghasilkan sesuatu untuk dikirim ke calon: `CLAUDE.md` Kenali Calon menyatakan jawaban "disalin ke clipboard untuk dikirim ke calon pasangan" (tombol "Salin jawaban"). Jadi topik yang dipindah dari CV tidak hilang dari alur, tetapi pengguna harus mengirimnya sendiri secara terpisah dari PDF CV. [Terverifikasi dari `CLAUDE.md` kenalicalon.] Apakah itu dapat diterima untuk penerima CV adalah keputusan produk Amal.
 - Masih menunggu Amal: nama bagian K dan L (usulan PIC "Misi & Nilai" dan "Target Bersama"), kalimat penunjuk, cek perangkat nyata.
+
+### 10.1 Uji independen Auditor atas opsi C (25 Okt 2026, 09:55 UTC; menutup butir 2 sampai 4 pengecekan terjadwal)
+
+**[Diperiksa Auditor]** Chromium headless, jaringan luar diblokir, `index.html` repo `d4de802` (sha256 berkas uji `f97f4c8e…`). Satu-satunya perbedaan dari berkas repo: satu baris pengait uji di akhir skrip (`Object.assign(window,{F,S,...})`), karena skrip aplikasi dibungkus IIFE. Hasil **27/27 lulus**:
+
+| Butir | Hasil |
+|---|---|
+| Skema | 88 kolom, 42 wajib; wajib yang tampak 40 (Ikhwan) dan 40 (Akhwat) |
+| Impor cadangan lama (pengendali asli `fileLoadButton` -> `applyDraft`) berisi ke-20 id yang dihapus + kolom lain | masuk formulir tanpa galat; ke-20 kunci **tetap ada** di draf tersimpan (tidak dibuang); kolom lain terisi benar |
+| Layar setelah impor, semua 13 bagian | tidak ada isi dari id dihapus; tidak ada label kolom yang dihapus |
+| Pesan "PDF belum bisa dibuat" | angka di pesan = hitungan wajib kosong yang tampak (35 pada data uji) |
+| PDF Ikhwan dan Akhwat, data lengkap (40 wajib terpenuhi) | terbentuk, 8 halaman; **tidak** memuat isi id dihapus maupun label 20 kolom itu; 4 label kolom pemegang topik tetap tercetak; judul bagian K "MISI & NILAI PERNIKAHAN" dan L "TARGET BERSAMA SETELAH MENIKAH" ada, judul lama tidak |
+| `#kcnote` | hanya di J, K, L, M mode isian; href `https://reconciler.github.io/kenalicalon/`, `target=_blank`, `rel="noopener noreferrer"` |
+| Header | 44 px di 320/375/430, tanpa geser horizontal |
+| axe-core 4.10.2 | **0 pelanggaran** di 32 pemindaian (beranda + bagian B, G, J, K, L, M, N; 320/430; terang/gelap) |
+| Jaringan / konsol | satu-satunya permintaan luar yang dicoba: `fonts.googleapis.com` (sudah ada sebelumnya, diblokir); tidak ada galat konsol atau halaman |
+
+- **Kesalahan skrip uji Auditor, diperbaiki sebelum lulus:** (a) hitungan canary yang diharapkan keliru (21, seharusnya 20: L.04 sudah termasuk 20 id); (b) pembungkus teks PDF salah tingkat (`jsPDF.API.text` tidak ada di 2.5.1; diganti pembungkus instance); (c) pola judul PDF peka huruf besar-kecil, padahal PDF mencetak judul huruf besar tanpa awalan huruf. Tidak satu pun temuan produk.
+- **Batas:** tidak diuji di Safari/seluler nyata; PDF diperiksa dari teks yang dikirim ke jsPDF, bukan dari tampilan render; tampilan visual tidak dinilai (aturan 11).
