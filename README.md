@@ -2,7 +2,7 @@
 
 Aplikasi web satu berkas (`index.html`) untuk menyusun CV taaruf dan mengekspornya ke PDF. Versi: **v7**.
 
-CV ini memuat fakta dan pernyataan ringkas yang perlu dikirim ke pihak lain. Pandangan dan rencana pernikahan (tujuan menikah, visi, peran rumah tangga, kriteria pasangan, dan sejenisnya) dibahas di [Kenali Calon](https://reconciler.github.io/kenalicalon/), bukan di CV ini. Sejak 25 Okt 2026 formulir berisi 88 kolom (42 wajib).
+CV ini memuat fakta dan pernyataan ringkas yang perlu dikirim ke pihak lain. Pandangan dan rencana pernikahan (tujuan menikah, visi, peran rumah tangga, kriteria pasangan, dan sejenisnya) dibahas di [Kenali Calon](https://reconciler.github.io/kenalicalon/), bukan di CV ini. Sejak 25 Okt 2026 formulir berisi 85 kolom (41 wajib). Pendidikan formal, agama, dan pelatihan diisi dalam satu tabel.
 
 ## Cara pakai
 
