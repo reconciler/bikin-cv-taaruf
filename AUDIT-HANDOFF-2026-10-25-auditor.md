@@ -296,4 +296,12 @@ Batas tetap: **tanpa berbagi data antar proyek** (satu origin, tautan biasa saja
 ### 8.4 Dampak ke Kenali Calon [Terverifikasi dari pemetaan]
 
 - Setelah opsi C: CV 88 kolom (sama 27, melengkapi 21, tanpa padanan 40). Pertanyaan Kenali Calon yang masih mengulang CV turun dari 44 jadi **24** (umumnya fakta dan kebiasaan: profil diri, ibadah, kesehatan, status, restu ortu, penghasilan, utang). 20 pertanyaan Kenali Calon tidak lagi mengulang CV dan menjadi **satu-satunya tempat** topiknya.
-- Sisa 24 itu ditangani terpisah (opsi A atau B di bagian 5) bila Amal menghendaki; bukan bagian opsi C.
+- Sisa 24 itu ditangani di bagian 9 (instruksi untuk Kenali Calon di repo `kenalicalon`, bagian 8 handoff Auditor di sana); bukan bagian opsi C dan tidak mengubah kode repo ini.
+
+## 9. Kolom CV yang jadi pemegang topik (catatan simetris; tidak ada perubahan kode di repo ini)
+
+- **[Keputusan Amal]** 25 Okt 2026 (chat Auditor): "Ok tolong siapkan perintah eksekusi" atas klasifikasi pengurangan 24 pertanyaan Kenali Calon yang masih mengulang CV (rincian dan status konfirmasi: `kenalicalon/AUDIT-HANDOFF-2026-10-25-auditor.md` bagian 8). Di sisi Kenali Calon: 10 pertanyaan akan dipensiunkan dan 7 dipotong teksnya, karena topiknya sudah ada di CV.
+- **Akibat untuk repo ini:** 25 kolom CV di bawah menjadi **satu-satunya tempat** topik yang dipotong atau dipensiunkan di Kenali Calon. **Jangan menghapus atau mengubah artinya tanpa koordinasi dengan Auditor** (jika tidak, topiknya hilang dari kedua produk). Aturan ini berlaku sejak sekarang, tidak menunggu Tahap B di Kenali Calon terbit; tidak satu pun dari 25 kolom ada di daftar 20 kolom bagian 8.1 [Terverifikasi dari inventaris].
+- B.06, B.08, B.09, D.08, D.12, F.09, G.01, G.03, G.04, G.05, G.06, G.08, G.09, H.02, H.05, H.11, I.01, I.02, I.04, I.06, I.08, J.05, J.06, J.07, J.09.
+- **Dua koreksi atas pemetaan bagian 4 [Terverifikasi dari `SCHEMA`]:** D.08 hanya mencatat penyakit pribadi (penyakit keturunan tidak ada di CV, jadi tetap ditanyakan di Kenali Calon); B.08 hanya Perjaka/Gadis/Duda/Janda (pertunangan tidak ada di CV, jadi tetap ditanyakan di Kenali Calon).
+- Tidak ada tindakan kode untuk PIC repo ini. Cukup catat daftar di atas di `CLAUDE.md` bagian khusus repo bila PIC menilai perlu, dan konfirmasi 8.3 (daftar 20 kolom) ke Amal di chat PIC tetap berlaku terpisah.
