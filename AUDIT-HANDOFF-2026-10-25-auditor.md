@@ -337,3 +337,26 @@ Penanda: **[Diperiksa Auditor]** dijalankan Auditor sendiri dari git/API; **[Lap
 
 - **Kesalahan skrip uji Auditor, diperbaiki sebelum lulus:** (a) hitungan canary yang diharapkan keliru (21, seharusnya 20: L.04 sudah termasuk 20 id); (b) pembungkus teks PDF salah tingkat (`jsPDF.API.text` tidak ada di 2.5.1; diganti pembungkus instance); (c) pola judul PDF peka huruf besar-kecil, padahal PDF mencetak judul huruf besar tanpa awalan huruf. Tidak satu pun temuan produk.
 - **Batas:** tidak diuji di Safari/seluler nyata; PDF diperiksa dari teks yang dikirim ke jsPDF, bukan dari tampilan render; tampilan visual tidak dinilai (aturan 11).
+
+## 11. Verifikasi Auditor atas perubahan skema 25 sampai 28 Okt dan pembaruan angka acuan (28 Okt 2026, head `72b6342`)
+
+Penanda: **[Diperiksa Auditor]** dijalankan Auditor sendiri; **[Laporan PIC]** tidak dijalankan ulang; **[Penilaian Auditor]** kesimpulan, bukan sumber eksternal.
+
+### 11.1 Verifikasi
+- **[Diperiksa Auditor]** `SCHEMA` `caaa784` (terakhir diverifikasi) dibanding `HEAD`: 88 menjadi **82** kolom, wajib 42 menjadi **41**, sesuai laporan PIC (`AUDIT-HANDOFF-2026-10-25.md` bagian 9 dan 10, `AUDIT-HANDOFF-2026-10-28.md`). Pensiun: E.01-E.03, F.03-F.06, J.08, K.04. Baru: E.04, F.10, J.10 (wajib: E.04, J.10; E.01 dan J.08 dan K.04 wajib sebelumnya).
+- **[Diperiksa Auditor]** **25 kolom pemegang topik utuh:** semua ada, label, tipe, dan status wajib identik. Satu-satunya perubahan pada kolom itu (dan 28 kolom lain) adalah contoh jawaban (`extra.ph`/`hint`), sesuai fitur "contoh jawaban" yang dilaporkan.
+- **[Diperiksa Auditor]** Uji independen Auditor (Chromium, jaringan luar diblokir, salinan `index.html` repo + satu baris pengait uji) **27/27 lulus**: 82 kolom dan 41 wajib; impor cadangan lama yang memuat 22 id pensiun (20 opsi C + J.08 + K.04) tanpa galat dan kunci tetap di draf; tidak ada isi atau label id pensiun di layar atau PDF; PDF Ikhwan dan Akhwat terbentuk; label kolom pemegang topik tetap tercetak; `#kcnote` hanya di J-M; header 44 px di 320/375/430; axe 0 pelanggaran di 32 pemindaian.
+- **[Diperiksa Auditor]** Run Actions untuk komit PIC dan komit dokumen `success` (cek terakhir: #45, run sesudahnya masih berjalan saat dicatat).
+- **[Laporan PIC, tidak dijalankan ulang]** migrasi E.01-E.03 ke E.04 dan F.03-F.06 ke F.10 pada tiga jalur masuk, idempotensi penanda `F.06>F.10`, uji skema 120/120, uji gabungan 57/57. Migrasi tidak saya uji ulang.
+- **Dua catatan:** (a) judul bagian K berganti lagi menjadi "K. Misi & Rencana Hidup" atas kesimpulan PIC (bagian 9.2), bukan pertanyaan terpisah ke Amal; dampak tampilan kecil dan konsisten dengan penghapusan K.04, diterima. (b) Uji Auditor 25 Okt memakai judul "Misi & Nilai Pernikahan"; ekspektasinya diperbarui, bukan temuan produk.
+
+### 11.2 Pembaruan angka acuan (menjawab permintaan PIC, bagian 9.3)
+- **[Penilaian Auditor]** Pemetaan: E.01-E.03, F.03-F.06 (semua "tanpa padanan") dan J.08, K.04 dikeluarkan; E.04 dan F.10 "tanpa padanan"; **J.10 "melengkapi d3q7"** (target pribadi tahun pertama vs pencapaian bersama; beririsan tema dengan L.11 di dalam CV, bukan fakta yang sama dengan pertanyaan Kenali Calon mana pun).
+- Angka sekarang (dihitung dari `SCHEMA` `HEAD` dan `PANDUAN_DATA` kenalicalon `HEAD`):
+
+| Sisi | Jumlah | Rincian |
+|---|---|---|
+| CV | 82 kolom (41 wajib) | tanpa padanan 35, melengkapi 31 (termasuk 5 kolom yang kini beririsan dengan 7 pertanyaan Kenali Calon yang sudah dipotong), sama 5, **pemegang tunggal 11** (padanan Kenali Calon sudah pensiun: B.09, D.12, F.09, G.05, G.06, G.08, I.01, I.02, I.03, I.04, J.09) |
+| Kenali Calon | 164 pertanyaan | tanpa padanan 130, melengkapi 20, disederhanakan 7, masih "sama" menurut pemetaan mentah 7 (d1q22, d2q11, d3q20, d4q7, d5q5, d5q6, d6q1; dinilai sudut berbeda dan sengaja dipertahankan, lihat `kenalicalon` handoff bagian 8.4) |
+- **Pertanyaan tidak boleh diulang di keduanya** tetap berlaku: sebelum menambah atau mengubah pertanyaan, bandingkan dengan tabel ini dan pemetaan bagian 4 yang diperbarui di atas.
+- **Batas:** analisis hanya antar-produk. Tumpang tindih di dalam CV (mis. J.10 dan L.11, G.01 dan G.03/G.04) tidak dianalisis.
