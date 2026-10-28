@@ -37,4 +37,30 @@ Penanda: **[Amal]** keputusan Amal di chat PIC; **[Terverifikasi]** diperiksa PI
 
 - **Belum terbukti:** perilaku migrasi pada draf nyata di browser seluler dan Safari (hanya diuji di Chromium); tampilan di perangkat nyata.
 - **Perubahan perilaku:** pengguna yang sudah mengisi tiga tabel lama melihat satu tabel gabungan saat membuka isian. Jawaban lama tidak hilang, dan tidak dimigrasi ulang kalau F.10 sudah ada.
-- **Keputusan menunggu Amal:** apakah F.06 Prestasi ikut digabung (saat ini tidak); apakah tabel perlu contoh jawaban per kolom (tabel sengaja tanpa contoh, lihat `CLAUDE.md`); butir lanjutan review beban pertanyaan.
+- **Keputusan menunggu Amal (diperbarui, lihat bagian 5):** dua butir pertama sudah dijawab Amal (F.06 digabung; tabel tanpa contoh). Tersisa: butir lanjutan review beban pertanyaan.
+
+## 5. Lanjutan 28 Okt: F.06 Prestasi ikut digabung; tabel tanpa contoh (komit `a4c12cb`)
+
+- **[Amal, chat PIC, 28 Okt]** "F.06 tolong gabung aja. Yang di tabel tidak perlu contoh." Menjawab dua butir "keputusan menunggu" bagian 4.
+
+| Hal | Isi |
+|---|---|
+| Gabungan | F.06 dihapus. F.10 jadi **"Pengalaman kerja, organisasi, dan prestasi"**; pilihan Jenis bertambah **"Prestasi atau penghargaan"** (di akhir, nilai lama tetap valid); kolom ketiga **"Jabatan, peran, atau capaian"**; maksimal **24 baris** (6+6+6+6, lossless) |
+| Id | F.06 pensiun (selain F.03-F.05, E.01-E.03, J.08, K.04). Total **83 menjadi 82 kolom**, wajib tetap 41, bagian F 7 menjadi 6 kolom |
+| Migrasi | F.06 lama ikut dipindah ke F.10: penyelenggara masuk nama dalam kurung, keterangan jadi capaian, tahun kosong. F.06 asli tidak dihapus |
+| Tabel tanpa contoh | Sudah begitu; kini keputusan Amal dan tertulis di `CLAUDE.md` |
+
+- **Kasus yang saya tambahkan di luar permintaan [Kesimpulan PIC]:** F.10 sudah tayang sejak sekitar 00:36 UTC (tanpa F.06). Pengguna yang sudah punya F.10 sambil menyimpan F.06 yang berisi data akan kehilangan tampilan prestasinya (data tetap ada, tersembunyi) kalau migrasi hanya berjalan saat F.10 belum ada. Karena itu F.06 lama ditambahkan **satu kali** ke F.10 yang sudah ada, dengan **penanda `F.06>F.10`** di isian. Penanda mencegah dua hal: baris dobel di muat ulang berikutnya, dan baris prestasi yang sengaja dihapus pengguna muncul lagi. Harga: satu kunci tambahan di isian (ikut ke file cadangan; dibaca `hasWork()` sebagai isian, tetapi hanya dipasang bila memang ada data F.06). Populasi yang kena kemungkinan sangat kecil; dibuat supaya tidak ada data yang diam-diam tersembunyi.
+- **Dampak ke pemetaan komparasi:** F.06 di pemetaan `AUDIT-HANDOFF-2026-10-25-auditor.md` "tanpa padanan", jadi tidak ada dampak ke Kenali Calon. 25 kolom pemegang topik tidak disentuh.
+- **Dampak ke penerima CV:** PDF memuat satu tabel; tidak ada lagi judul terpisah "Prestasi dan penghargaan". Judul kolom ketiga terbungkus dua baris di PDF (dilihat, rapi).
+
+### 5.1 Uji [Terverifikasi, Chromium headless; build real = berkas repo + pengait uji, selisih 57 byte]
+- Uji gabungan **57/57** (sebelumnya 42; baru: migrasi F.06 lewat tiga jalur, F.10 sudah ada tanpa dan dengan penanda, hanya F.06 berisi, F.06 kosong atau bukan array, batas 24 baris dengan F.03 asli tetap utuh, **idempotensi**: baris prestasi dihapus lalu muat ulang dua kali tidak muncul lagi dan tidak dobel). **Bukti sensitivitas:** pada versi yang tayang sebelum komit ini, uji yang sama gagal di 23 titik, dan uji skema di 3 titik.
+- Skema 120/120 (konstanta: 82 kolom, F 6/2, F.06 pensiun), contoh jawaban 96/96, alur 113/113, axe 0 pelanggaran (39 pemindaian), laporan error 46/46 dan 47/47, Tentang 84/84, peringatan karakter 36/36, header 44 px di 320-1280 px, PDF 4 kasus tanpa karakter rusak. Semua pada build uji dan build real.
+- Tampilan berubah (butir 11); tangkapan 320 px dilihat PIC, belum di perangkat nyata.
+
+### 5.2 Yang perlu diketahui
+- **Belum terbukti:** migrasi pada draf nyata di browser seluler dan Safari; tampilan di perangkat nyata.
+- **Perubahan perilaku:** pengguna yang mengisi Prestasi sebelumnya melihat baris itu pindah ke tabel gabungan dengan Jenis "Prestasi atau penghargaan".
+- **Keputusan menunggu Amal:** hanya butir lanjutan review beban pertanyaan.
+

@@ -1,11 +1,11 @@
 # Inventaris pertanyaan Bikin CV Taaruf
 
-Dibuat dari `index.html` (komit 38805f4), konstanta `SCHEMA`. Hanya label pertanyaan, tanpa data pengguna.
+Dibuat dari `index.html` (komit a4c12cb), konstanta `SCHEMA`. Hanya label pertanyaan, tanpa data pengguna.
 Tanda `*` = wajib. `[jk]` = hanya tampil untuk jenis kelamin tertentu atau kondisi tertentu (`showIf`). Semua bagian B sampai N tercetak di PDF yang dikirim ke pihak lain, jadi menghapus atau memindah kolom mengubah dokumen yang diterima pihak itu.
 
-**Status 25 Okt 2026:** opsi C (keputusan Amal) menghapus 20 kolom (J.01-J.04, G.12, K.01, K.02, L.01-L.09, M.01, M.02, M.05, M.06); topiknya dibahas di Kenali Calon. Lalu, atas keputusan Amal di chat PIC (review beban pertanyaan): E.01-E.03 digabung jadi satu tabel E.04, J.08 diganti J.10 (target tahun pertama pernikahan), K.04 (nilai pernikahan) dihapus, dan bagian K diganti nama jadi "Misi & Rencana Hidup". Lalu (28 Okt 2026, permintaan Amal): F.03-F.05 (riwayat pekerjaan, organisasi, kepanitiaan) digabung jadi satu tabel F.10. Awalnya 108 kolom (53 wajib). 25 kolom pemegang topik (B.06, B.08, B.09, D.08, D.12, F.09, G.01, G.03-G.06, G.08, G.09, H.02, H.05, H.11, I.01, I.02, I.04, I.06, I.08, J.05-J.07, J.09) jangan dihapus atau diubah artinya tanpa koordinasi dengan Auditor.
+**Status 25 Okt 2026:** opsi C (keputusan Amal) menghapus 20 kolom (J.01-J.04, G.12, K.01, K.02, L.01-L.09, M.01, M.02, M.05, M.06); topiknya dibahas di Kenali Calon. Lalu, atas keputusan Amal di chat PIC (review beban pertanyaan): E.01-E.03 digabung jadi satu tabel E.04, J.08 diganti J.10 (target tahun pertama pernikahan), K.04 (nilai pernikahan) dihapus, dan bagian K diganti nama jadi "Misi & Rencana Hidup". Lalu (28 Okt 2026, permintaan Amal): F.03-F.06 (riwayat pekerjaan, organisasi, kepanitiaan, prestasi dan penghargaan) digabung jadi satu tabel F.10. Awalnya 108 kolom (53 wajib). 25 kolom pemegang topik (B.06, B.08, B.09, D.08, D.12, F.09, G.01, G.03-G.06, G.08, G.09, H.02, H.05, H.11, I.01, I.02, I.04, I.06, I.08, J.05-J.07, J.09) jangan dihapus atau diubah artinya tanpa koordinasi dengan Auditor.
 
-Total: 83 kolom, 41 wajib.
+Total: 82 kolom, 41 wajib.
 
 ## A. Persetujuan (halaman depan) (2 kolom, 2 wajib)
 
@@ -73,7 +73,7 @@ Total: 83 kolom, 41 wajib.
 
 - `*` E.04 Riwayat pendidikan dan pelatihan (tabel)
 
-## F. Pekerjaan & Aktivitas (7 kolom, 2 wajib)
+## F. Pekerjaan & Aktivitas (6 kolom, 2 wajib)
 
 
 **Pekerjaan saat ini**
@@ -83,8 +83,7 @@ Total: 83 kolom, 41 wajib.
 
 **Pengalaman**
 
-- F.10 Pengalaman kerja dan organisasi (tabel)
-- F.06 Prestasi dan penghargaan (tabel)
+- F.10 Pengalaman kerja, organisasi, dan prestasi (tabel)
 
 **Keahlian, penghasilan, dan hobi**
 
