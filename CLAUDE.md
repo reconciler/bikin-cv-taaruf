@@ -155,8 +155,8 @@ ke bentuk lama tanpa alasan kuat:
 ## Isi formulir (catatan desain)
 
 Dirampingkan 25 Okt 2026 (opsi C, keputusan Amal; instruksi Auditor di
-`AUDIT-HANDOFF-2026-10-25-auditor.md` bagian 8). **85 kolom, 41 wajib**
-(sebelumnya 108 dan 53; 88 dan 42 setelah opsi C). Pembagian peran: CV memuat fakta dan pernyataan
+`AUDIT-HANDOFF-2026-10-25-auditor.md` bagian 8). **83 kolom, 41 wajib**
+(sebelumnya 108 dan 53; 88 dan 42 setelah opsi C; 85 dan 41 setelah review beban pertanyaan). Pembagian peran: CV memuat fakta dan pernyataan
 ringkas; pandangan dan rencana pernikahan dibahas di Kenali Calon.
 
 - **20 id dihapus, jangan dipakai ulang:** J.01-J.04, G.12, K.01, K.02,
@@ -173,6 +173,15 @@ ringkas; pandangan dan rencana pernikahan dibahas di Kenali Calon.
   (artinya beda atau dihapus), tetap tersimpan dan tidak tampil. Ringkasan
   "Pendidikan terakhir" di PDF memakai baris Formal dengan tahun terbesar
   (`lastEdu()`).
+- **Pengalaman digabung (permintaan Amal di chat PIC, 28 Okt 2026).** F.03
+  (riwayat pekerjaan), F.04 (organisasi), dan F.05 (kepanitiaan) diganti satu
+  tabel **F.10** "Pengalaman kerja dan organisasi": Jenis (Pekerjaan atau
+  usaha / Organisasi / Kepanitiaan), Instansi, organisasi, atau kegiatan,
+  Jabatan atau peran, Tahun. Opsional, maksimal 18 baris (sama dengan 6+6+6
+  sebelumnya). **Id yang pensiun, jangan dipakai ulang:** F.03-F.05.
+  `migrateData()` memindahkan jawaban lama ke F.10 hanya bila F.10 belum ada
+  (tidak menimpa, tidak menghapus yang lama; penyelenggara kepanitiaan masuk
+  ke nama kegiatan dalam kurung). F.06 Prestasi tetap terpisah.
 - **Jawaban lama pengguna tidak dihapus.** Untuk id yang dihapus, jawaban
   tetap ada di isian dan file cadangan lama, hanya tidak tampil dan tidak
   tercetak (`applyDraft` menyimpan isian apa adanya). Membersihkannya otomatis
@@ -252,7 +261,7 @@ Repo ini sengaja tanpa infrastruktur uji atau build. Sebelum push perubahan
 - PDF terbentuk; header "CV TAARUF"; tautan footer benar.
 - Laporan error (uji dengan `REPORT_URL` diisi alamat palsu yang dicegat `context.route`): tidak ada kiriman sebelum "Kirim laporan"; isi kiriman sama dengan pratinjau dan tidak memuat isian CV (pakai teks canary di isian dan di pesan error); fitur mati saat `REPORT_URL` kosong.
 - Peringatan karakter PDF: Arab/emoji di tiap jenis kolom (teks, area teks, teks+pilihan, daftar, tabel, matriks) memunculkan peringatan; teks Latin biasa tidak; PDF tetap terbentuk; pemberitahuan awal ada di bagian B (mode isian) dan di Selengkapnya, tidak di bagian lain.
-- Isi formulir: jumlah kolom dan wajib per bagian sesuai `docs/inventaris-pertanyaan-cv.md`; draf lama dengan E.01-E.03 termigrasi ke E.04 lewat tiga jalur (lanjutkan isian, file cadangan, muat awal) tanpa menghapus yang lama; file cadangan lama yang memuat id yang dihapus terbuka tanpa galat, jawabannya tidak dihapus, dan PDF tidak memuat kolom itu (pakai teks canary); kalimat penunjuk Kenali Calon hanya di bagian J-M mode isian.
+- Isi formulir: jumlah kolom dan wajib per bagian sesuai `docs/inventaris-pertanyaan-cv.md`; draf lama dengan E.01-E.03 (ke E.04) dan F.03-F.05 (ke F.10) termigrasi lewat tiga jalur (lanjutkan isian, file cadangan, muat awal) tanpa menghapus yang lama; file cadangan lama yang memuat id yang dihapus terbuka tanpa galat, jawabannya tidak dihapus, dan PDF tidak memuat kolom itu (pakai teks canary); kalimat penunjuk Kenali Calon hanya di bagian J-M mode isian.
 - Contoh jawaban: semua kolom deskriptif punya `ph`; tidak ada placeholder terpotong di 320/375/430 px (ukur dengan font asli: lebar teks lawan lebar isian, tinggi teks lawan tinggi area teks); `extra.hint` tampil dan terhubung `aria-describedby`; contoh tidak masuk draf, PDF, atau laporan error; kontras placeholder minimal 4,5:1 di mode terang dan gelap (axe tidak memeriksa placeholder, jadi ukur sendiri).
 - axe-core: 0 pelanggaran di halaman depan (terang dan gelap) dan di 13 bagian
   formulir (mode isian dan ringkasan). Cara yang berhasil di sesi kerja: di
